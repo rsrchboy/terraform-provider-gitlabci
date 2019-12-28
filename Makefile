@@ -1,5 +1,13 @@
 GOFMT_FILES?=$$(find . -name '*.go' |grep -v vendor)
 
+build: terraform-provider-gitlabci
+
+terraform-provider-gitlabci: *.go gitlabci/*.go
+	go build .
+
+clean:
+	rm -f terraform-provider-gitlabci
+
 fmt:
 	gofmt -w $(GOFMT_FILES)
 
