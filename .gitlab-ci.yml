@@ -1,0 +1,12 @@
+
+stages:
+  - build
+
+build:
+  stage: build
+  image: golang:alpine
+  script:
+    - go build .
+  artifacts:
+    paths:
+      - terraform-provider-gitlabci
