@@ -45,8 +45,9 @@ func resourceGitlabRunner() *schema.Resource {
 			},
 			"locked": {
 				Type:     schema.TypeBool,
-				Computed: true,
+				ForceNew: true,
 				Optional: true,
+				Default:  true,
 			},
 			"is_shared": {
 				Type:     schema.TypeBool,
@@ -61,7 +62,6 @@ func resourceGitlabRunner() *schema.Resource {
 			"tags": {
 				Type:     schema.TypeSet,
 				Optional: true,
-				// FIXME
 				ForceNew: true,
 				Elem:     &schema.Schema{Type: schema.TypeString},
 				Set:      schema.HashString,
@@ -69,19 +69,20 @@ func resourceGitlabRunner() *schema.Resource {
 			"description": {
 				Type:     schema.TypeString,
 				Optional: true,
-				// FIXME
 				ForceNew: true,
 				Default:  "",
 			},
 			"active": {
 				Type:     schema.TypeBool,
 				Optional: true,
-				Computed: true,
+				ForceNew: true,
+				Default:  true,
 			},
 			"run_untagged": {
 				Type:     schema.TypeBool,
 				Optional: true,
-				Computed: true,
+				ForceNew: true,
+				Default:  true,
 			},
 		},
 	}
