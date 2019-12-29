@@ -3,6 +3,7 @@ package gitlabci
 import (
 	"fmt"
 	"net/url"
+	"strings"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 )
@@ -37,6 +38,6 @@ var validateURLFunc = func(v interface{}, k string) (s []string, errors []error)
 }
 
 func providerConfigure(d *schema.ResourceData) (interface{}, error) {
-	baseURL := d.Get("base_url").(string) + ""
+	baseURL := strings.TrimRight(d.Get("base_url").(string), "/")
 	return baseURL, nil
 }
