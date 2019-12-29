@@ -8,7 +8,6 @@ import (
 	"fmt"
 	"log"
 	"strconv"
-	// "strings"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
@@ -187,42 +186,6 @@ func resourceGitlabRunnerRead(d *schema.ResourceData, meta interface{}) error {
 
 	return errors.New(resp.Status)
 }
-
-// func resourceGitlabRunnerUpdate(d *schema.ResourceData, meta interface{}) error {
-// 	client := meta.(*gitlab.Client)
-// 	id, err := strconv.Atoi(d.Id())
-// 	if err != nil {
-// 		return err
-// 	}
-
-// 	// https://godoc.org/github.com/xanzy/go-gitlab#UpdateRunnerDetailsOptions
-// 	options := gitlab.UpdateRunnerDetailsOptions{
-// 		Description: gitlab.String(d.Get("description").(string)),
-// 		RunUntagged: gitlab.Bool(d.Get("run_untagged").(bool)),
-// 		Active:      gitlab.Bool(d.Get("active").(bool)),
-// 		Locked:      gitlab.Bool(d.Get("locked").(bool)),
-// 		AccessLevel: gitlab.String(d.Get("access_level").(string)),
-// 		// MaximumTimeout: gitlab.Int(d.Get("maximum_timeout").(int)),
-// 		// X: gitlab.String(d.Get("X").(string)),
-// 	}
-
-// 	if v, ok := d.GetOk("tags"); ok {
-// 		options.TagList = *(stringSetToStringSlice(v.(*schema.Set)))
-// 	}
-
-// 	if v, ok := d.GetOk("maximum_timeout"); ok {
-// 		options.MaximumTimeout = gitlab.Int(v.(int))
-// 	}
-
-// 	log.Printf("[DEBUG] update gitlab runner %d", id)
-
-// 	_, _, err = client.Runners.UpdateRunnerDetails(id, &options)
-// 	if err != nil {
-// 		return err
-// 	}
-
-// 	return resourceGitlabRunnerRead(d, meta)
-// }
 
 func resourceGitlabRunnerDelete(d *schema.ResourceData, meta interface{}) error {
 	baseURL := meta.(string)
