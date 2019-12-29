@@ -147,6 +147,7 @@ func resourceGitlabRunnerCreate(d *schema.ResourceData, meta interface{}) error 
 
 	d.SetId(fmt.Sprintf("%d", runnerDetails.ID))
 	d.Set("token", runnerDetails.Token)
+	d.Set("runner_id", runnerDetails.ID)
 
 	return nil
 }
