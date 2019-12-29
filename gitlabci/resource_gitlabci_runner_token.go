@@ -3,6 +3,7 @@ package gitlabci
 // https://docs.gitlab.com/ce/api/runners.html#register-a-new-runner
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"log"
@@ -55,7 +56,7 @@ func resourceGitlabRunner() *schema.Resource {
 			},
 			"maximum_timeout": {
 				Type:         schema.TypeInt,
-				Computed:     true,
+				ForceNew:     true,
 				Optional:     true,
 				ValidateFunc: validation.IntAtLeast(10 * 60),
 			},
@@ -95,13 +96,13 @@ func resourceGitlabRunnerCreate(d *schema.ResourceData, meta interface{}) error 
 
 	type RegisterOptions struct {
 		Token          string   `json:"token"`
-		Description    string   `json:"description"`
+		Description    string   `json:"description,omitempty"`
 		Active         bool     `json:"active"`
 		Locked         bool     `json:"locked"`
 		RunUntagged    bool     `json:"run_untagged"`
-		TagList        []string `json:"tag_list"`
-		AccessLevel    string   `json:"access_level"`
-		MaximumTimeout int      `json:"maximum_timeout"`
+		TagList        []string `json:"tag_list,omitempty"`
+		AccessLevel    string   `json:"access_level,omitempty"`
+		MaximumTimeout int      `json:"maximum_timeout,omitempty"`
 		// info hash
 	}
 
@@ -111,14 +112,29 @@ func resourceGitlabRunnerCreate(d *schema.ResourceData, meta interface{}) error 
 	}
 
 	registrationToken := d.Get("registration_token").(string)
-	log.Printf("[DEBUG] create gitlab runner token - QWERTY HERE !!!!!!!!!!!!!!!!!1")
-	log.Printf("[DEBUG] create gitlab runner token / token: " + registrationToken)
+
+	query := RegisterOptions{
+		Token:          registrationToken,
+		Description:    d.Get("description").(string),
+		RunUntagged:    d.Get("run_untagged").(bool),
+		Active:         d.Get("active").(bool),
+		Locked:         d.Get("locked").(bool),
+		MaximumTimeout: d.Get("maximum_timeout").(int),
+	}
+
+	if v, ok := d.GetOk("tags"); ok {
+		query.TagList = *(stringSetToStringSlice(v.(*schema.Set)))
+	}
+
 	url := baseURL + "/runners"
-	log.Printf("[DEBUG] create gitlab runner token / url: " + url)
+
+	j, _ := json.Marshal(query)
+	log.Printf("[DEBUG] create gitlab runner query: %s", j)
+
 	req := gorequest.
 		New().
 		Post(url).
-		Send("token=" + registrationToken)
+		Send(query)
 
 	// TODO other registration options...
 
@@ -133,27 +149,6 @@ func resourceGitlabRunnerCreate(d *schema.ResourceData, meta interface{}) error 
 	if resp.StatusCode != 201 {
 		return errors.New(resp.Status)
 	}
-
-	// // https://godoc.org/github.com/xanzy/go-gitlab#RegisterNewRunnerOptions
-	// options := RegisterOptions{
-	// 	token:        &registrationToken,
-	// 	description:  d.Get("description").(string),
-	// 	run_untagged: d.Get("run_untagged").(bool),
-	// 	active:       d.Get("active").(bool),
-	// 	locked:       d.Get("locked").(bool),
-	// }
-	// if v, ok := d.GetOk("tags"); ok {
-	// 	options.TagList = *(stringSetToStringSlice(v.(*schema.Set)))
-	// }
-
-	// if v, ok := d.GetOk("maximum_timeout"); ok {
-	// 	options.MaximumTimeout = gitlab.Int(v.(int))
-	// }
-
-	// runnerDetails, _, err := client.Runners.RegisterNewRunner(&options)
-	// if err != nil {
-	// 	return err
-	// }
 
 	d.SetId(fmt.Sprintf("%d", runnerDetails.ID))
 	d.Set("token", runnerDetails.Token)
