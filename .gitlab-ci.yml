@@ -1,6 +1,17 @@
+#  _    __                              _          ____ ___
+# | |_ / _|      _ __         __ _  ___(_)        / ___|_ _|
+# | __| |_ _____| '_ \ _____ / _` |/ __| |       | |    | |
+# | |_|  _|_____| |_) |_____| (_| | (__| |_ _ _  | |___ | |
+#  \__|_|       | .__/       \__, |\___|_(_|_|_)  \____|___|
+#               |_|          |___/
+#
+# Build; create a release if we're on a tag.
+#
+# ...somewhat primitive, but works for now :)
 
 stages:
   - build
+  - publish
 
 build:
   stage: build
@@ -10,3 +21,11 @@ build:
   artifacts:
     paths:
       - terraform-provider-gitlabci
+
+publish:
+  image: inetprocess/gitlab-release
+  stage: publish
+  only:
+    - tags
+  script:
+    - gitlab-release --message 'Latest release, built under `golang:alpine`.' terraform-provider-gitlabci
