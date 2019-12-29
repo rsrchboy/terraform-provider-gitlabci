@@ -26,7 +26,7 @@ func resourceGitlabRunner() *schema.Resource {
 				ForceNew:  true,
 				Required:  true,
 				Sensitive: true,
-				// StateFunc: hashSum,
+				StateFunc: hashSum,
 			},
 			"token": {
 				Type:      schema.TypeString,
