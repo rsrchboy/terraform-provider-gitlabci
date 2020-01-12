@@ -4,11 +4,31 @@ import (
 	"log"
 	"strings"
 
+	"github.com/rsrchboy/structs"
+	strcase "github.com/stoewer/go-strcase"
 	rcommon "gitlab.com/gitlab-org/gitlab-runner/common"
 	rdhelpers "gitlab.com/gitlab-org/gitlab-runner/helpers/docker"
 	rssh "gitlab.com/gitlab-org/gitlab-runner/helpers/ssh"
 	"gitlab.com/gitlab-org/gitlab-runner/referees"
 )
+
+func NameForSchema(f *structs.Field) string {
+	if name := f.Tag("tf"); name != "" {
+		return name
+	}
+	if name := f.Tag("toml"); name != "" {
+		return name
+	}
+	if name := f.Tag("json"); name != "" {
+		return name
+	}
+	// FIXME need camel->snake here
+	if name := f.Name(); name != "" {
+		return strcase.SnakeCase(name)
+	}
+	// log and complain?  panic?
+	return ""
+}
 
 // remember: grep struct .../gitlab/gitlab-runner/common/config.go | awk '{ print $2 }' | sort | perl -nE 'chomp; say qq{\tcase "*$_" "$_":\n\t\treturn rcommon.$_} . qq!{}!'
 

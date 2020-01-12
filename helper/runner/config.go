@@ -211,7 +211,7 @@ func (info *fieldInfo) SchemaFields() schemaMap {
 			continue
 		}
 
-		name := f.Tag("tf")
+		name := NameForSchema(f)
 		log.Printf("[INFO] %s, tag %s", f.Name(), name)
 
 		var child *fieldInfo
@@ -244,7 +244,7 @@ func (info *fieldInfo) SchemaFields() schemaMap {
 func newFieldInfo(name string, f *structs.Field, typeName string) *fieldInfo {
 	info := fieldInfo{
 		Type:        typeName, // strings.TrimPrefix(typeName, "[]"),
-		Name:        f.Tag("tf"),
+		Name:        NameForSchema(f),
 		Description: f.Tag("description"),
 		IsEmbedded:  false, // f.IsEmbedded(),
 		NotStruct:   true,
