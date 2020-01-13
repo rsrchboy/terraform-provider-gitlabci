@@ -19,6 +19,14 @@ type Field struct {
 	defaultTag string
 }
 
+func (f *Field) ReflectValue() reflect.Value {
+	return f.value
+}
+
+func (f *Field) ReflectStructField() reflect.StructField {
+	return f.field
+}
+
 // Tag returns the value associated with key in the tag string. If there is no
 // such key in the tag, Tag returns the empty string.
 func (f *Field) Tag(key string) string {
