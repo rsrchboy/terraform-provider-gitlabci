@@ -12,12 +12,12 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/hashcode"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
-	"github.com/rsrchboy/structs"
 	rcommon "gitlab.com/gitlab-org/gitlab-runner/common"
 	rdhelpers "gitlab.com/gitlab-org/gitlab-runner/helpers/docker"
 	"gitlab.com/gitlab-org/gitlab-runner/helpers/ssh"
 	"gitlab.com/gitlab-org/gitlab-runner/referees"
 	"gitlab.com/rsrchboy/terraform-provider-gitlabci/helper/runner"
+	"gitlab.com/rsrchboy/terraform-provider-gitlabci/internal/structs"
 )
 
 type schemaMap map[string]*schema.Schema

@@ -4,12 +4,12 @@ import (
 	"log"
 	"strings"
 
-	"github.com/rsrchboy/structs"
 	strcase "github.com/stoewer/go-strcase"
 	rcommon "gitlab.com/gitlab-org/gitlab-runner/common"
 	rdhelpers "gitlab.com/gitlab-org/gitlab-runner/helpers/docker"
 	rssh "gitlab.com/gitlab-org/gitlab-runner/helpers/ssh"
 	"gitlab.com/gitlab-org/gitlab-runner/referees"
+	"gitlab.com/rsrchboy/terraform-provider-gitlabci/internal/structs"
 )
 
 func NameForSchema(f *structs.Field) string {

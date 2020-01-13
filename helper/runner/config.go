@@ -6,6 +6,7 @@ import (
 	"log"
 	"strings"
 
+	tree "github.com/DiSiqueira/GoTree"
 	"github.com/davecgh/go-spew/spew"
 	// "github.com/hashicorp/terraform-plugin-sdk/helper/hashcode"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
@@ -13,7 +14,7 @@ import (
 	"github.com/imdario/mergo"
 	"github.com/mitchellh/mapstructure"
 	"github.com/mohae/deepcopy"
-	"github.com/rsrchboy/structs"
+	"gitlab.com/rsrchboy/terraform-provider-gitlabci/internal/structs"
 	// strcase "github.com/stoewer/go-strcase"
 	rcommon "gitlab.com/gitlab-org/gitlab-runner/common"
 	// rdhelpers "gitlab.com/gitlab-org/gitlab-runner/helpers/docker"
