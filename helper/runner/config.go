@@ -52,11 +52,13 @@ type fieldInfo struct {
 	schema       *schema.Schema
 	Name         string
 	Description  string
+	Tree         tree.Tree
+	Processed    bool
 }
 
 var cfgStructs = &fieldInfo{
-	Type: "common.RunnerConfig",
-	// Fields: map[string]fieldInfo{
+	Type:      "common.RunnerConfig",
+	Processed: false,
 	Fields: fieldInfoMap{
 		// parent struct
 		// "config":           fieldInfo{Type: "common.Config"},
@@ -133,7 +135,17 @@ var cfgStructs = &fieldInfo{
 }
 
 func RunnerConfigToTerraformSchema() schemaMap {
-	return cfgStructs.SchemaFields()
+
+	if cfgStructs.Processed {
+		return cfgStructs.SchemaFields()
+	}
+
+	tree := tree.New("runner_config")
+	cfgStructs.Tree = tree
+	schema := cfgStructs.SchemaFields()
+	log.Printf("Schema tree looks like:\n%s", tree.Print())
+	// return cfgStructs.SchemaFields()
+	return schema
 }
 
 // func (self *fieldInfo) infoToSchema() map[string]*schema.Schema {
@@ -235,9 +247,11 @@ func (info *fieldInfo) SchemaFields() schemaMap {
 		if child.IsEmbedded || name == "" {
 			// mergo.Merge(&info.schemaFields, info.Fields[name].SchemaFields())
 			log.Printf("[INFO] %s, tag %s -- embedded", f.Name(), name)
+			child.Tree = info.Tree
 			mergo.Merge(&info.schemaFields, child.SchemaFields())
 		} else {
 			log.Printf("[INFO] %s, tag %s -- not embedded", f.Name(), name)
+			child.Tree = info.Tree.Add(name)
 			info.Fields[name] = child
 			info.schemaFields[name] = child.ToSchema()
 			// schemaFields[name] = child.ToSchema()
