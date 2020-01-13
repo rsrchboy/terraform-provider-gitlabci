@@ -13,21 +13,32 @@ import (
 )
 
 func NameForSchema(f *structs.Field) string {
-	if name := f.Tag("tf"); name != "" {
-		return name
+
+	if f.IsEmbedded() {
+		return ""
 	}
-	if name := f.Tag("toml"); name != "" {
-		return name
+
+	name := ""
+
+	if tag := f.Tag("tf"); tag != "" {
+		name = tag
+	} else if tag := f.Tag("toml"); tag != "" {
+		name = tag
+	} else if tag := f.Tag("json"); tag != "" {
+		name = tag
+		// }
+	} else if tag := f.Name(); tag != "" {
+		// return strcase.SnakeCase(tag)
+		name = tag
 	}
-	if name := f.Tag("json"); name != "" {
-		return name
-	}
-	// FIXME need camel->snake here
-	if name := f.Name(); name != "" {
-		return strcase.SnakeCase(name)
-	}
-	// log and complain?  panic?
-	return ""
+
+	name = strcase.SnakeCase(name)
+	name = strings.ReplaceAll(name, "-", "_")
+	name = strings.TrimSuffix(name, ",omitempty")
+	name = strings.TrimSuffix(name, ",omitzero")
+
+	log.Printf("field name is: %s", name)
+	return name
 }
 
 // remember: grep struct .../gitlab/gitlab-runner/common/config.go | awk '{ print $2 }' | sort | perl -nE 'chomp; say qq{\tcase "*$_" "$_":\n\t\treturn rcommon.$_} . qq!{}!'
