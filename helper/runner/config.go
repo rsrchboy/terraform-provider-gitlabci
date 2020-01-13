@@ -28,21 +28,21 @@ type stringMap map[string]string
 
 type processFunc func(
 	block *map[string]interface{},
-	info *fieldInfo,
+	info *FieldInfo,
 	dCfg *mapstructure.DecoderConfig,
 ) error
 
-// type fieldInfoMap map[string]*fieldInfo
-type fieldInfoMap map[string]*fieldInfo
+// type FieldInfoMap map[string]*FieldInfo
+type FieldInfoMap map[string]*FieldInfo
 
-type fieldInfo struct {
+type FieldInfo struct {
 	Type       string
 	NotStruct  bool
 	NoFlatten  bool
 	IsEmbedded bool
 	IsList     bool
-	// Fields      map[string]fieldInfo
-	Fields      fieldInfoMap
+	// Fields      map[string]FieldInfo
+	Fields      FieldInfoMap
 	ProcessFunc processFunc
 	// schema generation bits
 	OverrideSchema *schema.Schema // use this instead of generating our own
@@ -56,20 +56,20 @@ type fieldInfo struct {
 	Processed    bool
 }
 
-var cfgStructs = &fieldInfo{
+var cfgStructs = &FieldInfo{
 	Type:      "common.RunnerConfig",
 	Processed: false,
-	Fields: fieldInfoMap{
+	Fields: FieldInfoMap{
 		// parent struct
-		// "config":           fieldInfo{Type: "common.Config"},
+		// "config":           FieldInfo{Type: "common.Config"},
 		// sibling
-		// "session_server":                  fieldInfo{Type: "common.SessionServer"},
+		// "session_server":                  FieldInfo{Type: "common.SessionServer"},
 		// this struct
-		// "runner_config":                   fieldInfo{Type: "common.RunnerConfig"},
+		// "runner_config":                   FieldInfo{Type: "common.RunnerConfig"},
 		// embedded
-		// "runner_credentials":              fieldInfo{Type: "common.RunnerCredentials"},
-		// "runner_settings":                 fieldInfo{Type: "common.RunnerSettings"},
-		"environment": &fieldInfo{
+		// "runner_credentials":              FieldInfo{Type: "common.RunnerCredentials"},
+		// "runner_settings":                 FieldInfo{Type: "common.RunnerSettings"},
+		"environment": &FieldInfo{
 			Type: "[]string",
 			OverrideSchema: &schema.Schema{
 				Type:     schema.TypeSet,
@@ -79,56 +79,56 @@ var cfgStructs = &fieldInfo{
 				Set:      schema.HashString,
 			},
 		},
-		"custom_build_dir": &fieldInfo{Type: "common.CustomBuildDir"},
-		"referees":         &fieldInfo{Type: "referees.Config"},
-		"cache": &fieldInfo{
+		"custom_build_dir": &FieldInfo{Type: "common.CustomBuildDir"},
+		"referees":         &FieldInfo{Type: "referees.Config"},
+		"cache": &FieldInfo{
 			Type: "common.CacheConfig",
-			// Fields: map[string]&fieldInfo{
-			Fields: fieldInfoMap{
-				"s3":  &fieldInfo{Type: "common.CacheS3Config"},
-				"gcs": &fieldInfo{Type: "common.CacheGCSConfig"},
+			// Fields: map[string]&FieldInfo{
+			Fields: FieldInfoMap{
+				"s3":  &FieldInfo{Type: "common.CacheS3Config"},
+				"gcs": &FieldInfo{Type: "common.CacheGCSConfig"},
 				// embedded in gcs
-				// "gcs_credentials": &fieldInfo{Type: "common.CacheGCSCredentials"},
+				// "gcs_credentials": &FieldInfo{Type: "common.CacheGCSCredentials"},
 			},
 		},
 		// TODO check ssh.Config
-		"ssh": &fieldInfo{Type: "ssh.Config"},
-		"docker": &fieldInfo{
+		"ssh": &FieldInfo{Type: "ssh.Config"},
+		"docker": &FieldInfo{
 			Type: "common.DockerConfig",
-			// Fields: map[string]&fieldInfo{
-			Fields: fieldInfoMap{
-				"pull_policy": &fieldInfo{Type: "common.DockerPullPolicy"},
-				"sysctls":     &fieldInfo{Type: "common.DockerSysCtls"},
-				"services":    &fieldInfo{Type: "common.DockerService"},
+			// Fields: map[string]&FieldInfo{
+			Fields: FieldInfoMap{
+				"pull_policy": &FieldInfo{Type: "common.DockerPullPolicy"},
+				"sysctls":     &FieldInfo{Type: "common.DockerSysCtls"},
+				"services":    &FieldInfo{Type: "common.DockerService"},
 			},
 		},
-		"custom":      &fieldInfo{Type: "common.CustomConfig"},
-		"machine":     &fieldInfo{Type: "common.DockerMachine"},
-		"parallels":   &fieldInfo{Type: "common.ParallelsConfig"},
-		"virtual_box": &fieldInfo{Type: "common.VirtualBoxConfig"},
-		"kubernetes": &fieldInfo{
+		"custom":      &FieldInfo{Type: "common.CustomConfig"},
+		"machine":     &FieldInfo{Type: "common.DockerMachine"},
+		"parallels":   &FieldInfo{Type: "common.ParallelsConfig"},
+		"virtual_box": &FieldInfo{Type: "common.VirtualBoxConfig"},
+		"kubernetes": &FieldInfo{
 			Type: "common.KubernetesConfig",
-			// Fields: map[string]&fieldInfo{
-			Fields: fieldInfoMap{
-				"pod_security_context": &fieldInfo{Type: "common.KubernetesPodSecurityContext"},
-				"volumes": &fieldInfo{
+			// Fields: map[string]&FieldInfo{
+			Fields: FieldInfoMap{
+				"pod_security_context": &FieldInfo{Type: "common.KubernetesPodSecurityContext"},
+				"volumes": &FieldInfo{
 					Type: "common.KubernetesVolumes",
-					// Fields: map[string]&fieldInfo{
-					Fields: fieldInfoMap{
+					// Fields: map[string]&FieldInfo{
+					Fields: FieldInfoMap{
 						// HostPaths  []KubernetesHostPath  `toml:"host_path" description:"The host paths which will be mounted" json:"host_paths"`
 						// PVCs       []KubernetesPVC       `toml:"pvc" description:"The persistent volume claims that will be mounted" json:"pv_cs"`
 						// ConfigMaps []KubernetesConfigMap `toml:"config_map" description:"The config maps which will be mounted as volumes" json:"config_maps"`
 						// Secrets    []KubernetesSecret    `toml:"secret" description:"The secret maps which will be mounted" json:"secrets"`
 						// EmptyDirs  []KubernetesEmptyDir  `toml:"empty_dir" description:"The empty dirs which will be mounted" json:"empty_dirs"`
-						// "kubernetes_empty_dir":            &fieldInfo{Type: "common.KubernetesEmptyDir"},
-						// "kubernetes_secret":               &fieldInfo{Type: "common.KubernetesSecret"},
-						// "kubernetes_p_v_c":                &fieldInfo{Type: "common.KubernetesPVC"},
-						// "kubernetes_host_path":            &fieldInfo{Type: "common.KubernetesHostPath"},
-						// "kubernetes_config_map":           &fieldInfo{Type: "common.KubernetesConfigMap"},
+						// "kubernetes_empty_dir":            &FieldInfo{Type: "common.KubernetesEmptyDir"},
+						// "kubernetes_secret":               &FieldInfo{Type: "common.KubernetesSecret"},
+						// "kubernetes_p_v_c":                &FieldInfo{Type: "common.KubernetesPVC"},
+						// "kubernetes_host_path":            &FieldInfo{Type: "common.KubernetesHostPath"},
+						// "kubernetes_config_map":           &FieldInfo{Type: "common.KubernetesConfigMap"},
 					},
 				},
-				"services":    &fieldInfo{Type: "common.Service"},
-				"pull_policy": &fieldInfo{Type: "common.KubernetesPullPolicy"},
+				"services":    &FieldInfo{Type: "common.Service"},
+				"pull_policy": &FieldInfo{Type: "common.KubernetesPullPolicy"},
 			},
 		},
 	},
@@ -148,8 +148,8 @@ func RunnerConfigToTerraformSchema() schemaMap {
 	return schema
 }
 
-// func (self *fieldInfo) infoToSchema() map[string]*schema.Schema {
-func (info *fieldInfo) ToSchema() *schema.Schema {
+// func (self *FieldInfo) infoToSchema() map[string]*schema.Schema {
+func (info *FieldInfo) ToSchema() *schema.Schema {
 
 	if info.schema != nil {
 		return info.schema
@@ -208,10 +208,10 @@ func (info *fieldInfo) ToSchema() *schema.Schema {
 	return info.schema
 }
 
-func (info *fieldInfo) SchemaFields() schemaMap {
+func (info *FieldInfo) SchemaFields() schemaMap {
 	// info.schemaFields = make(map[string]*schema.Schema)
 	info.schemaFields = make(schemaMap)
-	info.Fields = make(fieldInfoMap)
+	info.Fields = make(FieldInfoMap)
 
 	cs := NewConfigStruct(info.Type)
 
@@ -232,12 +232,12 @@ func (info *fieldInfo) SchemaFields() schemaMap {
 		name := NameForSchema(f)
 		log.Printf("[INFO] %s, tag %s", f.Name(), name)
 
-		var child *fieldInfo
+		var child *FieldInfo
 
 		// if we don't have this field, create a bog-standard one
 		if _, hasField := info.Fields[name]; !hasField {
 			typeName := f.ReflectValue().Type().String()
-			// info.Fields[name] = &fieldInfo{Type: typeName, NotStruct: true}
+			// info.Fields[name] = &FieldInfo{Type: typeName, NotStruct: true}
 			child = newFieldInfo(name, f, typeName)
 		} else {
 			info.Fields[name].Name = name
@@ -261,8 +261,8 @@ func (info *fieldInfo) SchemaFields() schemaMap {
 	return info.schemaFields
 }
 
-func newFieldInfo(name string, f *structs.Field, typeName string) *fieldInfo {
-	info := fieldInfo{
+func newFieldInfo(name string, f *structs.Field, typeName string) *FieldInfo {
+	info := FieldInfo{
 		Type:        typeName, // strings.TrimPrefix(typeName, "[]"),
 		Name:        NameForSchema(f),
 		Description: f.Tag("description"),
@@ -275,7 +275,7 @@ func newFieldInfo(name string, f *structs.Field, typeName string) *fieldInfo {
 	return &info
 }
 
-func flattenBlock(block *map[string]interface{}, info *fieldInfo, dCfg *mapstructure.DecoderConfig) (interface{}, error) {
+func flattenBlock(block *map[string]interface{}, info *FieldInfo, dCfg *mapstructure.DecoderConfig) (interface{}, error) {
 	log.Printf("[TRACE] flattenBlock %s", info.Type)
 
 	for col, colInfo := range info.Fields {
