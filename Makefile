@@ -2,7 +2,7 @@ GOFMT_FILES?=$$(find . -name '*.go' |grep -v vendor)
 
 build: terraform-provider-gitlabci
 
-terraform-provider-gitlabci: *.go gitlabci/*.go go.mod
+terraform-provider-gitlabci: *.go gitlabci/*.go go.mod helper/**/*.go internal/**/*.go
 	gofmt -w $(GOFMT_FILES)
 	go build .
 
