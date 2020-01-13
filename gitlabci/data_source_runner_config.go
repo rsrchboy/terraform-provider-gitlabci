@@ -93,7 +93,7 @@ func dataSourceGitlabCIRunnerConfig() *schema.Resource {
 }
 
 func dataSourceGitlabCIRunnerConfigRead(d *schema.ResourceData, meta interface{}) error {
-	log.Printf("[TRACE] dataSourceGitlabCIRunnerConfigRead() (mark III)\n%s", spew.Sdump(d))
+	log.Printf("[TRACE] dataSourceGitlabCIRunnerConfigRead() (mark III)")
 
 	c := rcommon.NewConfig()
 
