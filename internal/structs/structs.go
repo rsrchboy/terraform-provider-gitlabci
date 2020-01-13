@@ -3,6 +3,7 @@ package structs
 
 import (
 	"fmt"
+	"log"
 
 	"reflect"
 )
@@ -82,6 +83,11 @@ func (s *Struct) Map() map[string]interface{} {
 	out := make(map[string]interface{})
 	s.FillMap(out)
 	return out
+}
+
+// Accesses the embedded raw struct
+func (s *Struct) Raw() *interface{} {
+	return &s.raw
 }
 
 // FillMap is the same as Map. Instead of returning the output, it fills the
@@ -430,11 +436,12 @@ func strctVal(s interface{}) reflect.Value {
 
 	// if pointer get the underlying element≤
 	for v.Kind() == reflect.Ptr {
+		log.Printf("strycts.strctVal(): kind is a ptr; v is: %#v", v)
 		v = v.Elem()
 	}
 
 	if v.Kind() != reflect.Struct {
-		panic("not struct")
+		panic(fmt.Sprintf("not struct, isa %s: %#v", v.Kind(), v))
 	}
 
 	return v

@@ -3,6 +3,7 @@ package structs
 import (
 	"errors"
 	"fmt"
+	"log"
 	"reflect"
 )
 
@@ -108,13 +109,21 @@ func (f *Field) Zero() error {
 //
 // It panics if field is not exported or if field's kind is not struct
 func (f *Field) Fields() []*Field {
+	log.Printf("[TRACE] struct.Field.Fields() (is zero? %v): %#v", f.IsZero(), f)
+
+	if f.IsZero() {
+		log.Printf("[TRACE] struct.Field.Fields().Value().IsZero(): %v", f.IsZero())
+		// panic("thing is zero!")
+	}
 	return getFields(f.value, f.defaultTag)
 }
 
 // Field returns the field from a nested struct. It panics if the nested struct
 // is not exported or if the field was not found.
 func (f *Field) Field(name string) *Field {
+	log.Printf("[TRACE] struct.Field.Fields(): %#v", f)
 	field, ok := f.FieldOk(name)
+	log.Printf("[TRACE] struct.Fields(): %#v", f)
 	if !ok {
 		panic("field not found")
 	}
