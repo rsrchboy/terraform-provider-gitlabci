@@ -111,6 +111,8 @@ func NewConfigStruct(s string) interface{} {
 		return referees.MetricsRefereeConfig{}
 	case "[]string":
 		return []string{}
+	case "int", "int64", "bool", "string":
+		return nil
 	default:
 		panic("unhandled type: " + s)
 	}

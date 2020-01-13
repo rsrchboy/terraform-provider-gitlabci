@@ -203,6 +203,10 @@ func (info *fieldInfo) SchemaFields() schemaMap {
 
 	cs := NewConfigStruct(info.Type)
 
+	if cs == nil {
+		return info.schemaFields
+	}
+
 	s := structs.New(cs)
 
 	for _, f := range s.Fields() {
