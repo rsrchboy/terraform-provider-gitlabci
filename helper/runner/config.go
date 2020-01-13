@@ -1,38 +1,19 @@
 package runner
 
 import (
-	"encoding/json"
-	"fmt"
 	"log"
 	"strings"
 
 	tree "github.com/DiSiqueira/GoTree"
-	"github.com/davecgh/go-spew/spew"
-	// "github.com/hashicorp/terraform-plugin-sdk/helper/hashcode"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	// "github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 	"github.com/imdario/mergo"
-	"github.com/mitchellh/mapstructure"
-	"github.com/mohae/deepcopy"
 	"gitlab.com/rsrchboy/terraform-provider-gitlabci/internal/structs"
-	// strcase "github.com/stoewer/go-strcase"
-	rcommon "gitlab.com/gitlab-org/gitlab-runner/common"
-	// rdhelpers "gitlab.com/gitlab-org/gitlab-runner/helpers/docker"
-	// "gitlab.com/gitlab-org/gitlab-runner/helpers/ssh"
-	// "gitlab.com/gitlab-org/gitlab-runner/referees"
 )
 
 type schemaMap map[string]*schema.Schema
 type iMap map[string]interface{}
 type stringMap map[string]string
 
-type processFunc func(
-	block *map[string]interface{},
-	info *FieldInfo,
-	dCfg *mapstructure.DecoderConfig,
-) error
-
-// type FieldInfoMap map[string]*FieldInfo
 type FieldInfoMap map[string]*FieldInfo
 
 type FieldInfo struct {
@@ -42,8 +23,7 @@ type FieldInfo struct {
 	IsEmbedded bool
 	IsList     bool
 	// Fields      map[string]FieldInfo
-	Fields      FieldInfoMap
-	ProcessFunc processFunc
+	Fields FieldInfoMap
 	// schema generation bits
 	OverrideSchema *schema.Schema // use this instead of generating our own
 	// schemaMap      map[string]*schema.Schema // all the fields in this Type
@@ -144,11 +124,9 @@ func RunnerConfigToTerraformSchema() schemaMap {
 	cfgStructs.Tree = tree
 	schema := cfgStructs.SchemaFields()
 	log.Printf("Schema tree looks like:\n%s", tree.Print())
-	// return cfgStructs.SchemaFields()
 	return schema
 }
 
-// func (self *FieldInfo) infoToSchema() map[string]*schema.Schema {
 func (info *FieldInfo) ToSchema() *schema.Schema {
 
 	if info.schema != nil {
@@ -209,7 +187,6 @@ func (info *FieldInfo) ToSchema() *schema.Schema {
 }
 
 func (info *FieldInfo) SchemaFields() schemaMap {
-	// info.schemaFields = make(map[string]*schema.Schema)
 	info.schemaFields = make(schemaMap)
 	info.Fields = make(FieldInfoMap)
 
@@ -273,94 +250,4 @@ func newFieldInfo(name string, f *structs.Field, typeName string) *FieldInfo {
 	}
 
 	return &info
-}
-
-func flattenBlock(block *map[string]interface{}, info *FieldInfo, dCfg *mapstructure.DecoderConfig) (interface{}, error) {
-	log.Printf("[TRACE] flattenBlock %s", info.Type)
-
-	for col, colInfo := range info.Fields {
-		// check to see if we need to do any flattening
-		log.Printf("[TRACE] Flattening col: %s", col)
-		if colInfo.NoFlatten || (*block)[col] == nil {
-			continue
-		}
-
-		switch (*block)[col].(type) {
-		case []interface{}:
-			// log.Printf("flattening: %T", value)
-		default:
-			continue
-		}
-		colVal := (*block)[col].([]interface{})
-		if len(colVal) > 0 {
-			log.Printf("%s is an array > 0", col)
-			thing := colVal[0].(map[string]interface{})
-			_, err := flattenBlock(&thing, colInfo, nil)
-			if err != nil {
-				log.Printf("errored!: %v", err)
-				return nil, err
-			}
-			(*block)[col] = thing
-		} else {
-			log.Printf("%s is an array == 0; deleting", col)
-			delete(*block, col)
-		}
-	}
-
-	log.Printf("[TRACE] runnerBlock redux: %s", spew.Sdump(block))
-
-	if dCfg == nil {
-		return nil, nil
-	} else {
-		var r rcommon.RunnerConfig
-
-		log.Printf("[TRACE] block ended up as: %s", spew.Sdump(block))
-		// bytes, err := json.Marshal(dCfg.Result)
-		bytes, err := json.Marshal(block)
-		if err != nil {
-			log.Printf("errored!: %v", err)
-			return nil, fmt.Errorf("serialization of runner config failed: %v", err)
-		}
-		log.Printf("[TRACE] json serialized to %s", bytes)
-
-		err = json.Unmarshal(bytes, &r)
-		// err = json.Unmarshal(bytes, dCfg.Result)
-		if err != nil {
-			log.Printf("errored!: %v", err)
-			return nil, fmt.Errorf("deserialization of runner config failed: %v", err)
-		}
-
-		log.Printf("[TRACE] rc: %s", spew.Sdump(r))
-		// log.Printf("[TRACE] *********** rc: %#v", dCfg.Result)
-		// c.Runners = append(c.Runners, &rc)
-		return &r, nil
-	}
-}
-
-func flattenKey(block *interface{}) map[string]interface{} {
-	runnerBlock := deepcopy.Copy(*block)
-	for key, value := range runnerBlock.(map[string]interface{}) {
-		// check to see if we need to do any flattening
-		log.Printf("[TRACE] Flattening key: %s", key)
-		if value == nil {
-			log.Printf("skipping: %T", value)
-			continue
-		}
-		switch value.(type) {
-		case []interface{}:
-			log.Printf("flattening: %T", value)
-		default:
-			continue
-		}
-		if len(value.([]interface{})) > 0 {
-			log.Printf("%s is an array > 0", key)
-			thing := value.([]interface{})[0]
-			thing = flattenKey(&thing)
-			runnerBlock.(map[string]interface{})[key] = thing
-		} else {
-			log.Printf("%s is an array == 0", key)
-		}
-		log.Printf("[TRACE] runnerBlock redux: %s", spew.Sdump(runnerBlock))
-	}
-	return runnerBlock.(map[string]interface{})
 }

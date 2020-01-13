@@ -184,29 +184,28 @@ func k8sStructs(prefix string, d *schema.ResourceData) *rcommon.KubernetesConfig
 	}
 
 	k := rcommon.KubernetesConfig{
-		Host:                        d.Get(pfx + "host").(string),
-		CertFile:                    d.Get(pfx + "cert_file").(string),
-		KeyFile:                     d.Get(pfx + "key_file").(string),
-		CAFile:                      d.Get(pfx + "ca_file").(string),
-		BearerTokenOverwriteAllowed: d.Get(pfx + "bearer_token_overwrite_allowed").(bool),
-		BearerToken:                 d.Get(pfx + "bearer_token").(string),
-		Image:                       d.Get(pfx + "image").(string),
-		Namespace:                   d.Get(pfx + "namespace").(string),
-		NamespaceOverwriteAllowed:   d.Get(pfx + "namespace_overwrite_allowed").(string),
-		Privileged:                  d.Get(pfx + "privileged").(bool),
-		CPULimit:                    d.Get(pfx + "cpu_limit").(string),
-		MemoryLimit:                 d.Get(pfx + "memory_limit").(string),
-		ServiceCPULimit:             d.Get(pfx + "service_cpu_limit").(string),
-		ServiceMemoryLimit:          d.Get(pfx + "service_memory_limit").(string),
-		HelperCPULimit:              d.Get(pfx + "helper_cpu_limit").(string),
-		HelperMemoryLimit:           d.Get(pfx + "helper_memory_limit").(string),
-		CPURequest:                  d.Get(pfx + "cpu_request").(string),
-		MemoryRequest:               d.Get(pfx + "memory_request").(string),
-		ServiceCPURequest:           d.Get(pfx + "service_cpu_request").(string),
-		ServiceMemoryRequest:        d.Get(pfx + "service_memory_request").(string),
-		HelperCPURequest:            d.Get(pfx + "helper_cpu_request").(string),
-		HelperMemoryRequest:         d.Get(pfx + "helper_memory_request").(string),
-		// PullPolicy:
+		Host:                           d.Get(pfx + "host").(string),
+		CertFile:                       d.Get(pfx + "cert_file").(string),
+		KeyFile:                        d.Get(pfx + "key_file").(string),
+		CAFile:                         d.Get(pfx + "ca_file").(string),
+		BearerTokenOverwriteAllowed:    d.Get(pfx + "bearer_token_overwrite_allowed").(bool),
+		BearerToken:                    d.Get(pfx + "bearer_token").(string),
+		Image:                          d.Get(pfx + "image").(string),
+		Namespace:                      d.Get(pfx + "namespace").(string),
+		NamespaceOverwriteAllowed:      d.Get(pfx + "namespace_overwrite_allowed").(string),
+		Privileged:                     d.Get(pfx + "privileged").(bool),
+		CPULimit:                       d.Get(pfx + "cpu_limit").(string),
+		MemoryLimit:                    d.Get(pfx + "memory_limit").(string),
+		ServiceCPULimit:                d.Get(pfx + "service_cpu_limit").(string),
+		ServiceMemoryLimit:             d.Get(pfx + "service_memory_limit").(string),
+		HelperCPULimit:                 d.Get(pfx + "helper_cpu_limit").(string),
+		HelperMemoryLimit:              d.Get(pfx + "helper_memory_limit").(string),
+		CPURequest:                     d.Get(pfx + "cpu_request").(string),
+		MemoryRequest:                  d.Get(pfx + "memory_request").(string),
+		ServiceCPURequest:              d.Get(pfx + "service_cpu_request").(string),
+		ServiceMemoryRequest:           d.Get(pfx + "service_memory_request").(string),
+		HelperCPURequest:               d.Get(pfx + "helper_cpu_request").(string),
+		HelperMemoryRequest:            d.Get(pfx + "helper_memory_request").(string),
 		NodeSelector:                   toStringMap(pfx+"node_selector", d),
 		NodeTolerations:                toStringMap(pfx+"node_tolerations", d),
 		ImagePullSecrets:               stringList(pfx+"image_pull_secrets", d),
@@ -219,9 +218,6 @@ func k8sStructs(prefix string, d *schema.ResourceData) *rcommon.KubernetesConfig
 		ServiceAccountOverwriteAllowed: d.Get(pfx + "service_account_overwrite_allowed").(string),
 		PodAnnotations:                 toStringMap(pfx+"pod_annotations", d),
 		PodAnnotationsOverwriteAllowed: d.Get(pfx + "pod_annotations_overwrite_allowed").(string),
-		// PodSecurityContext:             d.Get(pfx + "pod_security_context").(KubernetesPodSecurityContext),
-		// Volumes:                        d.Get(pfx + "volumes").(KubernetesVolumes),
-		// Services:                       d.Get(pfx + "services").([]Service),
 	}
 
 	switch d.Get(pfx + "pull_policy").(string) {
@@ -237,13 +233,7 @@ func k8sStructs(prefix string, d *schema.ResourceData) *rcommon.KubernetesConfig
 
 	if _, hasIt := d.GetOkExists(pfx + "volumes"); hasIt {
 		pfx := pfx + "volumes.0."
-		k.Volumes = rcommon.KubernetesVolumes{
-			// HostPaths  []KubernetesHostPath  `toml:"host_path" description:"The host paths which will be mounted" json:"host_paths" tf:"host_path"`
-			// PVCs       []KubernetesPVC       `toml:"pvc" description:"The persistent volume claims that will be mounted" json:"pv_cs" tf:"pvc"`
-			// ConfigMaps []KubernetesConfigMap `toml:"config_map" description:"The config maps which will be mounted as volumes" json:"config_maps" tf:"config_map"`
-			// Secrets    []KubernetesSecret    `toml:"secret" description:"The secret maps which will be mounted" json:"secrets" tf:"secret"`
-			// EmptyDirs  []KubernetesEmptyDir  `toml:"empty_dir" description:"The empty dirs which will be mounted" json:"empty_dirs" tf:"empty_dir"
-		}
+		k.Volumes = rcommon.KubernetesVolumes{}
 
 		subKey := "host_path"
 		if it, hasIt := d.GetOkExists(pfx + subKey); hasIt {
@@ -445,14 +435,11 @@ func cacheConfigStructs(prefix string, d *schema.ResourceData) *rcommon.CacheCon
 		Type:   d.Get(pfx + "type").(string),
 		Path:   d.Get(pfx + "path").(string),
 		Shared: d.Get(pfx + "shared").(bool),
-		// S3:  d.Get(pfx + "s3").(*CacheS3Config),
-		// GCS: d.Get(pfx + "gcs").(*CacheGCSConfig),
 	}
 
 	if _, hasIt := d.GetOkExists(pfx + "gcs"); hasIt {
 		pfx := pfx + "gcs.0."
 		cache.GCS = &rcommon.CacheGCSConfig{
-			// CacheGCSCredentials `tf:"cache_gcs_credentials"`
 			CredentialsFile: d.Get(pfx + "credentials_file").(string),
 			BucketName:      d.Get(pfx + "bucket_name").(string),
 		}
@@ -466,8 +453,6 @@ func cacheConfigStructs(prefix string, d *schema.ResourceData) *rcommon.CacheCon
 		}
 	}
 
-	// pfx = prefix + "0.cache.0.s3.0."
-	log.Printf("============================> pfx is: %s", pfx)
 	if _, hasS3 := d.GetOkExists(pfx + "s3"); hasS3 {
 		pfx := pfx + "s3.0."
 		cache.S3 = &rcommon.CacheS3Config{
@@ -491,9 +476,7 @@ func refereeConfigStructs(prefix string, d *schema.ResourceData) *referees.Confi
 		return nil
 	}
 
-	ref := referees.Config{
-		// Metrics	*MetricsRefereeConfig `toml:"metrics,omitempty" json:"metrics" namespace:"metrics" tf:"metrics"`
-	}
+	ref := referees.Config{}
 
 	if _, hasIt := d.GetOkExists(pfx + "metrics"); hasIt {
 		pfx := pfx + "metrics.0."
@@ -566,7 +549,6 @@ func dockerConfigStructs(prefix string, d *schema.ResourceData) *rcommon.DockerC
 			pfx := fmt.Sprintf("%s%s.%d.", pfx, subKey, i)
 			svcs[i] = &rcommon.DockerService{
 				Alias: d.Get(pfx + "alias").(string),
-				// embedded via Services
 				Service: rcommon.Service{
 					Name: d.Get(pfx + "name").(string),
 				},
