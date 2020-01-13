@@ -548,7 +548,6 @@ func dockerConfigStructs(prefix string, d *schema.ResourceData) *rcommon.DockerC
 		VolumesFrom:                stringList(pfx+"volumes_from", d),
 		NetworkMode:                d.Get(pfx + "network_mode").(string),
 		Links:                      stringList(pfx+"links", d),
-		Services:                   stringList(pfx+"services", d),
 		WaitForServicesTimeout:     d.Get(pfx + "wait_for_services_timeout").(int),
 		AllowedImages:              stringList(pfx+"allowed_images", d),
 		AllowedServices:            stringList(pfx+"allowed_services", d),
@@ -558,6 +557,31 @@ func dockerConfigStructs(prefix string, d *schema.ResourceData) *rcommon.DockerC
 		ServicesTmpfs:              toStringMap(pfx+"services_tmpfs", d),
 		SysCtls:                    toDockerSysCtls(pfx+"sys_ctls", d),
 		HelperImage:                d.Get(pfx + "helper_image").(string),
+	}
+
+	subKey := "services"
+	if it, hasIt := d.GetOkExists(pfx + subKey); hasIt {
+		svcs := make([]*rcommon.DockerService, len(it.([]interface{})))
+		for i, _ := range it.([]interface{}) {
+			pfx := fmt.Sprintf("%s%s.%d.", pfx, subKey, i)
+			svcs[i] = &rcommon.DockerService{
+				Alias: d.Get(pfx + "alias").(string),
+				// embedded via Services
+				Service: rcommon.Service{
+					Name: d.Get(pfx + "name").(string),
+				},
+			}
+		}
+		dkr.Services = svcs
+	}
+
+	type Service struct {
+		Name string `toml:"name" long:"name" description:"The image path for the service" json:"name" tf:"name"`
+	}
+
+	type DockerService struct {
+		Service
+		Alias string `toml:"alias,omitempty" long:"alias" description:"The alias of the service"`
 	}
 
 	return &dkr

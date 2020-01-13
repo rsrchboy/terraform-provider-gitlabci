@@ -96,6 +96,7 @@ var cfgStructs = &fieldInfo{
 			Fields: fieldInfoMap{
 				"pull_policy": &fieldInfo{Type: "common.DockerPullPolicy"},
 				"sysctls":     &fieldInfo{Type: "common.DockerSysCtls"},
+				"services":    &fieldInfo{Type: "common.DockerService"},
 			},
 		},
 		"custom":      &fieldInfo{Type: "common.CustomConfig"},

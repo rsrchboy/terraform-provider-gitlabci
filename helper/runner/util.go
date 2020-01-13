@@ -58,6 +58,8 @@ func NewConfigStruct(s string) interface{} {
 		return rcommon.CustomConfig{}
 	case "*common.DockerConfig", "common.DockerConfig":
 		return rcommon.DockerConfig{}
+	case "*common.DockerService", "common.DockerService":
+		return rcommon.DockerService{}
 	case "*common.DockerMachine", "common.DockerMachine":
 		return rcommon.DockerMachine{}
 	case "*common.KubernetesConfig", "common.KubernetesConfig":
