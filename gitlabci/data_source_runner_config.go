@@ -517,7 +517,7 @@ func dockerConfigStructs(prefix string, d *schema.ResourceData) *rcommon.DockerC
 	dkr := rcommon.DockerConfig{
 		DockerCredentials: rdhelpers.DockerCredentials{
 			Host:      d.Get(pfx + "host").(string),
-			CertPath:  d.Get(pfx + "cert_path").(string),
+			CertPath:  d.Get(pfx + "tls_cert_path").(string),
 			TLSVerify: d.Get(pfx + "tls_verify").(bool),
 		},
 		Hostname:                   d.Get(pfx + "hostname").(string),
@@ -526,7 +526,7 @@ func dockerConfigStructs(prefix string, d *schema.ResourceData) *rcommon.DockerC
 		Memory:                     d.Get(pfx + "memory").(string),
 		MemorySwap:                 d.Get(pfx + "memory_swap").(string),
 		MemoryReservation:          d.Get(pfx + "memory_reservation").(string),
-		CPUSetCPUs:                 d.Get(pfx + "cpu_set_cp_us").(string),
+		CPUSetCPUs:                 d.Get(pfx + "cpuset_cpus").(string),
 		CPUS:                       d.Get(pfx + "cpus").(string),
 		CPUShares:                  int64(d.Get(pfx + "cpu_shares").(int)),
 		DNS:                        stringList(pfx+"dns", d),
@@ -555,7 +555,7 @@ func dockerConfigStructs(prefix string, d *schema.ResourceData) *rcommon.DockerC
 		ShmSize:                    int64(d.Get(pfx + "shm_size").(int)),
 		Tmpfs:                      toStringMap(pfx+"tmpfs", d),
 		ServicesTmpfs:              toStringMap(pfx+"services_tmpfs", d),
-		SysCtls:                    toDockerSysCtls(pfx+"sys_ctls", d),
+		SysCtls:                    toDockerSysCtls(pfx+"sysctls", d),
 		HelperImage:                d.Get(pfx + "helper_image").(string),
 	}
 
@@ -573,15 +573,6 @@ func dockerConfigStructs(prefix string, d *schema.ResourceData) *rcommon.DockerC
 			}
 		}
 		dkr.Services = svcs
-	}
-
-	type Service struct {
-		Name string `toml:"name" long:"name" description:"The image path for the service" json:"name" tf:"name"`
-	}
-
-	type DockerService struct {
-		Service
-		Alias string `toml:"alias,omitempty" long:"alias" description:"The alias of the service"`
 	}
 
 	return &dkr
