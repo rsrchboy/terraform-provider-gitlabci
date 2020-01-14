@@ -7,6 +7,30 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 )
 
+func toStringMap(key string, d *schema.ResourceData) stringMap {
+	imap := d.Get(key).(map[string]interface{})
+	// log.Printf("iMapToStringMap: %T, %s", imap, spew.Sdump(imap))
+	smap := make(stringMap, len(imap))
+
+	for k, v := range imap {
+		smap[k] = v.(string)
+	}
+
+	return smap
+}
+
+func stringList(key string, d *schema.ResourceData) []string {
+	stringsI := d.Get(key).([]interface{})
+	strings := make([]string, len(stringsI))
+
+	// I'm hopeful there's a better way I'm simply unaware of as of yet
+	for i, str := range stringsI {
+		strings[i] = str.(string)
+	}
+
+	return strings
+}
+
 // copied from the gitlab provider
 func stringSetToStringSlice(stringSet *schema.Set) *[]string {
 	ret := []string{}
