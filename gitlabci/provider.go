@@ -13,10 +13,14 @@ func Provider() *schema.Provider {
 		Schema: map[string]*schema.Schema{
 			"base_url": {
 				Type:         schema.TypeString,
-				Required:     true,
-				Description:  "The GitLab Base API URL",
+				Optional:     true,
+				DefaultFunc:  schema.EnvDefaultFunc("GITLAB_BASE_URL", "https://gitlab.com/api/v4"),
+				Description:  "The GitLab base API URL",
 				ValidateFunc: validateURLFunc,
 			},
+		},
+		DataSourcesMap: map[string]*schema.Resource{
+			"gitlabci_runner_config": dataSourceGitlabCIRunnerConfig(),
 		},
 		ResourcesMap: map[string]*schema.Resource{
 			"gitlabci_runner_token": resourceGitlabRunner(),
