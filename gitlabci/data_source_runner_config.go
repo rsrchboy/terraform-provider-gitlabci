@@ -41,8 +41,9 @@ func dataSourceGitlabCIRunnerConfig() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			// generated
 			"config": {
-				Type:     schema.TypeString,
-				Computed: true,
+				Type:        schema.TypeString,
+				Computed:    true,
+				Description: "The computed runner configuration (toml)",
 			},
 			"id": {
 				Type:        schema.TypeString,
