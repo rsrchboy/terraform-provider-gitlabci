@@ -44,6 +44,11 @@ func dataSourceGitlabCIRunnerConfig() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"id": {
+				Type:        schema.TypeString,
+				Computed:    true,
+				Description: "The computed configuation id",
+			},
 			// input
 			"concurrent": {
 				Type:         schema.TypeInt,
