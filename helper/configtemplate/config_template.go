@@ -19,17 +19,17 @@ import (
 	"gitlab.com/gitlab-org/gitlab-runner/common"
 )
 
-type configTemplate struct {
+type ConfigTemplate struct {
 	*common.Config
 
 	ConfigFile string `long:"config" env:"TEMPLATE_CONFIG_FILE" description:"Path to the configuration template file"`
 }
 
-func (c *configTemplate) Enabled() bool {
+func (c *ConfigTemplate) Enabled() bool {
 	return c.ConfigFile != ""
 }
 
-func (c *configTemplate) MergeTo(config *common.RunnerConfig) error {
+func (c *ConfigTemplate) MergeTo(config *common.RunnerConfig) error {
 	err := c.loadConfigTemplate()
 	if err != nil {
 		return errors.Wrap(err, "couldn't load configuration template file")
@@ -47,7 +47,7 @@ func (c *configTemplate) MergeTo(config *common.RunnerConfig) error {
 	return nil
 }
 
-func (c *configTemplate) loadConfigTemplate() error {
+func (c *ConfigTemplate) loadConfigTemplate() error {
 	config := common.NewConfig()
 
 	err := config.LoadConfig(c.ConfigFile)
@@ -68,7 +68,7 @@ type RegisterCommand struct {
 
 	configOptions
 
-	ConfigTemplate configTemplate `namespace:"template"`
+	ConfigTemplate ConfigTemplate `namespace:"template"`
 
 	TagList           string `long:"tag-list" env:"RUNNER_TAG_LIST" description:"Tag list"`
 	NonInteractive    bool   `short:"n" long:"non-interactive" env:"REGISTER_NON_INTERACTIVE" description:"Run registration unattended"`
