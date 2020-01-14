@@ -3,19 +3,23 @@ package gitlabci
 import (
 	"bytes"
 	"fmt"
+	"io/ioutil"
 	"log"
+	"os"
 	"strconv"
 
 	"github.com/BurntSushi/toml"
 	"github.com/davecgh/go-spew/spew"
 	"github.com/giantswarm/to"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/hashcode"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/pathorcontents"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/validation"
 	rcommon "gitlab.com/gitlab-org/gitlab-runner/common"
 	rdhelpers "gitlab.com/gitlab-org/gitlab-runner/helpers/docker"
 	"gitlab.com/gitlab-org/gitlab-runner/helpers/ssh"
 	"gitlab.com/gitlab-org/gitlab-runner/referees"
+	"gitlab.com/rsrchboy/terraform-provider-gitlabci/helper/configtemplate"
 	"gitlab.com/rsrchboy/terraform-provider-gitlabci/helper/runner"
 	"gitlab.com/rsrchboy/terraform-provider-gitlabci/internal/structs"
 )
@@ -121,6 +125,7 @@ func dataSourceGitlabCIRunnerConfigRead(d *schema.ResourceData, meta interface{}
 		c.Runners = make([]*rcommon.RunnerConfig, len(runners.([]interface{})))
 		for i, _ := range runners.([]interface{}) {
 			log.Printf("working on runner block #%d", i)
+
 			pfx := fmt.Sprintf("runners.%d.", i)
 			log.Printf("i is %d, pfx is %s", i, pfx)
 			r := rcommon.RunnerConfig{
@@ -157,6 +162,28 @@ func dataSourceGitlabCIRunnerConfigRead(d *schema.ResourceData, meta interface{}
 					Custom:             customStructs(pfx, d),
 					Referees:           refereeConfigStructs(pfx, d),
 				},
+			}
+
+			// handle templates here
+			if templateData, hasTemplateData := d.GetOkExists(pfx + "config_template"); hasTemplateData {
+				// https://godoc.org/github.com/hashicorp/terraform-plugin-sdk/helper/pathorcontents
+				templateStr, _, err := pathorcontents.Read(templateData.(string))
+				if err != nil {
+					return err
+				}
+				tmpfile, err := ioutil.TempFile("", "runnercfgtemplate*")
+				if err != nil {
+					return err
+				}
+				defer os.Remove(tmpfile.Name())
+				if _, err = tmpfile.WriteString(templateStr); err != nil {
+					return err
+				}
+				ct, err := configtemplate.NewConfigTemplateFromFile(tmpfile.Name())
+				if err != nil {
+					return err
+				}
+				ct.MergeTo(&r)
 			}
 
 			c.Runners[i] = &r

@@ -122,9 +122,14 @@ func RunnerConfigToTerraformSchema() schemaMap {
 
 	tree := tree.New("runner_config")
 	cfgStructs.Tree = tree
-	schema := cfgStructs.SchemaFields()
+	rschema := cfgStructs.SchemaFields()
+	rschema["config_template"] = &schema.Schema{
+		Type:        schema.TypeString,
+		Optional:    true,
+		Description: "Configuration template (toml)",
+	}
 	log.Printf("Schema tree looks like:\n%s", tree.Print())
-	return schema
+	return rschema
 }
 
 func (info *FieldInfo) ToSchema() *schema.Schema {
