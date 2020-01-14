@@ -22,10 +22,9 @@ require (
 	github.com/gorilla/websocket v1.4.1 // indirect
 	github.com/hashicorp/terraform-plugin-sdk v1.4.1
 	github.com/imdario/mergo v0.3.8
-	github.com/mitchellh/mapstructure v1.1.2
-	github.com/mohae/deepcopy v0.0.0-20170929034955-c48cc78d4826
 	github.com/morikuni/aec v1.0.0 // indirect
 	github.com/parnurzeal/gorequest v0.2.16
+	github.com/pkg/errors v0.8.1
 	github.com/stoewer/go-strcase v1.1.0
 	github.com/tevino/abool v0.0.0-20170917061928-9b9efcf221b5 // indirect
 	github.com/urfave/cli v1.22.2 // indirect
