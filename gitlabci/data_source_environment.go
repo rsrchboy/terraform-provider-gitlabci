@@ -16,12 +16,19 @@ func dataSourceGitlabCIEnvironment() *schema.Resource {
 		Read: dataSourceGitlabCIEnvironmentRead,
 
 		Schema: map[string]*schema.Schema{
-			// generated
+			// internal
 			"id": {
 				Type:        schema.TypeString,
 				Computed:    true,
 				Description: "The computed configuation id",
 			},
+			// generated
+			"running_under_ci": {
+				Type:        schema.TypeBool,
+				Computed:    true,
+				Description: "True if we appear to be running as a CI job",
+			},
+			// from the environment
 			"artifact_download_attempts": {
 				Type:        schema.TypeString,
 				Computed:    true,
@@ -671,6 +678,12 @@ func dataSourceGitlabCIEnvironmentRead(d *schema.ResourceData, meta interface{})
 	// This is effectively a no-op: we'd be computing these values from the
 	// environment, but we've also asked that the default values be set from
 	// where we'd look in the environment.
+
+	if d.Get("ci_server").(string) == "yes" {
+		d.Set("running_under_ci", true)
+	} else {
+		d.Set("running_under_ci", false)
+	}
 
 	log.Printf("[TRACE] dataSourceGitlabCIEnvironmentRead() finished")
 	return nil
