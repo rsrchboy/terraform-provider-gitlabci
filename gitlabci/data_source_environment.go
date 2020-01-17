@@ -15,6 +15,7 @@ func dataSourceGitlabCIEnvironment() *schema.Resource {
 	schema := &schema.Resource{
 		Read: dataSourceGitlabCIEnvironmentRead,
 
+		SchemaVersion: 1,
 		Schema: map[string]*schema.Schema{
 			// internal
 			"id": {
