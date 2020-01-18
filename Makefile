@@ -10,7 +10,7 @@ test: terraform-provider-gitlabci
 	go test `go list ./...`
 
 clean:
-	rm -f terraform-provider-gitlabci
+	rm -f terraform-provider-gitlabci mkdoc/schema.json
 
 ci-datasource: terraform-provider-gitlabci
 	cd examples/data-source-config \
@@ -38,4 +38,13 @@ tfa: terraform-provider-gitlabci
 tfp: terraform-provider-gitlabci
 	terraform init && TF_LOG=TRACE terraform plan
 
+schema.json: terraform-provider-gitlabci
+	terraform init && terraform providers schema --json > schema.json
+
+README.md: schema.json README.yml mkdoc/*
+	gomplate --file README.md.gotmpl > README.md
+	doctoc --gitlab --notitle README.md
+
 .PHONY: build clean ci-datasource fmt vet tfa tfp test
+
+

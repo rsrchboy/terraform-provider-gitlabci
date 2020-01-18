@@ -35,8 +35,9 @@ func dataSourceGitlabCIRunnerConfig() *schema.Resource {
 	structs.DefaultTagName = "toml"
 
 	optionalString := &schema.Schema{
-		Type:     schema.TypeString,
-		Optional: true,
+		Type:        schema.TypeString,
+		Optional:    true,
+		Description: "FIXME",
 	}
 
 	schema := &schema.Resource{
@@ -60,40 +61,46 @@ func dataSourceGitlabCIRunnerConfig() *schema.Resource {
 				Optional:     true,
 				Default:      1,
 				ValidateFunc: validation.IntAtLeast(1),
+				Description:  "FIXME",
 			},
 			"check_interval": {
 				Type:         schema.TypeInt,
 				Optional:     true,
 				Default:      0,
 				ValidateFunc: validation.IntAtLeast(0),
+				Description:  "FIXME",
 			},
 			"log_level": {
 				Type:         schema.TypeString,
 				Optional:     true,
 				ValidateFunc: validation.StringInSlice([]string{"panic", "fatal", "error", "warning", "info", "debug"}, false),
+				Description:  "FIXME",
 			},
 			"log_format": {
 				Type:         schema.TypeString,
 				Optional:     true,
 				ValidateFunc: validation.StringInSlice([]string{"runner", "text", "json"}, false),
+				Description:  "FIXME",
 			},
 			"session_server": {
-				Type:     schema.TypeList,
-				Optional: true,
-				MinItems: 0,
-				MaxItems: 1,
+				Type:        schema.TypeList,
+				Optional:    true,
+				MinItems:    0,
+				MaxItems:    1,
+				Description: "FIXME",
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"listen_address":    optionalString,
 						"advertise_address": optionalString,
-						"session_timeout":   {Type: schema.TypeInt, Optional: true},
+						"session_timeout":   {Type: schema.TypeInt, Optional: true, Description: "FIXME"},
 					},
 				},
 			},
 			"runners": {
-				Type:     schema.TypeList,
-				Optional: true,
-				Elem:     &schema.Resource{Schema: runner.RunnerConfigToTerraformSchema()},
+				Type:        schema.TypeList,
+				Optional:    true,
+				Elem:        &schema.Resource{Schema: runner.RunnerConfigToTerraformSchema()},
+				Description: "FIXME",
 			},
 		},
 	}

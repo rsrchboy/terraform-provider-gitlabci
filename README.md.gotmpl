@@ -1,0 +1,103 @@
+{{- defineDatasource "config" "schema.json" | regexp.Replace ".*" "" -}}
+{{- defineDatasource "head"   "doc/head.md" | regexp.Replace ".*" "" -}}
+{{- defineDatasource "readme"  "README.yml" | regexp.Replace ".*" "" -}}
+{{ define "Block" }}
+
+{{ strings.Repeat .depth "#" }} {{ .type }} `{{ .name }}`
+
+{{ if (has .doc "doc") }}{{ index .doc "doc" }}{{ end }}
+
+**Attributes:**
+
+{{ if coll.Has .block "attributes" -}}
+
+| **Attribute** | **Description** | **Type** | **opt/req?** |
+|-----------|-------------|------|----------|
+{{ range $k, $v := .block.attributes -}}
+{{ $d := "" }}{{ if coll.Has $v "description"}}{{ $d = $v.description }}{{ end -}}
+{{ printf "| %s | %s | %s | %s |" $k $v.type $d "" }}
+{{ end }}
+
+{{ else -}}
+
+This {{ strings.ToLower .type}} has no attributes.
+
+{{- end }}
+
+{{- if coll.Has .block "block_types" }}
+
+**Blocks:**
+
+This {{ strings.ToLower .type}} also takes the following blocks (defined below):
+
+{{ range $k, $v := .block.block_types -}}
+* {{ $k }}
+{{ end -}}
+
+{{ $ndepth := add .depth 1 -}}
+{{ $ndepth := conv.ToInt $ndepth -}}
+{{ $trail := printf "%s%s" .trail "" -}}
+{{ $doc := .doc -}}
+{{ range $k, $v := .block.block_types -}}
+{{ $trail = printf "%s.%s" $trail $k -}}
+{{ template "Block" coll.Dict "name" $k "block" $v.block "trail" $trail "type" "Block" "depth" $ndepth "doc" $doc -}}
+{{ end -}}
+
+{{ end -}}
+{{ end -}}
+
+{{- include "head" }}
+
+{{- $provider_name := "gitlabci" -}}
+{{- $provider      := (ds "config").provider_schemas.gitlabci.provider.block -}}
+{{- $data_sources  := (ds "config").provider_schemas.gitlabci.data_source_schemas -}}
+{{- $resources     := (ds "config").provider_schemas.gitlabci.resource_schemas -}}
+{{- $readme        := (ds "readme") -}}
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+# Provider `{{ $provider_name }}`
+
+... yada yada include original README.md here
+
+| **Attribute** | **Description** | **Type** | **Optional** |
+|-----------|-------------|------|----------|
+{{ range $key, $value := $provider.attributes -}}
+{{ printf "| %s | %s | %s | %s |" $key $value.description $value.type $value.optional }}
+{{ end }}
+
+# Resources
+
+We have the following resources:
+
+{{ range $key, $value := $resources -}}
+* {{ $key }}
+{{- end }}
+
+{{ range $k, $value := $resources -}}
+
+{{ $trail := printf "%s.%s" "resource" $k -}}
+{{ $doc := $readme.doc.resource -}}
+{{ if (has $doc $k) }}{{ $doc = index $doc $k }}{{ end -}}
+{{- template "Block" coll.Dict "name" $k "block" $value.block "doc" $doc "trail" $trail "type" "Resource" "depth" 2 -}}
+
+{{ end -}}
+
+# Data Sources
+
+Provider `{{ $provider_name }}` has the following data sources:
+
+{{ range $key, $value := $data_sources }}
+* {{ $key }}
+{{ end }}
+
+{{ range $key, $value := $data_sources -}}
+
+{{ $doc := $readme.doc.data -}}
+    {{ if (has $doc $key) }}{{ $doc := index $doc $key }}{{ end -}}
+{{ $name := $key -}}
+{{ $trail := printf "%s.%s" "data" $key -}}
+{{- template "Block" coll.Dict "name" $key "block" $value.block "trail" $trail "type" "Data Source" "depth" 2 "doc" $doc -}}
+
+{{- end -}}
