@@ -15,7 +15,9 @@
 |-----------|-------------|------|----------|
 {{ range $k, $v := .block.attributes -}}
 {{ $d := "" }}{{ if coll.Has $v "description"}}{{ $d = $v.description }}{{ end -}}
-{{ printf "| %s | %s | %s | %s |" $k $v.type $d "" }}
+| `{{ $k }}` |
+{{- if has $v "description"}}{{ $v.description }}{{ end -}}
+| `{{ $v.type | regexp.Replace "^.(.+) (.+).$" "$1($2)" }}` | |
 {{ end }}
 
 {{ else -}}
@@ -31,7 +33,7 @@ This {{ strings.ToLower .type}} has no attributes.
 This {{ strings.ToLower .type}} also takes the following blocks (defined below):
 
 {{ range $k, $v := .block.block_types -}}
-* {{ $k }}
+* `{{ $k }}`
 {{ end -}}
 
 {{ $ndepth := add .depth 1 -}}
@@ -63,8 +65,11 @@ This {{ strings.ToLower .type}} also takes the following blocks (defined below):
 
 | **Attribute** | **Description** | **Type** | **Optional** |
 |-----------|-------------|------|----------|
-{{ range $key, $value := $provider.attributes -}}
-{{ printf "| %s | %s | %s | %s |" $key $value.description $value.type $value.optional }}
+{{ range $k, $v := $provider.attributes -}}
+| `{{ $k }}` |
+{{- if has $v "description"}}{{ $v.description }}{{ end -}}
+| `{{ $v.type | regexp.Replace "^.(.+) (.+).$" "$1($2)" }}` |
+{{- if $v.optional }} Optional {{- else }} Required {{- end }} |
 {{ end }}
 
 # Resources
@@ -72,7 +77,7 @@ This {{ strings.ToLower .type}} also takes the following blocks (defined below):
 We have the following resources:
 
 {{ range $key, $value := $resources -}}
-* {{ $key }}
+* `{{ $key }}`
 {{- end }}
 
 {{ range $k, $value := $resources -}}
@@ -89,7 +94,7 @@ We have the following resources:
 Provider `{{ $provider_name }}` has the following data sources:
 
 {{ range $key, $value := $data_sources }}
-* {{ $key }}
+* `{{ $key }}`
 {{ end }}
 
 {{ range $key, $value := $data_sources -}}
