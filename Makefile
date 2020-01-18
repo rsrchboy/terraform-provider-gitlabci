@@ -41,9 +41,10 @@ tfp: terraform-provider-gitlabci
 schema.json: terraform-provider-gitlabci
 	terraform init && terraform providers schema --json > schema.json
 
-README.md: schema.json README.yml mkdoc/*
-	gomplate --file README.md.gotmpl > README.md
-	doctoc --gitlab --notitle README.md
+README.md: README.md.gotmpl schema.json README.yml mkdoc/*
+	gomplate --file README.md.gotmpl > README.md.tmp
+	doctoc --gitlab --notitle README.md.tmp
+	mv README.md.tmp README.md
 
 .PHONY: build clean ci-datasource fmt vet tfa tfp test
 
