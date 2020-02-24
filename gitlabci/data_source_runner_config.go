@@ -82,6 +82,11 @@ func dataSourceGitlabCIRunnerConfig() *schema.Resource {
 				ValidateFunc: validation.StringInSlice([]string{"runner", "text", "json"}, false),
 				Description:  "Log format (options: runner, text, json). Note that this setting has lower priority than format set by command line argument --log-format",
 			},
+			"listen_address": {
+				Type:        schema.TypeString,
+				Optional:    true,
+				Description: "Address (<host>:<port>) on which the Prometheus metrics HTTP server should be listening",
+			},
 			"session_server": {
 				Type:        schema.TypeList,
 				Optional:    true,
@@ -118,6 +123,7 @@ func dataSourceGitlabCIRunnerConfigRead(d *schema.ResourceData, meta interface{}
 	c.Concurrent = d.Get("concurrent").(int)
 	c.LogFormat = to.StringP(d.Get("log_format").(string))
 	c.LogLevel = to.StringP(d.Get("log_level").(string))
+	c.ListenAddress = d.Get("listen_address").(string)
 
 	if sessionServers, _ := d.GetOk("session_server"); len(sessionServers.([]interface{})) > 0 {
 		sessionServer := sessionServers.([]interface{})[0]
