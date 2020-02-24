@@ -255,12 +255,13 @@ Provider `gitlabci` has the following data sources:
 
 | **Attribute** | **Description** | **Type** | **opt/req?** |
 |-----------|-------------|------|----------|
-| `check_interval` |FIXME| `number` | |
-| `concurrent` |FIXME| `number` | |
+| `check_interval` |Defines the interval length, in seconds, between new jobs check. The default value is 3; if set to 0 or lower, the default value will be used| `number` | |
+| `concurrent` |Limits how many jobs globally can be run concurrently| `number` | |
 | `config` |The computed runner configuration (toml)| `string` | |
 | `id` |The computed configuation id| `string` | |
-| `log_format` |FIXME| `string` | |
-| `log_level` |FIXME| `string` | |
+| `listen_address` |Address (<host>:<port>) on which the Prometheus metrics HTTP server should be listening| `string` | |
+| `log_format` |Log format (options: runner, text, json). Note that this setting has lower priority than format set by command line argument --log-format| `string` | |
+| `log_level` |Log level (options: debug, info, warn, error, fatal, panic). Note that this setting has lower priority than level set by command line argument --debug, -l or --log-level| `string` | |
 
 
 
