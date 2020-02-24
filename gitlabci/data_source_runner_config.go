@@ -61,33 +61,33 @@ func dataSourceGitlabCIRunnerConfig() *schema.Resource {
 				Optional:     true,
 				Default:      1,
 				ValidateFunc: validation.IntAtLeast(1),
-				Description:  "FIXME",
+				Description:  "Limits how many jobs globally can be run concurrently",
 			},
 			"check_interval": {
 				Type:         schema.TypeInt,
 				Optional:     true,
 				Default:      0,
 				ValidateFunc: validation.IntAtLeast(0),
-				Description:  "FIXME",
+				Description:  "Defines the interval length, in seconds, between new jobs check. The default value is 3; if set to 0 or lower, the default value will be used",
 			},
 			"log_level": {
 				Type:         schema.TypeString,
 				Optional:     true,
 				ValidateFunc: validation.StringInSlice([]string{"panic", "fatal", "error", "warning", "info", "debug"}, false),
-				Description:  "FIXME",
+				Description:  "Log level (options: debug, info, warn, error, fatal, panic). Note that this setting has lower priority than level set by command line argument --debug, -l or --log-level",
 			},
 			"log_format": {
 				Type:         schema.TypeString,
 				Optional:     true,
 				ValidateFunc: validation.StringInSlice([]string{"runner", "text", "json"}, false),
-				Description:  "FIXME",
+				Description:  "Log format (options: runner, text, json). Note that this setting has lower priority than format set by command line argument --log-format",
 			},
 			"session_server": {
 				Type:        schema.TypeList,
 				Optional:    true,
 				MinItems:    0,
 				MaxItems:    1,
-				Description: "FIXME",
+				Description: "A block defining connection attributes for the session server",
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"listen_address":    optionalString,
@@ -100,7 +100,7 @@ func dataSourceGitlabCIRunnerConfig() *schema.Resource {
 				Type:        schema.TypeList,
 				Optional:    true,
 				Elem:        &schema.Resource{Schema: runner.RunnerConfigToTerraformSchema()},
-				Description: "FIXME",
+				Description: "A block defining an individual runner",
 			},
 		},
 	}
