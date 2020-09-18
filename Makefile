@@ -2,7 +2,7 @@ GOFMT_FILES?=$$(find . -name '*.go' |grep -v vendor)
 
 build: terraform-provider-gitlabci
 
-terraform-provider-gitlabci: *.go gitlabci/*.go go.mod helper/**/*.go internal/**/*.go
+terraform-provider-gitlabci: *.go gitlabci/*.go go.mod
 	gofmt -w $(GOFMT_FILES)
 	go build .
 
@@ -47,5 +47,3 @@ README.md: README.md.gotmpl schema.json README.yml mkdoc/*
 	mv README.md.tmp README.md
 
 .PHONY: build clean ci-datasource fmt vet tfa tfp test
-
-
