@@ -3,33 +3,17 @@ module gitlab.com/rsrchboy/terraform-provider-gitlabci
 go 1.13
 
 require (
-	github.com/BurntSushi/toml v0.3.1
-	github.com/DiSiqueira/GoTree v1.0.0
-	github.com/Microsoft/hcsshim v0.8.7 // indirect
-	github.com/containerd/containerd v1.3.2 // indirect
-	github.com/containerd/continuity v0.0.0-20191214063359-1097c8bae83b // indirect
-	github.com/davecgh/go-spew v1.1.1
-	github.com/docker/cli v0.0.0-20190814185437-1752eb3626e3 // indirect
-	github.com/docker/distribution v2.7.1+incompatible // indirect
-	github.com/docker/docker v1.13.1 // indirect
-	github.com/docker/docker-credential-helpers v0.6.3 // indirect
-	github.com/docker/go-connections v0.4.0 // indirect
-	github.com/docker/go-metrics v0.0.1 // indirect
-	github.com/docker/machine v0.16.2 // indirect
-	github.com/giantswarm/to v0.0.0-20191022113953-f2078541ec95
-	github.com/gorhill/cronexpr v0.0.0-20180427100037-88b0669f7d75 // indirect
-	github.com/gorilla/mux v1.7.3 // indirect
-	github.com/gorilla/websocket v1.4.1 // indirect
+	cloud.google.com/go v0.49.0 // indirect
+	github.com/elazarl/goproxy v0.0.0-20191011121108-aa519ddbe484 // indirect
 	github.com/hashicorp/terraform-plugin-sdk v1.4.1
-	github.com/imdario/mergo v0.3.8
-	github.com/morikuni/aec v1.0.0 // indirect
 	github.com/parnurzeal/gorequest v0.2.16
-	github.com/pkg/errors v0.8.1
-	github.com/stoewer/go-strcase v1.1.0
-	github.com/tevino/abool v0.0.0-20170917061928-9b9efcf221b5 // indirect
-	github.com/urfave/cli v1.22.2 // indirect
-	gitlab.com/gitlab-org/gitlab-runner v1.11.1-0.20200110014830-8e5683f82927
-	k8s.io/api v0.17.0 // indirect
+	github.com/pkg/errors v0.8.1 // indirect
+	github.com/smartystreets/goconvey v1.6.4 // indirect
+	github.com/stretchr/testify v1.4.0 // indirect
+	golang.org/x/lint v0.0.0-20191125180803-fdd1cda4f05f // indirect
+	golang.org/x/sys v0.0.0-20190916202348-b4ddaad3f8a3 // indirect
+	golang.org/x/tools v0.0.0-20191126055441-b0650ceb63d9 // indirect
+	gopkg.in/yaml.v2 v2.2.4 // indirect
 	moul.io/http2curl v1.0.0 // indirect
 )
 
