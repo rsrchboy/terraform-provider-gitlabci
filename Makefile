@@ -2,9 +2,11 @@ GOFMT_FILES?=$$(find . -name '*.go' |grep -v vendor)
 
 build: terraform-provider-gitlabci
 
-terraform-provider-gitlabci: *.go gitlabci/*.go go.mod helper/**/*.go internal/**/*.go
+terraform-provider-gitlabci: *.go gitlabci/*.go go.mod
 	gofmt -w $(GOFMT_FILES)
 	go build .
+	mkdir -p ~/.local/share/terraform/plugins/tf.weyl.io/rsrchboy/gitlabci/1.0.0/linux_amd64
+	cp terraform-provider-gitlabci ~/.local/share/terraform/plugins/tf.weyl.io/rsrchboy/gitlabci/1.0.0/linux_amd64/
 
 test: terraform-provider-gitlabci
 	go test `go list ./...`
@@ -47,5 +49,3 @@ README.md: README.md.gotmpl schema.json README.yml mkdoc/*
 	mv README.md.tmp README.md
 
 .PHONY: build clean ci-datasource fmt vet tfa tfp test
-
-

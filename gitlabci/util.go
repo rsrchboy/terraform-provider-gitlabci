@@ -7,6 +7,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 )
 
+type stringMap map[string]string
+
 func toStringMap(key string, d *schema.ResourceData) stringMap {
 	imap := d.Get(key).(map[string]interface{})
 	// log.Printf("iMapToStringMap: %T, %s", imap, spew.Sdump(imap))
