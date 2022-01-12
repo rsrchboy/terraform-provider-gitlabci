@@ -42,3 +42,5 @@ terraform.rc
 terraform-provider-*
 Session*.vim
 .terraform.lock.hcl
+# often exists in symlink form
+terraform.d
