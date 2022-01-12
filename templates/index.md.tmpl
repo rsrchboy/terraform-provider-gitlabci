@@ -1,0 +1,21 @@
+---
+layout: ""
+page_title: "gitlabci Provider"
+subcategory: ""
+description: |-
+  The GitLabCI provider allows the trivial creation of a runner token.
+---
+
+# GitLabCI Provider
+
+The GitLabCI provider allows the trivial creation of a runner token, without
+requiring authentication to the GitLab instance itself.
+
+For a general-purpose provider, please see the [GitLab terraform
+provider](https://www.terraform.io/docs/providers/gitlab/).
+
+## Example Usage
+
+{{tffile "examples/provider/provider.tf"}}
+
+{{ .SchemaMarkdown | trimspace }}
