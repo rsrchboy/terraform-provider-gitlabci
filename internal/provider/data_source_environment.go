@@ -1,4 +1,4 @@
-package gitlabci
+package provider
 
 import (
 	"log"

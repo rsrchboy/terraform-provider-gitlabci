@@ -1,4 +1,4 @@
-package gitlabci
+package provider
 
 // https://docs.gitlab.com/ce/api/runners.html#register-a-new-runner
 
