@@ -13,10 +13,10 @@ resource "gitlabci_runner_token" "this" {
 }
 
 variable "project_id" {
-  # note this could also legitimately be a string; see
+  # note this could also legitimately be an int; see
   # https://registry.terraform.io/providers/gitlabhq/gitlab/latest/docs/data-sources/project#id
-  type        = number
-  description = "Project ID"
+  type        = string
+  description = "Project ID (path, e.g. rsrchboy/scratch)"
 }
 
 output "token" {
