@@ -5,8 +5,12 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
+
+func New(version string) func() *schema.Provider {
+	return Provider
+}
 
 func Provider() *schema.Provider {
 	return &schema.Provider{

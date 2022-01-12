@@ -3,17 +3,14 @@ module gitlab.com/rsrchboy/terraform-provider-gitlabci
 go 1.13
 
 require (
-	cloud.google.com/go v0.49.0 // indirect
+	github.com/armon/go-radix v1.0.0 // indirect
 	github.com/elazarl/goproxy v0.0.0-20191011121108-aa519ddbe484 // indirect
-	github.com/hashicorp/terraform-plugin-sdk v1.4.1
+	github.com/hashicorp/terraform-plugin-docs v0.5.1
+	github.com/hashicorp/terraform-plugin-sdk/v2 v2.10.1
 	github.com/parnurzeal/gorequest v0.2.16
-	github.com/pkg/errors v0.8.1 // indirect
+	github.com/posener/complete v1.2.1 // indirect
 	github.com/smartystreets/goconvey v1.6.4 // indirect
-	github.com/stretchr/testify v1.4.0 // indirect
-	golang.org/x/lint v0.0.0-20191125180803-fdd1cda4f05f // indirect
-	golang.org/x/sys v0.0.0-20190916202348-b4ddaad3f8a3 // indirect
-	golang.org/x/tools v0.0.0-20191126055441-b0650ceb63d9 // indirect
-	gopkg.in/yaml.v2 v2.2.4 // indirect
+	github.com/spf13/pflag v1.0.5
 	moul.io/http2curl v1.0.0 // indirect
 )
 
