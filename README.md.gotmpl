@@ -51,9 +51,12 @@ This {{ strings.ToLower .type}} also takes the following blocks (defined below):
 {{- include "head" }}
 
 {{- $provider_name := "gitlabci" -}}
-{{- $provider      := (ds "config").provider_schemas.gitlabci.provider.block -}}
-{{- $data_sources  := (ds "config").provider_schemas.gitlabci.data_source_schemas -}}
-{{- $resources     := (ds "config").provider_schemas.gitlabci.resource_schemas -}}
+{{- $provider_longname := "terraform.weyl.io/gitlab/gitlabci" -}}
+
+{{- $provider_full := index (ds "config").provider_schemas $provider_longname -}}
+{{- $provider      := $provider_full.provider.block -}}
+{{- $data_sources  := $provider_full.data_source_schemas -}}
+{{- $resources     := $provider_full.resource_schemas -}}
 {{- $readme        := (ds "readme") -}}
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
