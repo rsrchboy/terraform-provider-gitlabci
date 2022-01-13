@@ -1,24 +1,22 @@
 GOFMT_FILES?=$$(find . -name '*.go' |grep -v vendor)
 
-build: terraform-provider-gitlabci
+sources = $(wildcard *.go gitlabci/*.go go.mod helper/**/*.go internal/**/*.go)
 
-terraform-provider-gitlabci: *.go gitlabci/*.go go.mod
-	gofmt -w $(GOFMT_FILES)
+binary_name = terraform-provider-gitlabci
+
+local_bin = terraform.d/plugins/terraform.weyl.io/gitlab/gitlabci/1.0.0/linux_amd64/$(binary_name)
+
+build: $(binary_name)
+
+$(binary_name): $(sources)
 	go build .
-	mkdir -p ~/.local/share/terraform/plugins/tf.weyl.io/rsrchboy/gitlabci/1.0.0/linux_amd64
-	cp terraform-provider-gitlabci ~/.local/share/terraform/plugins/tf.weyl.io/rsrchboy/gitlabci/1.0.0/linux_amd64/
 
-test: terraform-provider-gitlabci
+test: $(binary_name)
 	go test `go list ./...`
 
 clean:
-	rm -f terraform-provider-gitlabci mkdoc/schema.json
-
-ci-datasource: terraform-provider-gitlabci
-	cd examples/data-source-config \
-	    && ln -sf ../../terraform-provider-gitlabci . \
-	    && terraform init \
-	    && terraform apply
+	rm -f $(binary_name) mkdoc/schema.json
+	rm -rf terraform.d/
 
 fmt:
 	gofmt -w $(GOFMT_FILES)
@@ -32,20 +30,33 @@ vet:
 		exit 1; \
 	fi
 
+gen:
+	go generate
+
 # convenience targets for development
 
-tfa: terraform-provider-gitlabci
+tfa: $(binary_name)
 	terraform init && TF_LOG=TRACE terraform apply
 
-tfp: terraform-provider-gitlabci
+tfp: $(binary_name)
 	terraform init && TF_LOG=TRACE terraform plan
 
-schema.json: terraform-provider-gitlabci
+schema.json: $(binary_name)
 	terraform init && terraform providers schema --json > schema.json
 
 README.md: README.md.gotmpl schema.json README.yml mkdoc/*
 	gomplate --file README.md.gotmpl > README.md.tmp
 	doctoc --gitlab --notitle README.md.tmp
 	mv README.md.tmp README.md
+
+local: $(local_bin)
+	echo
+
+init: $(local_bin)
+	terraform init
+
+$(local_bin): $(binary_name)
+	mkdir -p $(dir $@)
+	cp $(binary_name) $@
 
 .PHONY: build clean ci-datasource fmt vet tfa tfp test
