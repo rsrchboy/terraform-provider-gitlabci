@@ -4,7 +4,7 @@ sources = $(wildcard *.go gitlabci/*.go go.mod helper/**/*.go internal/**/*.go)
 
 binary_name = terraform-provider-gitlabci
 
-local_bin = terraform.d/plugins/terraform.weyl.io/gitlab/gitlabci/1.0.0/linux_amd64/$(binary_name)
+local_bin = terraform.d/plugins/registry.terraform.io/rsrchboy/gitlabci/1.0.0/linux_amd64/$(binary_name)
 
 build: $(binary_name)
 

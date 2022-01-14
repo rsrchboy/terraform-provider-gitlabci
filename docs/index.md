@@ -27,7 +27,7 @@ provider](https://www.terraform.io/docs/providers/gitlab/).
 terraform {
   required_providers {
     gitlabci = {
-      source = "terraform.weyl.io/gitlab/gitlabci"
+      source = "registry.terraform.io/rsrchboy/gitlabci"
     }
   }
 }
