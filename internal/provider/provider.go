@@ -26,7 +26,8 @@ func Provider() *schema.Provider {
 			},
 		},
 		DataSourcesMap: map[string]*schema.Resource{
-			"gitlabci_environment": dataSourceGitlabCIEnvironment(),
+			"gitlabci_runner_config": dataSourceGitlabCIRunnerConfig(),
+			"gitlabci_environment":   dataSourceGitlabCIEnvironment(),
 		},
 		ResourcesMap: map[string]*schema.Resource{
 			"gitlabci_runner_token": resourceGitlabRunner(),
