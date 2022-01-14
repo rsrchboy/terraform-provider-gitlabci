@@ -5,21 +5,31 @@ Given a registration token, register a runner with GitLab.
 
 # Synopsis
 
-    provider "gitlabci" {
-        base_url = "https://gitlab.com/api/v4"
+```terraform
+terraform {
+    required_providers {
+        gitlabci = {
+            source = "registry.terraform.io/rsrchboy/gitlabci"
+        }
     }
+}
 
-    resource "gitlabci_runner_token" "this" {
-        registration_token = "..."
-        run_untagged       = true
-        active             = true
-        locked             = true
-        tags = [
-            "jinx",
-            "powder",
-            "cupcake",
-        ]
-    }
+provider "gitlabci" {
+    base_url = "https://gitlab.com/api/v4"
+}
+
+resource "gitlabci_runner_token" "this" {
+    registration_token = "..."
+    run_untagged       = true
+    active             = true
+    locked             = true
+    tags = [
+        "jinx",
+        "powder",
+        "cupcake",
+    ]
+}
+```
 
 # Description
 
