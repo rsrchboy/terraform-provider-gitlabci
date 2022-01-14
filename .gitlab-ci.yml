@@ -16,6 +16,10 @@ stages:
 build:
   stage: build
   image: golang:1.17
+  variables:
+    GOPATH: $CI_PROJECT_DIR/.gocache
+  before_script:
+    - mkdir -p $GOPATH
   script:
     - make local
     - TF_ACC=1 go test -v --cover ./internal/provider
@@ -23,6 +27,10 @@ build:
     - if: '$CI_COMMIT_TAG =~ /^v.*/'
       when: never
     - when: always
+  cache:
+    key: $CI_JOB_STAGE
+    paths:
+      - .gocache
   artifacts:
     paths:
       - terraform-provider-gitlabci
@@ -35,9 +43,11 @@ publish:
   variables:
     GITLAB_TOKEN: $CI_JOB_TOKEN
     GIT_DEPTH: 0
+    GOPATH: $CI_PROJECT_DIR/.gocache
   rules:
     - if: '$CI_COMMIT_TAG =~ /^v.*/'
   before_script:
+    - mkdir -p $GOPATH
     - apk update && apk add gnupg
     - gpg-agent --daemon --default-cache-ttl 7200
     - cat $GPG_SIGNING_KEY | gpg --import --batch --no-tty
@@ -45,3 +55,7 @@ publish:
     - gpg --detach-sig --yes -v --output=/dev/null --pinentry-mode loopback --passphrase "$(cat $GPG_PASSWORD)" /tmp/foo
   script:
     - goreleaser release --rm-dist
+  cache:
+    key: $CI_JOB_STAGE
+    paths:
+      - .gocache
