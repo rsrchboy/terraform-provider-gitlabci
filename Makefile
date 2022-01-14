@@ -15,7 +15,7 @@ test: $(binary_name)
 	go test `go list ./...`
 
 clean:
-	rm -f $(binary_name) mkdoc/schema.json
+	rm -f $(binary_name)
 	rm -rf terraform.d/
 
 fmt:
@@ -40,14 +40,6 @@ tfa: $(binary_name)
 
 tfp: $(binary_name)
 	terraform init && TF_LOG=TRACE terraform plan
-
-schema.json: $(binary_name)
-	terraform init && terraform providers schema --json > schema.json
-
-README.md: README.md.gotmpl schema.json README.yml mkdoc/*
-	gomplate --file README.md.gotmpl > README.md.tmp
-	doctoc --gitlab --notitle README.md.tmp
-	mv README.md.tmp README.md
 
 local: $(local_bin)
 	echo
