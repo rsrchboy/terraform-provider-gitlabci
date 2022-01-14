@@ -23,9 +23,14 @@ build:
       - terraform-provider-gitlabci
 
 publish:
-  image: inetprocess/gitlab-release
   stage: publish
-  only:
-    - tags
+  image:
+    name: docker.io/goreleaser/goreleaser
+    entrypoint: ['']
+  variables:
+    GITLAB_TOKEN: $CI_JOB_TOKEN
+    GIT_DEPTH: 0
+  rules:
+    - if: '$CI_COMMIT_TAG =~ /^v.*/'
   script:
-    - gitlab-release --message 'Latest release, built under `golang:alpine`.' terraform-provider-gitlabci
+    - goreleaser release --rm-dist
