@@ -31,9 +31,6 @@ build:
     key: $CI_JOB_STAGE
     paths:
       - .gocache
-  artifacts:
-    paths:
-      - terraform-provider-gitlabci
 
 publish:
   stage: publish
