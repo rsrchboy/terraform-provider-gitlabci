@@ -15,7 +15,7 @@ stages:
 
 build:
   stage: build
-  image: golang:1.17-alpine
+  image: golang:1.17
   script:
     - make local
     - TF_ACC=1 go test -v --cover ./internal/provider
