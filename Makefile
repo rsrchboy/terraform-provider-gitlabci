@@ -15,7 +15,7 @@ test: $(binary_name)
 	go test `go list ./...`
 
 clean:
-	rm -f $(binary_name)
+	rm -f $(binary_name) predefined_variables.md vars-data
 	rm -rf terraform.d/
 
 fmt:
@@ -50,5 +50,20 @@ init: $(local_bin)
 $(local_bin): $(binary_name)
 	mkdir -p $(dir $@)
 	cp $(binary_name) $@
+
+# generate the bits we need for the env data source
+# FIXME turn this into a proper `go generate` bit
+
+predefined_variables.md:
+	curl https://gitlab.com/gitlab-org/gitlab/-/raw/master/doc/ci/variables/predefined_variables.md > $@
+
+vars-data: predefined_variables.md
+	cat predefined_variables.md | grep '^| `' | awk -F\| '{ print $$2 $$5 }' > $@
+
+env-ds-struct: vars-data
+	@cat $< | perl -nE '/`(\w+)`\s+(.*\S)\s+$$/; say q{"} . lc($$1) . qq{": {\nType: schema.TypeString,\nComputed: true,\nDescription: "$$2",\n},}'
+
+env-ds-set: vars-data
+	@cat $< | sed -e 's/^ `//; s/`.*//' | perl -nE 'chomp; say qq{d.Set("} . lc($$_) . qq{", os.Getenv("$$_"))}'
 
 .PHONY: build clean ci-datasource fmt vet tfa tfp test
