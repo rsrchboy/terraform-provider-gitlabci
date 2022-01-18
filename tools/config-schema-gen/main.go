@@ -95,6 +95,29 @@ map[string]*schema.Schema{
 {{ end }}
 {{ end }}
 
+{{ define "handleSlice" -}}
+{{ $type := .Type.String }}
+{{ $nname := nodeName . }}
+	{{ $plainType := $type | trimPrefix "[]" }}
+	// HERE
+	if _, ok := d.GetOk(prefix + "{{$nname}}"); ok {
+		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "{{$nname}}"))
+		i := 0
+		val.{{.Name}} = {{ $type }}{}
+		for {
+			pfx := fmt.Sprintf("%s.%s.%d", prefix, "{{$nname}}", i)
+			if v, ok := d.GetOk(pfx); ok {
+				tflog.Debug(ctx, fmt.Sprintf("key is set: %s", pfx))
+				val.{{.Name}} = append(val.{{.Name}}, v.({{$plainType}}))
+				i++
+			} else {
+				tflog.Debug(ctx, "not set: %s", pfx)
+				break
+			}
+		}
+	}
+{{ end }}
+
 package provider
 
 // generated file. DO NOT EDIT!
@@ -134,6 +157,10 @@ func dataSourceGitlabCIRunnerConfigReadNEW(d *schema.ResourceData, meta interfac
 
 func dsRunnerConfigReadStruct{{ .Name | title | replace "." "" }}(ctx context.Context, prefix string, d *schema.ResourceData) ({{ .Name }}, error) {
 
+	if prefix != "" {
+		prefix = prefix + "."
+	}
+
 	val := {{ .Name }}{}
 
 {{ range .Type | nodeFields -}}
@@ -143,18 +170,24 @@ func dsRunnerConfigReadStruct{{ .Name | title | replace "." "" }}(ctx context.Co
 // {{ .Name }}: {{$nname}} -- {{ .Type.Name }}, {{ .Type.String }}
 {{ if eq $type "config.StringOrArray" -}}
 	if v, ok := d.GetOk(prefix + "{{$nname}}"); ok {
-		tflog.Trace(ctx, "set: %s.%s", prefix, "{{$nname}}")
+		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "{{$nname}}"))
 		val.{{.Name}} = v.([]string)
 	}
+{{ else if eq "elemSliceString" (. | nodeElemTemplate)}}
+{{ template "handleSlice" . }}
+{{ else if eq "elemSliceBool" (. | nodeElemTemplate)}}
+{{ template "handleSlice" . }}
+{{ else if eq "elemSliceInt" (. | nodeElemTemplate)}}
+{{ template "handleSlice" . }}
 {{ else if .Type | isSimpleType -}}
 	if v, ok := d.GetOk(prefix + "{{$nname}}"); ok {
-		tflog.Trace(ctx, "set: %s.%s", prefix, "{{$nname}}")
+		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "{{$nname}}"))
 		val.{{.Name}} = v.({{ .Type.String }})
 	}
 {{ else if eq "elemStruct" (. | nodeElemTemplate)}}
 	if _, ok := d.GetOk(prefix + "{{$nname}}"); ok {
-		tflog.Trace(ctx, "set: %s.%s", prefix, "{{$nname}}")
-		thing, err := dsRunnerConfigReadStruct{{ .Type.String | title | replace "." "" | replace "*" "" }}(ctx, prefix+"{{nodeName .}}.", d)
+		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "{{$nname}}"))
+		thing, err := dsRunnerConfigReadStruct{{ $type | title | replace "." "" | replace "*" "" }}(ctx, prefix+"{{$nname}}", d)
 		if err != nil {
 			return val, err
 		}
@@ -164,21 +197,21 @@ func dsRunnerConfigReadStruct{{ .Name | title | replace "." "" }}(ctx context.Co
 	{{ $plainType := $type | trimPrefix "[]" }}
 	// HERE
 	if _, ok := d.GetOk(prefix + "{{$nname}}"); ok {
-		tflog.Trace(ctx, "set: %s.%s", prefix, "{{$nname}}")
+		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "{{$nname}}"))
 		i := 0
 		val.{{.Name}} = {{ $type }}{}
 		for {
 			pfx := fmt.Sprintf("%s.%s.%d", prefix, "{{$nname}}", i)
 			if _, ok := d.GetOk(pfx); ok {
-				tflog.Trace(ctx, "set: %s", pfx)
-				thing, err := dsRunnerConfigReadStruct{{ $plainType | title | replace "." "" | replace "*" "" }}(ctx, pfx+".", d)
+				tflog.Debug(ctx, "set: %s", pfx)
+				thing, err := dsRunnerConfigReadStruct{{ $plainType | title | replace "." "" | replace "*" "" }}(ctx, pfx, d)
 				if err != nil {
 					return val, err
 				}
 				val.{{.Name}} = append(val.{{.Name}}, thing)
 				i++
 			} else {
-				tflog.Trace(ctx, "not set: %s", pfx)
+				tflog.Debug(ctx, "not set: %s", pfx)
 				break
 			}
 		}
@@ -187,29 +220,29 @@ func dsRunnerConfigReadStruct{{ .Name | title | replace "." "" }}(ctx context.Co
 	{{ $plainType := $type | trimPrefix "[]" }}
 	// HERE
 	if _, ok := d.GetOk(prefix + "{{$nname}}"); ok {
-		tflog.Trace(ctx, "set: %s.%s", prefix, "{{$nname}}")
+		tflog.Debug(ctx, fmt.Sprintf("key is set: %s%s", prefix, "{{$nname}}"))
 		i := 0
 		val.{{.Name}} = {{ $type }}{}
 		for {
-			pfx := fmt.Sprintf("%s.%s.%d", prefix, "{{$nname}}", i)
+			pfx := fmt.Sprintf("%s%s.%d", prefix, "{{$nname}}", i)
 			if _, ok := d.GetOk(pfx); ok {
-				tflog.Trace(ctx, "set: %s", pfx)
-				thing, err := dsRunnerConfigReadStruct{{ $plainType | title | replace "." "" | replace "*" "" }}(ctx, pfx+".", d)
+				tflog.Debug(ctx, fmt.Sprintf("key is set: %s", pfx))
+				thing, err := dsRunnerConfigReadStruct{{ $plainType | title | replace "." "" | replace "*" "" }}(ctx, pfx, d)
 				if err != nil {
 					return val, err
 				}
 				val.{{.Name}} = append(val.{{.Name}}, &thing)
 				i++
 			} else {
-				tflog.Trace(ctx, "not set: %s", pfx)
+				tflog.Debug(ctx, fmt.Sprintf("not set: %s", pfx))
 				break
 			}
 		}
 	}
 {{ else if eq "elemPtrStruct" (. | nodeElemTemplate)}}
 	if _, ok := d.GetOk(prefix + "{{$nname}}"); ok {
-		tflog.Trace(ctx, "set: %s.%s", prefix, "{{$nname}}")
-		thing, err := dsRunnerConfigReadStruct{{ .Type.String | title | replace "." "" | replace "*" "" }}(ctx, prefix+"{{nodeName .}}.", d)
+		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "{{$nname}}"))
+		thing, err := dsRunnerConfigReadStruct{{ .Type.String | title | replace "." "" | replace "*" "" }}(ctx, prefix+"{{$nname}}", d)
 		if err != nil {
 			return val, err
 		}
@@ -217,22 +250,22 @@ func dsRunnerConfigReadStruct{{ .Name | title | replace "." "" }}(ctx context.Co
 	}
 {{ else if eq $type "*string" -}}
 	if v, ok := d.GetOk(prefix + "{{$nname}}"); ok {
-		tflog.Trace(ctx, "set: %s.%s", prefix, "{{$nname}}")
+		tflog.Debug(ctx, "set: %s.%s", prefix, "{{$nname}}")
 		val.{{.Name}} = to.StringP(v.(string))
 	}
 {{ else if eq $type "*int" -}}
 	if v, ok := d.GetOk(prefix + "{{$nname}}"); ok {
-		tflog.Trace(ctx, "set: %s.%s", prefix, "{{$nname}}")
+		tflog.Debug(ctx, "set: %s.%s", prefix, "{{$nname}}")
 		val.{{.Name}} = to.IntP(v.(int))
 	}
 {{ else if eq $type "*int64" -}}
 	if v, ok := d.GetOk(prefix + "{{$nname}}"); ok {
-		tflog.Trace(ctx, "set: %s.%s", prefix, "{{$nname}}")
+		tflog.Debug(ctx, "set: %s.%s", prefix, "{{$nname}}")
 		val.{{.Name}} = to.Int64P(v.(int64))
 	}
 {{ else if eq $type "*bool" -}}
 	if v, ok := d.GetOk(prefix + "{{$nname}}"); ok {
-		tflog.Trace(ctx, "set: %s.%s", prefix, "{{$nname}}")
+		tflog.Debug(ctx, "set: %s.%s", prefix, "{{$nname}}")
 		val.{{.Name}} = to.BoolP(v.(bool))
 	}
 {{ else -}}
@@ -318,7 +351,7 @@ func init() {
 			case "string", "int", "int32", "int64", "float", "float64", "bool":
 				return true
 			case "[]string", "[]int64":
-				return true
+				return false
 			case "map[string]string", "map[string]bool":
 				return true
 			default:

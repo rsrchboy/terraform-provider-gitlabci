@@ -6,7 +6,7 @@ package configtemplate
 import (
 	"github.com/imdario/mergo"
 	"github.com/pkg/errors"
-	"gitlab.com/gitlab-org/gitlab-runner/common"
+	"gitlab.com/gitlab-org/gitlab-runner/v14/common"
 )
 
 type ConfigTemplate struct {
