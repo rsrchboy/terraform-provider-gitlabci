@@ -23,11 +23,11 @@ workflow:
     # skip any others
 
 stages:
-  - build
+  - test
   - publish
 
-build:
-  stage: build
+test:
+  stage: test
   image: golang:1.17
   variables:
     GOPATH: $CI_PROJECT_DIR/.gocache
@@ -44,6 +44,22 @@ build:
     key: $CI_JOB_STAGE
     paths:
       - .gocache
+
+check-gen-docs:
+  # ensure our generated docs are all built out the way they should be
+  stage: test
+  image: registry.gitlab.com/rsrchboy/golang-terraform:latest
+  script:
+    - go generate
+    - git diff --exit-code --quiet
+      # generate return is the number of untracked files
+    - exit "$(git ls-files --others --exclude-standard | wc -l)"
+  after_script:
+    - git diff
+    - git ls-files --others --exclude-standard
+  rules:
+    # run for merge requests
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
 
 publish:
   stage: publish
