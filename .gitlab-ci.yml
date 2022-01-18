@@ -28,7 +28,7 @@ stages:
 
 test:
   stage: test
-  image: registry.gitlab.com/rsrchboy/golang-terraform:latest
+  image: golang:1.17
   variables:
     GOPATH: $CI_PROJECT_DIR/.gocache
   before_script:
