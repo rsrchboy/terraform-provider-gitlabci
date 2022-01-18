@@ -50,7 +50,7 @@ check-gen-docs:
   stage: test
   image: registry.gitlab.com/rsrchboy/golang-terraform:latest
   script:
-    - make gen
+    - go generate
     - git diff --exit-code --quiet
       # generate return is the number of untracked files
     - exit "$(git ls-files --others --exclude-standard | wc -l)"
