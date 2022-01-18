@@ -23,11 +23,11 @@ workflow:
     # skip any others
 
 stages:
-  - build
+  - test
   - publish
 
-build:
-  stage: build
+test:
+  stage: test
   image: golang:1.17
   variables:
     GOPATH: $CI_PROJECT_DIR/.gocache
