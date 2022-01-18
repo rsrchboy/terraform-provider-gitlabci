@@ -48,7 +48,7 @@ test:
 check-gen-docs:
   # ensure our generated docs are all built out the way they should be
   stage: test
-  image: golang:1.17
+  image: registry.gitlab.com/rsrchboy/golang-terraform:latest
   script:
     - make gen
     - git diff --exit-code --quiet
