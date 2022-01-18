@@ -45,6 +45,22 @@ test:
     paths:
       - .gocache
 
+check-gen-docs:
+  # ensure our generated docs are all built out the way they should be
+  stage: test
+  image: golang:1.17
+  script:
+    - make gen
+    - git diff --exit-code --quiet
+      # generate return is the number of untracked files
+    - exit "$(git ls-files --others --exclude-standard | wc -l)"
+  after_script:
+    - git diff
+    - git ls-files --others --exclude-standard
+  rules:
+    # run for merge requests
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+
 publish:
   stage: publish
   image:
