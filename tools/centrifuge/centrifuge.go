@@ -144,6 +144,12 @@ func (c Centrifuge) run(sc *types.Scope, rootPkg string, pkgName string) (map[st
 			continue
 		}
 
+		// I can't imagine we're going to need any mocked, testing structures
+		if strings.HasPrefix(filename, "mock_") {
+			log.Printf("skipping due to excluded prefix: %s", filename)
+			continue
+		}
+
 		fl, ok := files[filename]
 		if !ok {
 			files[filename] = &File{Package: pkgName}
