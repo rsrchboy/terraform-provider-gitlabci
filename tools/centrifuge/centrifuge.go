@@ -217,15 +217,17 @@ func (c Centrifuge) writeStruct(name string, obj *types.Struct, rootPkg string, 
 			continue
 		}
 
-		values, ok := lookupTagValue(obj.Tag(i), "json")
+		// skip if we have a "-" toml tag
+		values, _ := lookupTagValue(obj.Tag(i), "toml")
 		if len(values) > 0 && values[0] == "-" {
 			continue
 		}
 
 		b.WriteString(fmt.Sprintf("\t%s %s", field.Name(), fType))
 
-		if ok {
-			b.WriteString(fmt.Sprintf(" `json:\"%s\"`", strings.Join(values, ",")))
+		tags := obj.Tag(i)
+		if tags != "" {
+			b.WriteString(" `" + tags + "`")
 		}
 
 		b.WriteString("\n")
