@@ -41,6 +41,11 @@ import (
 	"golang.org/x/tools/imports"
 )
 
+const closingLines = `
+
+// vim: set nowrap :
+`
+
 // File a kind of AST element that represents a file.
 type File struct {
 	Package  string
@@ -322,6 +327,8 @@ func (f fileWriter) writeFile(name string, desc *File) error {
 		b.WriteString(elt.Value)
 		b.WriteString("\n")
 	}
+
+	b.WriteString(closingLines)
 
 	// gofmt
 	source, err := format.Source(b.Bytes())
