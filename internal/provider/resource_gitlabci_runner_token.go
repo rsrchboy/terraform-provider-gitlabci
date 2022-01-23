@@ -6,9 +6,9 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"log"
 	"strconv"
 
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
@@ -113,7 +113,7 @@ func resourceGitlabRunner() *schema.Resource {
 func resourceGitlabRunnerCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	baseURL := meta.(string)
 
-	log.Printf("[DEBUG] create gitlab runner token")
+	tflog.Trace(ctx, "create gitlab runner token")
 
 	type RegisterOptions struct {
 		Token          string   `json:"token"`
@@ -150,7 +150,7 @@ func resourceGitlabRunnerCreate(ctx context.Context, d *schema.ResourceData, met
 	url := baseURL + "/runners"
 
 	j, _ := json.Marshal(query)
-	log.Printf("[DEBUG] create gitlab runner query: %s", j)
+	tflog.Trace(ctx, "create gitlab runner query: %s", j)
 
 	req := gorequest.
 		New().
@@ -188,7 +188,7 @@ func resourceGitlabRunnerRead(ctx context.Context, d *schema.ResourceData, meta 
 
 	// FIXME probably ought to VerifyRegisteredRunner() here first
 
-	log.Printf("[DEBUG] read gitlab runner %d", runnerID)
+	tflog.Trace(ctx, "read gitlab runner %d", runnerID)
 
 	url := baseURL + "/runners/verify"
 	req := gorequest.
@@ -218,7 +218,7 @@ func resourceGitlabRunnerDelete(ctx context.Context, d *schema.ResourceData, met
 		return diag.FromErr(err)
 	}
 
-	log.Printf("[DEBUG] Delete gitlab runner %d", id)
+	tflog.Trace(ctx, "Delete gitlab runner %d", id)
 
 	url := baseURL + "/runners"
 	req := gorequest.
