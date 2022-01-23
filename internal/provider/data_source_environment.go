@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
@@ -718,7 +719,7 @@ func dataSourceGitlabCIEnvironment() *schema.Resource {
 }
 
 func dataSourceGitlabCIEnvironmentRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	log.Printf("[TRACE] dataSourceGitlabCIEnvironmentRead() (mark III)")
+	tflog.Trace(ctx, "dataSourceGitlabCIEnvironmentRead() (mark III)")
 
 	// This is effectively a no-op: we'd be computing these values from the
 	// environment, but we've also asked that the default values be set from
@@ -868,6 +869,6 @@ func dataSourceGitlabCIEnvironmentRead(ctx context.Context, d *schema.ResourceDa
 	d.Set("ci_external_pull_request_target_branch_name", os.Getenv("CI_EXTERNAL_PULL_REQUEST_TARGET_BRANCH_NAME"))
 	d.Set("ci_external_pull_request_target_branch_sha", os.Getenv("CI_EXTERNAL_PULL_REQUEST_TARGET_BRANCH_SHA"))
 
-	log.Printf("[TRACE] dataSourceGitlabCIEnvironmentRead() finished")
+	tflog.Trace(ctx, "dataSourceGitlabCIEnvironmentRead() finished")
 	return nil
 }
