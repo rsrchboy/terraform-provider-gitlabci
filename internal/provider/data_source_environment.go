@@ -1,9 +1,11 @@
 package provider
 
 import (
+	"context"
 	"log"
 	"os"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
@@ -14,7 +16,7 @@ func dataSourceGitlabCIEnvironment() *schema.Resource {
 	// remember: cat ~/Downloads/predefined_variables.md| awk -F\| '{ print $2 $5 }' | perl -nE '/`(\w+)`\s+(.*\S)\s+$/; say q{"} . lc($1) . qq{": {\nType: schema.TypeString,\nComputed: true,\nDescription: "$2",\n},}'
 
 	schema := &schema.Resource{
-		Read: dataSourceGitlabCIEnvironmentRead,
+		ReadContext: dataSourceGitlabCIEnvironmentRead,
 
 		SchemaVersion: 1,
 		Schema: map[string]*schema.Schema{
@@ -715,7 +717,7 @@ func dataSourceGitlabCIEnvironment() *schema.Resource {
 	return schema
 }
 
-func dataSourceGitlabCIEnvironmentRead(d *schema.ResourceData, meta interface{}) error {
+func dataSourceGitlabCIEnvironmentRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	log.Printf("[TRACE] dataSourceGitlabCIEnvironmentRead() (mark III)")
 
 	// This is effectively a no-op: we'd be computing these values from the
