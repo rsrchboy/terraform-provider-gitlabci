@@ -3,12 +3,13 @@ package provider
 // https://docs.gitlab.com/ce/api/runners.html#register-a-new-runner
 
 import (
+	"context"
 	"encoding/json"
-	"errors"
 	"fmt"
 	"log"
 	"strconv"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 	"github.com/parnurzeal/gorequest"
@@ -30,10 +31,10 @@ guide for more information.`
 
 func resourceGitlabRunner() *schema.Resource {
 	return &schema.Resource{
-		Create:      resourceGitlabRunnerCreate,
-		Read:        resourceGitlabRunnerRead,
-		Delete:      resourceGitlabRunnerDelete,
-		Description: resourceGitlabRunnerDescription,
+		CreateContext: resourceGitlabRunnerCreate,
+		ReadContext:   resourceGitlabRunnerRead,
+		DeleteContext: resourceGitlabRunnerDelete,
+		Description:   resourceGitlabRunnerDescription,
 
 		Schema: map[string]*schema.Schema{
 			"registration_token": {
@@ -109,7 +110,7 @@ func resourceGitlabRunner() *schema.Resource {
 	}
 }
 
-func resourceGitlabRunnerCreate(d *schema.ResourceData, meta interface{}) error {
+func resourceGitlabRunnerCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	baseURL := meta.(string)
 
 	log.Printf("[DEBUG] create gitlab runner token")
@@ -163,11 +164,11 @@ func resourceGitlabRunnerCreate(d *schema.ResourceData, meta interface{}) error 
 
 	for _, err := range errs {
 		// FIXME
-		return err
+		return diag.FromErr(err)
 	}
 
 	if resp.StatusCode != 201 {
-		return errors.New(resp.Status)
+		return diag.Errorf("bad response (%d): %s", resp.StatusCode, resp.Status)
 	}
 
 	d.SetId(fmt.Sprintf("%d", runnerDetails.ID))
@@ -177,12 +178,12 @@ func resourceGitlabRunnerCreate(d *schema.ResourceData, meta interface{}) error 
 	return nil
 }
 
-func resourceGitlabRunnerRead(d *schema.ResourceData, meta interface{}) error {
+func resourceGitlabRunnerRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	baseURL := meta.(string)
 
 	runnerID, err := strconv.Atoi(d.Id())
 	if err != nil {
-		return err
+		return diag.FromErr(err)
 	}
 
 	// FIXME probably ought to VerifyRegisteredRunner() here first
@@ -198,7 +199,7 @@ func resourceGitlabRunnerRead(d *schema.ResourceData, meta interface{}) error {
 
 	for _, err := range errs {
 		// FIXME
-		return err
+		return diag.FromErr(err)
 	}
 
 	if resp.StatusCode == 200 {
@@ -206,15 +207,15 @@ func resourceGitlabRunnerRead(d *schema.ResourceData, meta interface{}) error {
 		return nil
 	}
 
-	return errors.New(resp.Status)
+	return diag.Errorf("bad response (%d): %s", resp.StatusCode, resp.Status)
 }
 
-func resourceGitlabRunnerDelete(d *schema.ResourceData, meta interface{}) error {
+func resourceGitlabRunnerDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	baseURL := meta.(string)
 
 	id, err := strconv.Atoi(d.Id())
 	if err != nil {
-		return err
+		return diag.FromErr(err)
 	}
 
 	log.Printf("[DEBUG] Delete gitlab runner %d", id)
@@ -228,13 +229,13 @@ func resourceGitlabRunnerDelete(d *schema.ResourceData, meta interface{}) error 
 
 	for _, err := range errs {
 		// FIXME
-		return err
+		return diag.FromErr(err)
 	}
 
 	if resp.StatusCode == 204 {
 		// all good!
-		return nil
+		return diag.FromErr(err)
 	}
 
-	return errors.New(resp.Status)
+	return diag.Errorf("bad response (%d): %s", resp.StatusCode, resp.Status)
 }
