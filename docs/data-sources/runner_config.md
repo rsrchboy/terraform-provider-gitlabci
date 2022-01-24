@@ -242,12 +242,15 @@ Optional:
 <a id="nestedblock--runners--docker--services"></a>
 ### Nested Schema for `runners.docker.services`
 
+Required:
+
+- **name** (String) The image path for the service
+
 Optional:
 
 - **alias** (String) The alias of the service
 - **command** (List of String) Command or script that should be used as the container’s command. Syntax is similar to https://docs.docker.com/engine/reference/builder/#cmd
 - **entrypoint** (List of String) Command or script that should be executed as the container’s entrypoint. syntax is similar to https://docs.docker.com/engine/reference/builder/#entrypoint
-- **name** (String) The image path for the service
 
 
 
