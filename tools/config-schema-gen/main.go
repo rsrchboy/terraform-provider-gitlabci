@@ -389,7 +389,8 @@ func main() {
 
 	fmt.Println(string(source))
 
-	err = os.WriteFile("internal/provider/data_source_config_generated.go", source, 0o644)
+	// TODO this is either begging for a const or a flag or...
+	err = os.WriteFile("internal/provider/generated.go", source, 0o644)
 	if err != nil {
 		fmt.Printf("failed to write file: %s\n", err)
 		return
