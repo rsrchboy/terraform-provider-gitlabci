@@ -24,13 +24,13 @@ func init() {
 		Description: "The computed configuation id",
 	}
 
-	// allow for some other config to be used as a template
-	configDataSourceRawSchema["runners"].Elem.(*schema.Resource).Schema["config_template"] = &schema.Schema{
-		Type:        schema.TypeString,
-		Optional:    true,
-		Sensitive:   true,
-		Description: "Configuration template (toml).  If included, this toml will be used as the base of this runner's configuration.  This attribute is marked sensitive as it may include authentication tokens, cache bucket keys, etc.",
-	}
+	// // allow for some other config to be used as a template
+	// configDataSourceRawSchema["runners"].Elem.(*schema.Resource).Schema["config_template"] = &schema.Schema{
+	// 	Type:        schema.TypeString,
+	// 	Optional:    true,
+	// 	Sensitive:   true,
+	// 	Description: "Configuration template (toml).  If included, this toml will be used as the base of this runner's configuration.  This attribute is marked sensitive as it may include authentication tokens, cache bucket keys, etc.",
+	// }
 
 	// FIXME make sure this flows out into our generated toml output iff set
 	configDataSourceRawSchema["runners"].Elem.(*schema.Resource).

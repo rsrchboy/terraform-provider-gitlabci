@@ -6,11 +6,12 @@ package configtemplate
 import (
 	"github.com/imdario/mergo"
 	"github.com/pkg/errors"
-	"gitlab.com/gitlab-org/gitlab-runner/v14/common"
+
+	"gitlab.com/rsrchboy/terraform-provider-gitlabci/third_party/gitlab/runner/config"
 )
 
 type ConfigTemplate struct {
-	*common.Config
+	*config.Config
 
 	configFile string `long:"config" env:"TEMPLATE_CONFIG_FILE" description:"Path to the configuration template file"`
 }
@@ -19,7 +20,7 @@ func (c *ConfigTemplate) Enabled() bool {
 	return c.configFile != ""
 }
 
-func (c *ConfigTemplate) MergeTo(config *common.RunnerConfig) error {
+func (c *ConfigTemplate) MergeTo(config *config.RunnerConfig) error {
 	err := c.LoadConfigTemplate()
 	if err != nil {
 		return errors.Wrap(err, "couldn't load configuration template file")
@@ -68,14 +69,14 @@ func NewConfigTemplateFromFile(cfgFile string) (*ConfigTemplate, error) {
 // }
 
 func (c *ConfigTemplate) LoadConfigTemplate() error {
-	config := common.NewConfig()
+	// config := config.NewConfig()
 
-	err := config.LoadConfig(c.configFile)
-	if err != nil {
-		return err
-	}
+	// err := config.LoadConfig(c.configFile)
+	// if err != nil {
+	// 	return err
+	// }
 
-	c.Config = config
+	// c.Config = config
 
 	return nil
 }
