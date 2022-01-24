@@ -89,4 +89,4 @@ func init() {
 		validation.StringMatch(regexp.MustCompile(`.*%s.*`), "string must include %s")
 }
 
-// vim : set nowrap :
+// vim: set nowrap :
