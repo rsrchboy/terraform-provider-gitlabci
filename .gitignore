@@ -44,3 +44,6 @@ Session*.vim
 .terraform.lock.hcl
 # often exists in symlink form
 terraform.d
+
+# CI related; needs to be ignored for goreleaser to not explode
+.gocache/
