@@ -18,11 +18,19 @@ type iMap map[string]interface{}
 
 type stringMap map[string]string
 
+const dsRunnerConfigDescription = `
+This data source can be used to generate a valid TOML configuration for a
+gitlab-runner.  The blocks and attributes largely follow the configuration and
+naming of the configuration file, with the exception of the computed
+attributes (e.g. "output") and inputs for templating.
+`
+
 func dataSourceGitlabCIRunnerConfig() *schema.Resource {
 
 	// structs.DefaultTagName = "toml"
 
 	schema := &schema.Resource{
+		Description: dsRunnerConfigDescription,
 		ReadContext: dataSourceGitlabCIRunnerConfigRead,
 		Schema:      configDataSourceRawSchema,
 	}
