@@ -18,6 +18,10 @@ import (
 	"golang.org/x/tools/imports"
 )
 
+// Yes, this is probably the messiest bit of code I've written in... ages.
+// For now, however, it works, and I'd rather like to get the config
+// templating working again!
+
 // I'm not going to worry about spacing, alignment, etc, as we effectively run
 // gofmt on the rendered output before spewing it out into a file.
 const tmplString = `
