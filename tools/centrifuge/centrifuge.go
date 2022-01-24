@@ -72,21 +72,19 @@ type Centrifuge struct {
 	rootPkg string
 	fileSet *token.FileSet
 	pkg     *types.Package
+
+	workingDir string
 }
 
 // NewCentrifuge creates a new Centrifuge.
-func NewCentrifuge(rootPkg string) (*Centrifuge, error) {
+func NewCentrifuge(rootPkg, workingDir string) (*Centrifuge, error) {
 	fileSet := token.NewFileSet()
 
-	pkg, err := importer.ForCompiler(fileSet, "source", nil).Import(rootPkg)
-	if err != nil {
-		return nil, err
-	}
-
 	return &Centrifuge{
-		fileSet: fileSet,
-		pkg:     pkg,
-		rootPkg: rootPkg,
+		fileSet:    fileSet,
+		pkg:        nil,
+		rootPkg:    rootPkg,
+		workingDir: workingDir,
 
 		TypeCleaner: func(typ types.Type, _ string) string {
 			return typ.String()
@@ -99,6 +97,12 @@ func NewCentrifuge(rootPkg string) (*Centrifuge, error) {
 
 // Run runs the code extraction and the code generation.
 func (c Centrifuge) Run(dest string, pkgName string) error {
+
+	err := c.runImport()
+	if err != nil {
+		return err
+	}
+
 	files, err := c.run(c.pkg.Scope(), c.rootPkg, pkgName)
 	if err != nil {
 		return err
@@ -236,6 +240,46 @@ func (c Centrifuge) writeStruct(name string, obj *types.Struct, rootPkg string, 
 	b.WriteString("}\n")
 
 	return b.String()
+}
+
+func (c *Centrifuge) runImport() error {
+
+	// don't do this if we already have a pkg
+	if c.pkg != nil {
+		return nil
+	}
+
+	restoreFunc, err := c.enterWorkingDirectory()
+	if err != nil {
+		return err
+	}
+	defer restoreFunc()
+
+	pkg, err := importer.ForCompiler(c.fileSet, "source", nil).Import(c.rootPkg)
+	if err != nil {
+		return err
+	}
+
+	c.pkg = pkg
+	return nil
+}
+
+func (c Centrifuge) enterWorkingDirectory() (func(), error) {
+	// change to the working directory before we do anything with importer,
+	// and ensure we change back afterwards
+
+	pwd, err := os.Getwd()
+	if err != nil {
+		return nil, err
+	}
+
+	if err := os.Chdir(workingDir); err != nil {
+		return nil, err
+	}
+
+	return func() {
+		os.Chdir(pwd)
+	}, nil
 }
 
 func lookupTagValue(raw, key string) ([]string, bool) {
