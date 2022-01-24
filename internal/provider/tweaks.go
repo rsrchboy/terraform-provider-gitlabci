@@ -64,42 +64,26 @@ func init() {
 	// }
 
 	// FIXME make sure this flows out into our generated toml output iff set
-	configDataSourceRawSchema["runners"].Elem.(*schema.Resource).
-		Schema["token"].Sensitive = true
-	configDataSourceRawSchema["runners"].Elem.(*schema.Resource).
-		Schema["cache"].Elem.(*schema.Resource).
-		Schema["s3"].Elem.(*schema.Resource).
-		Schema["secret_key"].Sensitive = true
-	configDataSourceRawSchema["runners"].Elem.(*schema.Resource).
-		Schema["cache"].Elem.(*schema.Resource).
-		Schema["gcs"].Elem.(*schema.Resource).
-		Schema["private_key"].Sensitive = true
-	configDataSourceRawSchema["runners"].Elem.(*schema.Resource).
-		Schema["cache"].Elem.(*schema.Resource).
-		Schema["azure"].Elem.(*schema.Resource).
-		Schema["account_key"].Sensitive = true
-	configDataSourceRawSchema["runners"].Elem.(*schema.Resource).
-		Schema["kubernetes"].Elem.(*schema.Resource).
-		Schema["bearer_token"].Sensitive = true
-	configDataSourceRawSchema["runners"].Elem.(*schema.Resource).
-		Schema["ssh"].Elem.(*schema.Resource).
-		Schema["password"].Sensitive = true
+	findRes("runners", "token").Sensitive = true
+	findRes("runners", "cache", "s3", "secret_key").Sensitive = true
+	findRes("runners", "cache", "gcs", "private_key").Sensitive = true
+	findRes("runners", "cache", "azure", "account_key").Sensitive = true
+	findRes("runners", "kubernetes", "bearer_token").Sensitive = true
+	findRes("runners", "ssh", "password").Sensitive = true
+
 	findRes("runners", "docker", "services", "name").Required = true
 	findRes("runners", "docker", "services", "name").Optional = false
 
 	// validations
-	configDataSourceRawSchema["concurrent"].ValidateFunc = validation.IntAtLeast(1)
-	configDataSourceRawSchema["check_interval"].ValidateFunc = validation.IntAtLeast(0)
-	configDataSourceRawSchema["log_level"].ValidateFunc =
+	findRes("concurrent").ValidateFunc = validation.IntAtLeast(1)
+	findRes("check_interval").ValidateFunc = validation.IntAtLeast(0)
+	findRes("log_level").ValidateFunc =
 		validation.StringInSlice([]string{"panic", "fatal", "error", "warning", "info", "debug"}, false)
-	configDataSourceRawSchema["log_format"].ValidateFunc =
+	findRes("log_format").ValidateFunc =
 		validation.StringInSlice([]string{"runner", "text", "json"}, false)
-	configDataSourceRawSchema["runners"].Elem.(*schema.Resource).
-		Schema["url"].ValidateFunc = validation.IsURLWithHTTPorHTTPS
-	configDataSourceRawSchema["runners"].Elem.(*schema.Resource).
-		Schema["clone_url"].ValidateFunc = validation.IsURLWithHTTPorHTTPS
-	configDataSourceRawSchema["runners"].Elem.(*schema.Resource).
-		Schema["executor"].ValidateFunc =
+	findRes("runners", "url").ValidateFunc = validation.IsURLWithHTTPorHTTPS
+	findRes("runners", "clone_url").ValidateFunc = validation.IsURLWithHTTPorHTTPS
+	findRes("runners", "executor").ValidateFunc =
 		validation.StringInSlice([]string{
 			"custom",
 			"docker",
@@ -113,12 +97,9 @@ func init() {
 			"ssh",
 			"virtualbox",
 		}, false)
-	configDataSourceRawSchema["runners"].Elem.(*schema.Resource).
-		Schema["shell"].ValidateFunc =
+	findRes("runners", "shell").ValidateFunc =
 		validation.StringInSlice([]string{"bash", "sh", "powershell", "pwsh"}, false)
-	configDataSourceRawSchema["runners"].Elem.(*schema.Resource).
-		Schema["machine"].Elem.(*schema.Resource).
-		Schema["machine_name"].ValidateFunc =
+	findRes("runners", "machine", "machine_name").ValidateFunc =
 		validation.StringMatch(regexp.MustCompile(`.*%s.*`), "string must include %s")
 }
 
