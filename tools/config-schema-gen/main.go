@@ -280,7 +280,6 @@ func dsRunnerConfigReadStruct{{ .Name | title | replace "." "" }}(ctx context.Co
 {{ end }}
 
 
-// STRUCTS FOR ALL
 {{ $pfx = "" }}
 {{ $all := . | allStructs | sortAlpha | uniq -}}
 {{ range $all -}}
@@ -289,22 +288,6 @@ func dsRunnerConfigReadStruct{{ .Name | title | replace "." "" }}(ctx context.Co
 {{ template "readStructFunc" dict "Name" . "Type" (typeFor .) }}
 {{ end }}
 `
-
-// {{ else if eq $type "[]string" -}}
-// 		// val.{{.Name}} = to.IntP(v.(int))
-// 		list := v.([]string)
-
-const tmplStringList = `
-"{{.Name}}": {
-	Type:        schema.TypeList,
-	Computed:    false,
-	Optional:    true,
-	Description: "{{.Description}}",
-	Elem:        &schema.Schema{Type: schema.TypeString},
-},
-`
-
-// {{ dict "Name" . | template "readStructFunc"}}
 
 var funcMap template.FuncMap
 var tmpl *template.Template
@@ -497,10 +480,6 @@ func fieldToSchema(f reflect.StructField) *schema.Schema {
 
 	return me
 }
-
-// func isSimpleType()
-
-// TODO tweak the below to return a list of
 
 // return a list of all the structs the given struct has as fields, as well as
 // their children

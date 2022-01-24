@@ -3193,8 +3193,6 @@ func dataSourceGitlabCIRunnerConfigReadNEW(d *schema.ResourceData, meta interfac
 	return nil
 }
 
-// STRUCTS FOR ALL
-
 // config.CacheAzureConfig
 
 func dsRunnerConfigReadStructConfigCacheAzureConfig(ctx context.Context, prefix string, d *schema.ResourceData) (config.CacheAzureConfig, error) {
