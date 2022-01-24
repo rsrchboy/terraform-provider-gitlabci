@@ -63,7 +63,7 @@ func init() {
 	// 	Description: "Configuration template (toml).  If included, this toml will be used as the base of this runner's configuration.  This attribute is marked sensitive as it may include authentication tokens, cache bucket keys, etc.",
 	// }
 
-	// FIXME make sure this flows out into our generated toml output iff set
+	// secrets!
 	findRes("runners", "token").Sensitive = true
 	findRes("runners", "cache", "s3", "secret_key").Sensitive = true
 	findRes("runners", "cache", "gcs", "private_key").Sensitive = true
