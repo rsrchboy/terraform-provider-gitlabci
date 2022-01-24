@@ -73,8 +73,9 @@ variable "project_id" {
 
 ### Read-Only
 
-- **config** (String, Sensitive) The computed runner configuration (toml).  This attribute is marked sensitive as it may include authentication tokens, cache bucket keys, etc.
-- **id** (String) The computed configuation id
+- **config** (String, Sensitive) The computed runner configuration (TOML).  This attribute is marked sensitive as it may include authentication tokens, cache bucket keys, etc.
+- **config_not_sensitive** (String) The computed runner configuration (TOML).  This attribute is NOT marked sensitive EVEN THOUGH it may include authentication tokens, cache bucket keys, etc.  If you're uncertain, you should probably just be using the `config` attribute.
+- **id** (String) The computed configuration id
 
 <a id="nestedblock--runners"></a>
 ### Nested Schema for `runners`
@@ -85,7 +86,6 @@ Optional:
 - **cache** (Block List, Max: 1) (see [below for nested schema](#nestedblock--runners--cache))
 - **cache_dir** (String) Directory where build cache is stored
 - **clone_url** (String) Overwrite the default URL used to clone or fetch the git ref
-- **config_template** (String, Sensitive) Configuration template (toml).  If included, this toml will be used as the base of this runner's configuration.  This attribute is marked sensitive as it may include authentication tokens, cache bucket keys, etc.
 - **custom** (Block List, Max: 1) (see [below for nested schema](#nestedblock--runners--custom))
 - **custom_build_dir** (Block List, Max: 1) (see [below for nested schema](#nestedblock--runners--custom_build_dir))
 - **debug_trace_disabled** (Boolean) When set to true Runner will disable the possibility of using the CI_DEBUG_TRACE feature
