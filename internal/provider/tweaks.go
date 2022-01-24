@@ -84,6 +84,8 @@ func init() {
 	configDataSourceRawSchema["runners"].Elem.(*schema.Resource).
 		Schema["ssh"].Elem.(*schema.Resource).
 		Schema["password"].Sensitive = true
+	findRes("runners", "docker", "services", "name").Required = true
+	findRes("runners", "docker", "services", "name").Optional = false
 
 	// validations
 	configDataSourceRawSchema["concurrent"].ValidateFunc = validation.IntAtLeast(1)
@@ -118,6 +120,23 @@ func init() {
 		Schema["machine"].Elem.(*schema.Resource).
 		Schema["machine_name"].ValidateFunc =
 		validation.StringMatch(regexp.MustCompile(`.*%s.*`), "string must include %s")
+}
+
+func findRes(path ...string) *schema.Schema {
+
+	return findResRec(configDataSourceRawSchema[path[0]], path[1:]...)
+}
+
+func findResRec(s *schema.Schema, path ...string) *schema.Schema {
+	switch len(path) {
+	case 0:
+		return s
+	case 1:
+		return s.Elem.(*schema.Resource).Schema[path[0]]
+	default:
+		found := s.Elem.(*schema.Resource).Schema[path[0]]
+		return findResRec(found, path[1:]...)
+	}
 }
 
 // vim: set nowrap :
