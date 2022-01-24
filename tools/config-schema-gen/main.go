@@ -165,6 +165,8 @@ func dsRunnerConfigReadStruct{{ .Name | title | replace "." "" }}(ctx context.Co
 		prefix = prefix + "."
 	}
 
+	tflog.Debug(ctx, fmt.Sprintf("beginning dsRunnerConfigReadStruct{{ .Name | title | replace "." "" }} run; prefix is '%s'", prefix))
+
 	val := {{ .Name }}{}
 
 {{ range .Type | nodeFields -}}
@@ -189,9 +191,9 @@ func dsRunnerConfigReadStruct{{ .Name | title | replace "." "" }}(ctx context.Co
 		val.{{.Name}} = v.({{ .Type.String }})
 	}
 {{ else if eq "elemStruct" (. | nodeElemTemplate)}}
-	if _, ok := d.GetOk(prefix + "{{$nname}}"); ok {
+	if _, ok := d.GetOk(prefix + "{{$nname}}.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "{{$nname}}"))
-		thing, err := dsRunnerConfigReadStruct{{ $type | title | replace "." "" | replace "*" "" }}(ctx, prefix+"{{$nname}}", d)
+		thing, err := dsRunnerConfigReadStruct{{ $type | title | replace "." "" | replace "*" "" }}(ctx, prefix+"{{$nname}}.0", d)
 		if err != nil {
 			return val, err
 		}
@@ -244,13 +246,15 @@ func dsRunnerConfigReadStruct{{ .Name | title | replace "." "" }}(ctx context.Co
 		}
 	}
 {{ else if eq "elemPtrStruct" (. | nodeElemTemplate)}}
-	if _, ok := d.GetOk(prefix + "{{$nname}}"); ok {
+	if _, ok := d.GetOk(prefix + "{{$nname}}.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "{{$nname}}"))
-		thing, err := dsRunnerConfigReadStruct{{ .Type.String | title | replace "." "" | replace "*" "" }}(ctx, prefix+"{{$nname}}", d)
+		thing, err := dsRunnerConfigReadStruct{{ .Type.String | title | replace "." "" | replace "*" "" }}(ctx, prefix+"{{$nname}}.0", d)
 		if err != nil {
 			return val, err
 		}
 		val.{{.Name}} = &thing
+	} else {
+		tflog.Trace(ctx, fmt.Sprintf("not set: %s", prefix + "{{$nname}}.0"))
 	}
 {{ else if eq $type "*string" -}}
 	if v, ok := d.GetOk(prefix + "{{$nname}}"); ok {

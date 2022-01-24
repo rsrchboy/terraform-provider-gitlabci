@@ -3201,6 +3201,8 @@ func dsRunnerConfigReadStructConfigCacheAzureConfig(ctx context.Context, prefix 
 		prefix = prefix + "."
 	}
 
+	tflog.Debug(ctx, fmt.Sprintf("beginning dsRunnerConfigReadStructConfigCacheAzureConfig run; prefix is '%s'", prefix))
+
 	val := config.CacheAzureConfig{}
 
 	// AccountName: account_name -- string, string
@@ -3238,6 +3240,8 @@ func dsRunnerConfigReadStructConfigCacheAzureCredentials(ctx context.Context, pr
 		prefix = prefix + "."
 	}
 
+	tflog.Debug(ctx, fmt.Sprintf("beginning dsRunnerConfigReadStructConfigCacheAzureCredentials run; prefix is '%s'", prefix))
+
 	val := config.CacheAzureCredentials{}
 
 	// AccountName: account_name -- string, string
@@ -3263,6 +3267,8 @@ func dsRunnerConfigReadStructConfigCacheConfig(ctx context.Context, prefix strin
 		prefix = prefix + "."
 	}
 
+	tflog.Debug(ctx, fmt.Sprintf("beginning dsRunnerConfigReadStructConfigCacheConfig run; prefix is '%s'", prefix))
+
 	val := config.CacheConfig{}
 
 	// Type: type -- string, string
@@ -3285,35 +3291,41 @@ func dsRunnerConfigReadStructConfigCacheConfig(ctx context.Context, prefix strin
 
 	// S3: s3 -- , *config.CacheS3Config
 
-	if _, ok := d.GetOk(prefix + "s3"); ok {
+	if _, ok := d.GetOk(prefix + "s3.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "s3"))
-		thing, err := dsRunnerConfigReadStructConfigCacheS3Config(ctx, prefix+"s3", d)
+		thing, err := dsRunnerConfigReadStructConfigCacheS3Config(ctx, prefix+"s3.0", d)
 		if err != nil {
 			return val, err
 		}
 		val.S3 = &thing
+	} else {
+		tflog.Debug(ctx, fmt.Sprintf("not set: %s", prefix+"s3"))
 	}
 
 	// GCS: gcs -- , *config.CacheGCSConfig
 
-	if _, ok := d.GetOk(prefix + "gcs"); ok {
+	if _, ok := d.GetOk(prefix + "gcs.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "gcs"))
-		thing, err := dsRunnerConfigReadStructConfigCacheGCSConfig(ctx, prefix+"gcs", d)
+		thing, err := dsRunnerConfigReadStructConfigCacheGCSConfig(ctx, prefix+"gcs.0", d)
 		if err != nil {
 			return val, err
 		}
 		val.GCS = &thing
+	} else {
+		tflog.Debug(ctx, fmt.Sprintf("not set: %s", prefix+"gcs"))
 	}
 
 	// Azure: azure -- , *config.CacheAzureConfig
 
-	if _, ok := d.GetOk(prefix + "azure"); ok {
+	if _, ok := d.GetOk(prefix + "azure.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "azure"))
-		thing, err := dsRunnerConfigReadStructConfigCacheAzureConfig(ctx, prefix+"azure", d)
+		thing, err := dsRunnerConfigReadStructConfigCacheAzureConfig(ctx, prefix+"azure.0", d)
 		if err != nil {
 			return val, err
 		}
 		val.Azure = &thing
+	} else {
+		tflog.Debug(ctx, fmt.Sprintf("not set: %s", prefix+"azure"))
 	}
 
 	return val, nil
@@ -3326,6 +3338,8 @@ func dsRunnerConfigReadStructConfigCacheGCSConfig(ctx context.Context, prefix st
 	if prefix != "" {
 		prefix = prefix + "."
 	}
+
+	tflog.Debug(ctx, fmt.Sprintf("beginning dsRunnerConfigReadStructConfigCacheGCSConfig run; prefix is '%s'", prefix))
 
 	val := config.CacheGCSConfig{}
 
@@ -3364,6 +3378,8 @@ func dsRunnerConfigReadStructConfigCacheGCSCredentials(ctx context.Context, pref
 		prefix = prefix + "."
 	}
 
+	tflog.Debug(ctx, fmt.Sprintf("beginning dsRunnerConfigReadStructConfigCacheGCSCredentials run; prefix is '%s'", prefix))
+
 	val := config.CacheGCSCredentials{}
 
 	// AccessID: access_id -- string, string
@@ -3388,6 +3404,8 @@ func dsRunnerConfigReadStructConfigCacheS3Config(ctx context.Context, prefix str
 	if prefix != "" {
 		prefix = prefix + "."
 	}
+
+	tflog.Debug(ctx, fmt.Sprintf("beginning dsRunnerConfigReadStructConfigCacheS3Config run; prefix is '%s'", prefix))
 
 	val := config.CacheS3Config{}
 
@@ -3444,6 +3462,8 @@ func dsRunnerConfigReadStructConfigConfig(ctx context.Context, prefix string, d 
 		prefix = prefix + "."
 	}
 
+	tflog.Debug(ctx, fmt.Sprintf("beginning dsRunnerConfigReadStructConfigConfig run; prefix is '%s'", prefix))
+
 	val := config.Config{}
 
 	// ListenAddress: listen_address -- string, string
@@ -3454,9 +3474,9 @@ func dsRunnerConfigReadStructConfigConfig(ctx context.Context, prefix string, d 
 
 	// SessionServer: session_server -- SessionServer, config.SessionServer
 
-	if _, ok := d.GetOk(prefix + "session_server"); ok {
+	if _, ok := d.GetOk(prefix + "session_server.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "session_server"))
-		thing, err := dsRunnerConfigReadStructConfigSessionServer(ctx, prefix+"session_server", d)
+		thing, err := dsRunnerConfigReadStructConfigSessionServer(ctx, prefix+"session_server.0", d)
 		if err != nil {
 			return val, err
 		}
@@ -3534,6 +3554,8 @@ func dsRunnerConfigReadStructConfigCustomBuildDir(ctx context.Context, prefix st
 		prefix = prefix + "."
 	}
 
+	tflog.Debug(ctx, fmt.Sprintf("beginning dsRunnerConfigReadStructConfigCustomBuildDir run; prefix is '%s'", prefix))
+
 	val := config.CustomBuildDir{}
 
 	// Enabled: enabled -- bool, bool
@@ -3552,6 +3574,8 @@ func dsRunnerConfigReadStructConfigCustomConfig(ctx context.Context, prefix stri
 	if prefix != "" {
 		prefix = prefix + "."
 	}
+
+	tflog.Debug(ctx, fmt.Sprintf("beginning dsRunnerConfigReadStructConfigCustomConfig run; prefix is '%s'", prefix))
 
 	val := config.CustomConfig{}
 
@@ -3699,6 +3723,8 @@ func dsRunnerConfigReadStructConfigDockerConfig(ctx context.Context, prefix stri
 	if prefix != "" {
 		prefix = prefix + "."
 	}
+
+	tflog.Debug(ctx, fmt.Sprintf("beginning dsRunnerConfigReadStructConfigDockerConfig run; prefix is '%s'", prefix))
 
 	val := config.DockerConfig{}
 
@@ -4157,6 +4183,8 @@ func dsRunnerConfigReadStructConfigDockerMachine(ctx context.Context, prefix str
 		prefix = prefix + "."
 	}
 
+	tflog.Debug(ctx, fmt.Sprintf("beginning dsRunnerConfigReadStructConfigDockerMachine run; prefix is '%s'", prefix))
+
 	val := config.DockerMachine{}
 
 	// MaxGrowthRate: max_growth_rate -- int, int
@@ -4300,6 +4328,8 @@ func dsRunnerConfigReadStructConfigDockerMachineAutoscaling(ctx context.Context,
 		prefix = prefix + "."
 	}
 
+	tflog.Debug(ctx, fmt.Sprintf("beginning dsRunnerConfigReadStructConfigDockerMachineAutoscaling run; prefix is '%s'", prefix))
+
 	val := config.DockerMachineAutoscaling{}
 
 	// Periods: periods -- , []string
@@ -4363,39 +4393,47 @@ func dsRunnerConfigReadStructConfigKubernetesAffinity(ctx context.Context, prefi
 		prefix = prefix + "."
 	}
 
+	tflog.Debug(ctx, fmt.Sprintf("beginning dsRunnerConfigReadStructConfigKubernetesAffinity run; prefix is '%s'", prefix))
+
 	val := config.KubernetesAffinity{}
 
 	// NodeAffinity: node_affinity -- , *config.KubernetesNodeAffinity
 
-	if _, ok := d.GetOk(prefix + "node_affinity"); ok {
+	if _, ok := d.GetOk(prefix + "node_affinity.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "node_affinity"))
-		thing, err := dsRunnerConfigReadStructConfigKubernetesNodeAffinity(ctx, prefix+"node_affinity", d)
+		thing, err := dsRunnerConfigReadStructConfigKubernetesNodeAffinity(ctx, prefix+"node_affinity.0", d)
 		if err != nil {
 			return val, err
 		}
 		val.NodeAffinity = &thing
+	} else {
+		tflog.Debug(ctx, fmt.Sprintf("not set: %s", prefix+"node_affinity"))
 	}
 
 	// PodAffinity: pod_affinity -- , *config.KubernetesPodAffinity
 
-	if _, ok := d.GetOk(prefix + "pod_affinity"); ok {
+	if _, ok := d.GetOk(prefix + "pod_affinity.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "pod_affinity"))
-		thing, err := dsRunnerConfigReadStructConfigKubernetesPodAffinity(ctx, prefix+"pod_affinity", d)
+		thing, err := dsRunnerConfigReadStructConfigKubernetesPodAffinity(ctx, prefix+"pod_affinity.0", d)
 		if err != nil {
 			return val, err
 		}
 		val.PodAffinity = &thing
+	} else {
+		tflog.Debug(ctx, fmt.Sprintf("not set: %s", prefix+"pod_affinity"))
 	}
 
 	// PodAntiAffinity: pod_anti_affinity -- , *config.KubernetesPodAntiAffinity
 
-	if _, ok := d.GetOk(prefix + "pod_anti_affinity"); ok {
+	if _, ok := d.GetOk(prefix + "pod_anti_affinity.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "pod_anti_affinity"))
-		thing, err := dsRunnerConfigReadStructConfigKubernetesPodAntiAffinity(ctx, prefix+"pod_anti_affinity", d)
+		thing, err := dsRunnerConfigReadStructConfigKubernetesPodAntiAffinity(ctx, prefix+"pod_anti_affinity.0", d)
 		if err != nil {
 			return val, err
 		}
 		val.PodAntiAffinity = &thing
+	} else {
+		tflog.Debug(ctx, fmt.Sprintf("not set: %s", prefix+"pod_anti_affinity"))
 	}
 
 	return val, nil
@@ -4408,6 +4446,8 @@ func dsRunnerConfigReadStructConfigKubernetesCSI(ctx context.Context, prefix str
 	if prefix != "" {
 		prefix = prefix + "."
 	}
+
+	tflog.Debug(ctx, fmt.Sprintf("beginning dsRunnerConfigReadStructConfigKubernetesCSI run; prefix is '%s'", prefix))
 
 	val := config.KubernetesCSI{}
 
@@ -4463,6 +4503,8 @@ func dsRunnerConfigReadStructConfigKubernetesConfig(ctx context.Context, prefix 
 	if prefix != "" {
 		prefix = prefix + "."
 	}
+
+	tflog.Debug(ctx, fmt.Sprintf("beginning dsRunnerConfigReadStructConfigKubernetesConfig run; prefix is '%s'", prefix))
 
 	val := config.KubernetesConfig{}
 
@@ -4808,9 +4850,9 @@ func dsRunnerConfigReadStructConfigKubernetesConfig(ctx context.Context, prefix 
 
 	// Affinity: affinity -- KubernetesAffinity, config.KubernetesAffinity
 
-	if _, ok := d.GetOk(prefix + "affinity"); ok {
+	if _, ok := d.GetOk(prefix + "affinity.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "affinity"))
-		thing, err := dsRunnerConfigReadStructConfigKubernetesAffinity(ctx, prefix+"affinity", d)
+		thing, err := dsRunnerConfigReadStructConfigKubernetesAffinity(ctx, prefix+"affinity.0", d)
 		if err != nil {
 			return val, err
 		}
@@ -4911,9 +4953,9 @@ func dsRunnerConfigReadStructConfigKubernetesConfig(ctx context.Context, prefix 
 
 	// PodSecurityContext: pod_security_context -- KubernetesPodSecurityContext, config.KubernetesPodSecurityContext
 
-	if _, ok := d.GetOk(prefix + "pod_security_context"); ok {
+	if _, ok := d.GetOk(prefix + "pod_security_context.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "pod_security_context"))
-		thing, err := dsRunnerConfigReadStructConfigKubernetesPodSecurityContext(ctx, prefix+"pod_security_context", d)
+		thing, err := dsRunnerConfigReadStructConfigKubernetesPodSecurityContext(ctx, prefix+"pod_security_context.0", d)
 		if err != nil {
 			return val, err
 		}
@@ -4922,9 +4964,9 @@ func dsRunnerConfigReadStructConfigKubernetesConfig(ctx context.Context, prefix 
 
 	// BuildContainerSecurityContext: build_container_security_context -- KubernetesContainerSecurityContext, config.KubernetesContainerSecurityContext
 
-	if _, ok := d.GetOk(prefix + "build_container_security_context"); ok {
+	if _, ok := d.GetOk(prefix + "build_container_security_context.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "build_container_security_context"))
-		thing, err := dsRunnerConfigReadStructConfigKubernetesContainerSecurityContext(ctx, prefix+"build_container_security_context", d)
+		thing, err := dsRunnerConfigReadStructConfigKubernetesContainerSecurityContext(ctx, prefix+"build_container_security_context.0", d)
 		if err != nil {
 			return val, err
 		}
@@ -4933,9 +4975,9 @@ func dsRunnerConfigReadStructConfigKubernetesConfig(ctx context.Context, prefix 
 
 	// HelperContainerSecurityContext: helper_container_security_context -- KubernetesContainerSecurityContext, config.KubernetesContainerSecurityContext
 
-	if _, ok := d.GetOk(prefix + "helper_container_security_context"); ok {
+	if _, ok := d.GetOk(prefix + "helper_container_security_context.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "helper_container_security_context"))
-		thing, err := dsRunnerConfigReadStructConfigKubernetesContainerSecurityContext(ctx, prefix+"helper_container_security_context", d)
+		thing, err := dsRunnerConfigReadStructConfigKubernetesContainerSecurityContext(ctx, prefix+"helper_container_security_context.0", d)
 		if err != nil {
 			return val, err
 		}
@@ -4944,9 +4986,9 @@ func dsRunnerConfigReadStructConfigKubernetesConfig(ctx context.Context, prefix 
 
 	// ServiceContainerSecurityContext: service_container_security_context -- KubernetesContainerSecurityContext, config.KubernetesContainerSecurityContext
 
-	if _, ok := d.GetOk(prefix + "service_container_security_context"); ok {
+	if _, ok := d.GetOk(prefix + "service_container_security_context.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "service_container_security_context"))
-		thing, err := dsRunnerConfigReadStructConfigKubernetesContainerSecurityContext(ctx, prefix+"service_container_security_context", d)
+		thing, err := dsRunnerConfigReadStructConfigKubernetesContainerSecurityContext(ctx, prefix+"service_container_security_context.0", d)
 		if err != nil {
 			return val, err
 		}
@@ -4955,9 +4997,9 @@ func dsRunnerConfigReadStructConfigKubernetesConfig(ctx context.Context, prefix 
 
 	// Volumes: volumes -- KubernetesVolumes, config.KubernetesVolumes
 
-	if _, ok := d.GetOk(prefix + "volumes"); ok {
+	if _, ok := d.GetOk(prefix + "volumes.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "volumes"))
-		thing, err := dsRunnerConfigReadStructConfigKubernetesVolumes(ctx, prefix+"volumes", d)
+		thing, err := dsRunnerConfigReadStructConfigKubernetesVolumes(ctx, prefix+"volumes.0", d)
 		if err != nil {
 			return val, err
 		}
@@ -5057,9 +5099,9 @@ func dsRunnerConfigReadStructConfigKubernetesConfig(ctx context.Context, prefix 
 
 	// DNSConfig: dns_config -- KubernetesDNSConfig, config.KubernetesDNSConfig
 
-	if _, ok := d.GetOk(prefix + "dns_config"); ok {
+	if _, ok := d.GetOk(prefix + "dns_config.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "dns_config"))
-		thing, err := dsRunnerConfigReadStructConfigKubernetesDNSConfig(ctx, prefix+"dns_config", d)
+		thing, err := dsRunnerConfigReadStructConfigKubernetesDNSConfig(ctx, prefix+"dns_config.0", d)
 		if err != nil {
 			return val, err
 		}
@@ -5068,9 +5110,9 @@ func dsRunnerConfigReadStructConfigKubernetesConfig(ctx context.Context, prefix 
 
 	// ContainerLifecycle: container_lifecycle -- KubernetesContainerLifecyle, config.KubernetesContainerLifecyle
 
-	if _, ok := d.GetOk(prefix + "container_lifecycle"); ok {
+	if _, ok := d.GetOk(prefix + "container_lifecycle.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "container_lifecycle"))
-		thing, err := dsRunnerConfigReadStructConfigKubernetesContainerLifecyle(ctx, prefix+"container_lifecycle", d)
+		thing, err := dsRunnerConfigReadStructConfigKubernetesContainerLifecyle(ctx, prefix+"container_lifecycle.0", d)
 		if err != nil {
 			return val, err
 		}
@@ -5087,6 +5129,8 @@ func dsRunnerConfigReadStructConfigKubernetesConfigMap(ctx context.Context, pref
 	if prefix != "" {
 		prefix = prefix + "."
 	}
+
+	tflog.Debug(ctx, fmt.Sprintf("beginning dsRunnerConfigReadStructConfigKubernetesConfigMap run; prefix is '%s'", prefix))
 
 	val := config.KubernetesConfigMap{}
 
@@ -5130,6 +5174,8 @@ func dsRunnerConfigReadStructConfigKubernetesContainerCapabilities(ctx context.C
 	if prefix != "" {
 		prefix = prefix + "."
 	}
+
+	tflog.Debug(ctx, fmt.Sprintf("beginning dsRunnerConfigReadStructConfigKubernetesContainerCapabilities run; prefix is '%s'", prefix))
 
 	val := config.KubernetesContainerCapabilities{}
 
@@ -5184,28 +5230,34 @@ func dsRunnerConfigReadStructConfigKubernetesContainerLifecyle(ctx context.Conte
 		prefix = prefix + "."
 	}
 
+	tflog.Debug(ctx, fmt.Sprintf("beginning dsRunnerConfigReadStructConfigKubernetesContainerLifecyle run; prefix is '%s'", prefix))
+
 	val := config.KubernetesContainerLifecyle{}
 
 	// PostStart: post_start -- , *config.KubernetesLifecycleHandler
 
-	if _, ok := d.GetOk(prefix + "post_start"); ok {
+	if _, ok := d.GetOk(prefix + "post_start.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "post_start"))
-		thing, err := dsRunnerConfigReadStructConfigKubernetesLifecycleHandler(ctx, prefix+"post_start", d)
+		thing, err := dsRunnerConfigReadStructConfigKubernetesLifecycleHandler(ctx, prefix+"post_start.0", d)
 		if err != nil {
 			return val, err
 		}
 		val.PostStart = &thing
+	} else {
+		tflog.Debug(ctx, fmt.Sprintf("not set: %s", prefix+"post_start"))
 	}
 
 	// PreStop: pre_stop -- , *config.KubernetesLifecycleHandler
 
-	if _, ok := d.GetOk(prefix + "pre_stop"); ok {
+	if _, ok := d.GetOk(prefix + "pre_stop.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "pre_stop"))
-		thing, err := dsRunnerConfigReadStructConfigKubernetesLifecycleHandler(ctx, prefix+"pre_stop", d)
+		thing, err := dsRunnerConfigReadStructConfigKubernetesLifecycleHandler(ctx, prefix+"pre_stop.0", d)
 		if err != nil {
 			return val, err
 		}
 		val.PreStop = &thing
+	} else {
+		tflog.Debug(ctx, fmt.Sprintf("not set: %s", prefix+"pre_stop"))
 	}
 
 	return val, nil
@@ -5219,17 +5271,21 @@ func dsRunnerConfigReadStructConfigKubernetesContainerSecurityContext(ctx contex
 		prefix = prefix + "."
 	}
 
+	tflog.Debug(ctx, fmt.Sprintf("beginning dsRunnerConfigReadStructConfigKubernetesContainerSecurityContext run; prefix is '%s'", prefix))
+
 	val := config.KubernetesContainerSecurityContext{}
 
 	// Capabilities: capabilities -- , *config.KubernetesContainerCapabilities
 
-	if _, ok := d.GetOk(prefix + "capabilities"); ok {
+	if _, ok := d.GetOk(prefix + "capabilities.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "capabilities"))
-		thing, err := dsRunnerConfigReadStructConfigKubernetesContainerCapabilities(ctx, prefix+"capabilities", d)
+		thing, err := dsRunnerConfigReadStructConfigKubernetesContainerCapabilities(ctx, prefix+"capabilities.0", d)
 		if err != nil {
 			return val, err
 		}
 		val.Capabilities = &thing
+	} else {
+		tflog.Debug(ctx, fmt.Sprintf("not set: %s", prefix+"capabilities"))
 	}
 
 	// Privileged: privileged -- , *bool
@@ -5278,6 +5334,8 @@ func dsRunnerConfigReadStructConfigKubernetesDNSConfig(ctx context.Context, pref
 	if prefix != "" {
 		prefix = prefix + "."
 	}
+
+	tflog.Debug(ctx, fmt.Sprintf("beginning dsRunnerConfigReadStructConfigKubernetesDNSConfig run; prefix is '%s'", prefix))
 
 	val := config.KubernetesDNSConfig{}
 
@@ -5356,6 +5414,8 @@ func dsRunnerConfigReadStructConfigKubernetesDNSConfigOption(ctx context.Context
 		prefix = prefix + "."
 	}
 
+	tflog.Debug(ctx, fmt.Sprintf("beginning dsRunnerConfigReadStructConfigKubernetesDNSConfigOption run; prefix is '%s'", prefix))
+
 	val := config.KubernetesDNSConfigOption{}
 
 	// Name: name -- string, string
@@ -5380,6 +5440,8 @@ func dsRunnerConfigReadStructConfigKubernetesEmptyDir(ctx context.Context, prefi
 	if prefix != "" {
 		prefix = prefix + "."
 	}
+
+	tflog.Debug(ctx, fmt.Sprintf("beginning dsRunnerConfigReadStructConfigKubernetesEmptyDir run; prefix is '%s'", prefix))
 
 	val := config.KubernetesEmptyDir{}
 
@@ -5417,6 +5479,8 @@ func dsRunnerConfigReadStructConfigKubernetesHostAliases(ctx context.Context, pr
 	if prefix != "" {
 		prefix = prefix + "."
 	}
+
+	tflog.Debug(ctx, fmt.Sprintf("beginning dsRunnerConfigReadStructConfigKubernetesHostAliases run; prefix is '%s'", prefix))
 
 	val := config.KubernetesHostAliases{}
 
@@ -5456,6 +5520,8 @@ func dsRunnerConfigReadStructConfigKubernetesHostPath(ctx context.Context, prefi
 	if prefix != "" {
 		prefix = prefix + "."
 	}
+
+	tflog.Debug(ctx, fmt.Sprintf("beginning dsRunnerConfigReadStructConfigKubernetesHostPath run; prefix is '%s'", prefix))
 
 	val := config.KubernetesHostPath{}
 
@@ -5500,6 +5566,8 @@ func dsRunnerConfigReadStructConfigKubernetesLifecycleExecAction(ctx context.Con
 		prefix = prefix + "."
 	}
 
+	tflog.Debug(ctx, fmt.Sprintf("beginning dsRunnerConfigReadStructConfigKubernetesLifecycleExecAction run; prefix is '%s'", prefix))
+
 	val := config.KubernetesLifecycleExecAction{}
 
 	// Command: command -- , []string
@@ -5532,6 +5600,8 @@ func dsRunnerConfigReadStructConfigKubernetesLifecycleHTTPGet(ctx context.Contex
 	if prefix != "" {
 		prefix = prefix + "."
 	}
+
+	tflog.Debug(ctx, fmt.Sprintf("beginning dsRunnerConfigReadStructConfigKubernetesLifecycleHTTPGet run; prefix is '%s'", prefix))
 
 	val := config.KubernetesLifecycleHTTPGet{}
 
@@ -5594,6 +5664,8 @@ func dsRunnerConfigReadStructConfigKubernetesLifecycleHTTPGetHeader(ctx context.
 		prefix = prefix + "."
 	}
 
+	tflog.Debug(ctx, fmt.Sprintf("beginning dsRunnerConfigReadStructConfigKubernetesLifecycleHTTPGetHeader run; prefix is '%s'", prefix))
+
 	val := config.KubernetesLifecycleHTTPGetHeader{}
 
 	// Name: name -- string, string
@@ -5619,39 +5691,47 @@ func dsRunnerConfigReadStructConfigKubernetesLifecycleHandler(ctx context.Contex
 		prefix = prefix + "."
 	}
 
+	tflog.Debug(ctx, fmt.Sprintf("beginning dsRunnerConfigReadStructConfigKubernetesLifecycleHandler run; prefix is '%s'", prefix))
+
 	val := config.KubernetesLifecycleHandler{}
 
 	// Exec: exec -- , *config.KubernetesLifecycleExecAction
 
-	if _, ok := d.GetOk(prefix + "exec"); ok {
+	if _, ok := d.GetOk(prefix + "exec.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "exec"))
-		thing, err := dsRunnerConfigReadStructConfigKubernetesLifecycleExecAction(ctx, prefix+"exec", d)
+		thing, err := dsRunnerConfigReadStructConfigKubernetesLifecycleExecAction(ctx, prefix+"exec.0", d)
 		if err != nil {
 			return val, err
 		}
 		val.Exec = &thing
+	} else {
+		tflog.Debug(ctx, fmt.Sprintf("not set: %s", prefix+"exec"))
 	}
 
 	// HTTPGet: http_get -- , *config.KubernetesLifecycleHTTPGet
 
-	if _, ok := d.GetOk(prefix + "http_get"); ok {
+	if _, ok := d.GetOk(prefix + "http_get.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "http_get"))
-		thing, err := dsRunnerConfigReadStructConfigKubernetesLifecycleHTTPGet(ctx, prefix+"http_get", d)
+		thing, err := dsRunnerConfigReadStructConfigKubernetesLifecycleHTTPGet(ctx, prefix+"http_get.0", d)
 		if err != nil {
 			return val, err
 		}
 		val.HTTPGet = &thing
+	} else {
+		tflog.Debug(ctx, fmt.Sprintf("not set: %s", prefix+"http_get"))
 	}
 
 	// TCPSocket: tcp_socket -- , *config.KubernetesLifecycleTCPSocket
 
-	if _, ok := d.GetOk(prefix + "tcp_socket"); ok {
+	if _, ok := d.GetOk(prefix + "tcp_socket.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "tcp_socket"))
-		thing, err := dsRunnerConfigReadStructConfigKubernetesLifecycleTCPSocket(ctx, prefix+"tcp_socket", d)
+		thing, err := dsRunnerConfigReadStructConfigKubernetesLifecycleTCPSocket(ctx, prefix+"tcp_socket.0", d)
 		if err != nil {
 			return val, err
 		}
 		val.TCPSocket = &thing
+	} else {
+		tflog.Debug(ctx, fmt.Sprintf("not set: %s", prefix+"tcp_socket"))
 	}
 
 	return val, nil
@@ -5664,6 +5744,8 @@ func dsRunnerConfigReadStructConfigKubernetesLifecycleTCPSocket(ctx context.Cont
 	if prefix != "" {
 		prefix = prefix + "."
 	}
+
+	tflog.Debug(ctx, fmt.Sprintf("beginning dsRunnerConfigReadStructConfigKubernetesLifecycleTCPSocket run; prefix is '%s'", prefix))
 
 	val := config.KubernetesLifecycleTCPSocket{}
 
@@ -5690,17 +5772,21 @@ func dsRunnerConfigReadStructConfigKubernetesNodeAffinity(ctx context.Context, p
 		prefix = prefix + "."
 	}
 
+	tflog.Debug(ctx, fmt.Sprintf("beginning dsRunnerConfigReadStructConfigKubernetesNodeAffinity run; prefix is '%s'", prefix))
+
 	val := config.KubernetesNodeAffinity{}
 
 	// RequiredDuringSchedulingIgnoredDuringExecution: required_during_scheduling_ignored_during_execution -- , *config.NodeSelector
 
-	if _, ok := d.GetOk(prefix + "required_during_scheduling_ignored_during_execution"); ok {
+	if _, ok := d.GetOk(prefix + "required_during_scheduling_ignored_during_execution.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "required_during_scheduling_ignored_during_execution"))
-		thing, err := dsRunnerConfigReadStructConfigNodeSelector(ctx, prefix+"required_during_scheduling_ignored_during_execution", d)
+		thing, err := dsRunnerConfigReadStructConfigNodeSelector(ctx, prefix+"required_during_scheduling_ignored_during_execution.0", d)
 		if err != nil {
 			return val, err
 		}
 		val.RequiredDuringSchedulingIgnoredDuringExecution = &thing
+	} else {
+		tflog.Debug(ctx, fmt.Sprintf("not set: %s", prefix+"required_during_scheduling_ignored_during_execution"))
 	}
 
 	// PreferredDuringSchedulingIgnoredDuringExecution: preferred_during_scheduling_ignored_during_execution -- , []config.PreferredSchedulingTerm
@@ -5738,6 +5824,8 @@ func dsRunnerConfigReadStructConfigKubernetesPVC(ctx context.Context, prefix str
 		prefix = prefix + "."
 	}
 
+	tflog.Debug(ctx, fmt.Sprintf("beginning dsRunnerConfigReadStructConfigKubernetesPVC run; prefix is '%s'", prefix))
+
 	val := config.KubernetesPVC{}
 
 	// Name: name -- string, string
@@ -5774,6 +5862,8 @@ func dsRunnerConfigReadStructConfigKubernetesPodAffinity(ctx context.Context, pr
 	if prefix != "" {
 		prefix = prefix + "."
 	}
+
+	tflog.Debug(ctx, fmt.Sprintf("beginning dsRunnerConfigReadStructConfigKubernetesPodAffinity run; prefix is '%s'", prefix))
 
 	val := config.KubernetesPodAffinity{}
 
@@ -5836,6 +5926,8 @@ func dsRunnerConfigReadStructConfigKubernetesPodAntiAffinity(ctx context.Context
 		prefix = prefix + "."
 	}
 
+	tflog.Debug(ctx, fmt.Sprintf("beginning dsRunnerConfigReadStructConfigKubernetesPodAntiAffinity run; prefix is '%s'", prefix))
+
 	val := config.KubernetesPodAntiAffinity{}
 
 	// RequiredDuringSchedulingIgnoredDuringExecution: required_during_scheduling_ignored_during_execution -- , []config.PodAffinityTerm
@@ -5897,6 +5989,8 @@ func dsRunnerConfigReadStructConfigKubernetesPodSecurityContext(ctx context.Cont
 		prefix = prefix + "."
 	}
 
+	tflog.Debug(ctx, fmt.Sprintf("beginning dsRunnerConfigReadStructConfigKubernetesPodSecurityContext run; prefix is '%s'", prefix))
+
 	val := config.KubernetesPodSecurityContext{}
 
 	// FSGroup: fs_group -- , *int64
@@ -5954,6 +6048,8 @@ func dsRunnerConfigReadStructConfigKubernetesSecret(ctx context.Context, prefix 
 		prefix = prefix + "."
 	}
 
+	tflog.Debug(ctx, fmt.Sprintf("beginning dsRunnerConfigReadStructConfigKubernetesSecret run; prefix is '%s'", prefix))
+
 	val := config.KubernetesSecret{}
 
 	// Name: name -- string, string
@@ -5996,6 +6092,8 @@ func dsRunnerConfigReadStructConfigKubernetesVolumes(ctx context.Context, prefix
 	if prefix != "" {
 		prefix = prefix + "."
 	}
+
+	tflog.Debug(ctx, fmt.Sprintf("beginning dsRunnerConfigReadStructConfigKubernetesVolumes run; prefix is '%s'", prefix))
 
 	val := config.KubernetesVolumes{}
 
@@ -6154,6 +6252,8 @@ func dsRunnerConfigReadStructConfigLabelSelector(ctx context.Context, prefix str
 		prefix = prefix + "."
 	}
 
+	tflog.Debug(ctx, fmt.Sprintf("beginning dsRunnerConfigReadStructConfigLabelSelector run; prefix is '%s'", prefix))
+
 	val := config.LabelSelector{}
 
 	// MatchLabels: match_labels -- , map[string]string
@@ -6197,6 +6297,8 @@ func dsRunnerConfigReadStructConfigNodeSelector(ctx context.Context, prefix stri
 		prefix = prefix + "."
 	}
 
+	tflog.Debug(ctx, fmt.Sprintf("beginning dsRunnerConfigReadStructConfigNodeSelector run; prefix is '%s'", prefix))
+
 	val := config.NodeSelector{}
 
 	// NodeSelectorTerms: node_selector_terms -- , []config.NodeSelectorTerm
@@ -6233,6 +6335,8 @@ func dsRunnerConfigReadStructConfigNodeSelectorRequirement(ctx context.Context, 
 	if prefix != "" {
 		prefix = prefix + "."
 	}
+
+	tflog.Debug(ctx, fmt.Sprintf("beginning dsRunnerConfigReadStructConfigNodeSelectorRequirement run; prefix is '%s'", prefix))
 
 	val := config.NodeSelectorRequirement{}
 
@@ -6278,6 +6382,8 @@ func dsRunnerConfigReadStructConfigNodeSelectorTerm(ctx context.Context, prefix 
 	if prefix != "" {
 		prefix = prefix + "."
 	}
+
+	tflog.Debug(ctx, fmt.Sprintf("beginning dsRunnerConfigReadStructConfigNodeSelectorTerm run; prefix is '%s'", prefix))
 
 	val := config.NodeSelectorTerm{}
 
@@ -6340,6 +6446,8 @@ func dsRunnerConfigReadStructConfigParallelsConfig(ctx context.Context, prefix s
 		prefix = prefix + "."
 	}
 
+	tflog.Debug(ctx, fmt.Sprintf("beginning dsRunnerConfigReadStructConfigParallelsConfig run; prefix is '%s'", prefix))
+
 	val := config.ParallelsConfig{}
 
 	// BaseName: base_name -- string, string
@@ -6397,17 +6505,21 @@ func dsRunnerConfigReadStructConfigPodAffinityTerm(ctx context.Context, prefix s
 		prefix = prefix + "."
 	}
 
+	tflog.Debug(ctx, fmt.Sprintf("beginning dsRunnerConfigReadStructConfigPodAffinityTerm run; prefix is '%s'", prefix))
+
 	val := config.PodAffinityTerm{}
 
 	// LabelSelector: label_selector -- , *config.LabelSelector
 
-	if _, ok := d.GetOk(prefix + "label_selector"); ok {
+	if _, ok := d.GetOk(prefix + "label_selector.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "label_selector"))
-		thing, err := dsRunnerConfigReadStructConfigLabelSelector(ctx, prefix+"label_selector", d)
+		thing, err := dsRunnerConfigReadStructConfigLabelSelector(ctx, prefix+"label_selector.0", d)
 		if err != nil {
 			return val, err
 		}
 		val.LabelSelector = &thing
+	} else {
+		tflog.Debug(ctx, fmt.Sprintf("not set: %s", prefix+"label_selector"))
 	}
 
 	// Namespaces: namespaces -- , []string
@@ -6438,13 +6550,15 @@ func dsRunnerConfigReadStructConfigPodAffinityTerm(ctx context.Context, prefix s
 
 	// NamespaceSelector: namespace_selector -- , *config.LabelSelector
 
-	if _, ok := d.GetOk(prefix + "namespace_selector"); ok {
+	if _, ok := d.GetOk(prefix + "namespace_selector.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "namespace_selector"))
-		thing, err := dsRunnerConfigReadStructConfigLabelSelector(ctx, prefix+"namespace_selector", d)
+		thing, err := dsRunnerConfigReadStructConfigLabelSelector(ctx, prefix+"namespace_selector.0", d)
 		if err != nil {
 			return val, err
 		}
 		val.NamespaceSelector = &thing
+	} else {
+		tflog.Debug(ctx, fmt.Sprintf("not set: %s", prefix+"namespace_selector"))
 	}
 
 	return val, nil
@@ -6458,6 +6572,8 @@ func dsRunnerConfigReadStructConfigPreferredSchedulingTerm(ctx context.Context, 
 		prefix = prefix + "."
 	}
 
+	tflog.Debug(ctx, fmt.Sprintf("beginning dsRunnerConfigReadStructConfigPreferredSchedulingTerm run; prefix is '%s'", prefix))
+
 	val := config.PreferredSchedulingTerm{}
 
 	// Weight: weight -- int32, int32
@@ -6468,9 +6584,9 @@ func dsRunnerConfigReadStructConfigPreferredSchedulingTerm(ctx context.Context, 
 
 	// Preference: preference -- NodeSelectorTerm, config.NodeSelectorTerm
 
-	if _, ok := d.GetOk(prefix + "preference"); ok {
+	if _, ok := d.GetOk(prefix + "preference.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "preference"))
-		thing, err := dsRunnerConfigReadStructConfigNodeSelectorTerm(ctx, prefix+"preference", d)
+		thing, err := dsRunnerConfigReadStructConfigNodeSelectorTerm(ctx, prefix+"preference.0", d)
 		if err != nil {
 			return val, err
 		}
@@ -6487,6 +6603,8 @@ func dsRunnerConfigReadStructConfigRunnerConfig(ctx context.Context, prefix stri
 	if prefix != "" {
 		prefix = prefix + "."
 	}
+
+	tflog.Debug(ctx, fmt.Sprintf("beginning dsRunnerConfigReadStructConfigRunnerConfig run; prefix is '%s'", prefix))
 
 	val := config.RunnerConfig{}
 
@@ -6620,20 +6738,22 @@ func dsRunnerConfigReadStructConfigRunnerConfig(ctx context.Context, prefix stri
 
 	// CustomBuildDir: custom_build_dir -- , *config.CustomBuildDir
 
-	if _, ok := d.GetOk(prefix + "custom_build_dir"); ok {
+	if _, ok := d.GetOk(prefix + "custom_build_dir.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "custom_build_dir"))
-		thing, err := dsRunnerConfigReadStructConfigCustomBuildDir(ctx, prefix+"custom_build_dir", d)
+		thing, err := dsRunnerConfigReadStructConfigCustomBuildDir(ctx, prefix+"custom_build_dir.0", d)
 		if err != nil {
 			return val, err
 		}
 		val.CustomBuildDir = &thing
+	} else {
+		tflog.Debug(ctx, fmt.Sprintf("not set: %s", prefix+"custom_build_dir"))
 	}
 
 	// Referees: referees -- Config, referees.Config
 
-	if _, ok := d.GetOk(prefix + "referees"); ok {
+	if _, ok := d.GetOk(prefix + "referees.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "referees"))
-		thing, err := dsRunnerConfigReadStructRefereesConfig(ctx, prefix+"referees", d)
+		thing, err := dsRunnerConfigReadStructRefereesConfig(ctx, prefix+"referees.0", d)
 		if err != nil {
 			return val, err
 		}
@@ -6642,13 +6762,15 @@ func dsRunnerConfigReadStructConfigRunnerConfig(ctx context.Context, prefix stri
 
 	// Cache: cache -- , *config.CacheConfig
 
-	if _, ok := d.GetOk(prefix + "cache"); ok {
+	if _, ok := d.GetOk(prefix + "cache.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "cache"))
-		thing, err := dsRunnerConfigReadStructConfigCacheConfig(ctx, prefix+"cache", d)
+		thing, err := dsRunnerConfigReadStructConfigCacheConfig(ctx, prefix+"cache.0", d)
 		if err != nil {
 			return val, err
 		}
 		val.Cache = &thing
+	} else {
+		tflog.Debug(ctx, fmt.Sprintf("not set: %s", prefix+"cache"))
 	}
 
 	// FeatureFlags: feature_flags -- , map[string]bool
@@ -6659,79 +6781,93 @@ func dsRunnerConfigReadStructConfigRunnerConfig(ctx context.Context, prefix stri
 
 	// SSH: ssh -- , *ssh.Config
 
-	if _, ok := d.GetOk(prefix + "ssh"); ok {
+	if _, ok := d.GetOk(prefix + "ssh.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "ssh"))
-		thing, err := dsRunnerConfigReadStructSshConfig(ctx, prefix+"ssh", d)
+		thing, err := dsRunnerConfigReadStructSshConfig(ctx, prefix+"ssh.0", d)
 		if err != nil {
 			return val, err
 		}
 		val.SSH = &thing
+	} else {
+		tflog.Debug(ctx, fmt.Sprintf("not set: %s", prefix+"ssh"))
 	}
 
 	// Docker: docker -- , *config.DockerConfig
 
-	if _, ok := d.GetOk(prefix + "docker"); ok {
+	if _, ok := d.GetOk(prefix + "docker.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "docker"))
-		thing, err := dsRunnerConfigReadStructConfigDockerConfig(ctx, prefix+"docker", d)
+		thing, err := dsRunnerConfigReadStructConfigDockerConfig(ctx, prefix+"docker.0", d)
 		if err != nil {
 			return val, err
 		}
 		val.Docker = &thing
+	} else {
+		tflog.Debug(ctx, fmt.Sprintf("not set: %s", prefix+"docker"))
 	}
 
 	// Parallels: parallels -- , *config.ParallelsConfig
 
-	if _, ok := d.GetOk(prefix + "parallels"); ok {
+	if _, ok := d.GetOk(prefix + "parallels.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "parallels"))
-		thing, err := dsRunnerConfigReadStructConfigParallelsConfig(ctx, prefix+"parallels", d)
+		thing, err := dsRunnerConfigReadStructConfigParallelsConfig(ctx, prefix+"parallels.0", d)
 		if err != nil {
 			return val, err
 		}
 		val.Parallels = &thing
+	} else {
+		tflog.Debug(ctx, fmt.Sprintf("not set: %s", prefix+"parallels"))
 	}
 
 	// VirtualBox: virtualbox -- , *config.VirtualBoxConfig
 
-	if _, ok := d.GetOk(prefix + "virtualbox"); ok {
+	if _, ok := d.GetOk(prefix + "virtualbox.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "virtualbox"))
-		thing, err := dsRunnerConfigReadStructConfigVirtualBoxConfig(ctx, prefix+"virtualbox", d)
+		thing, err := dsRunnerConfigReadStructConfigVirtualBoxConfig(ctx, prefix+"virtualbox.0", d)
 		if err != nil {
 			return val, err
 		}
 		val.VirtualBox = &thing
+	} else {
+		tflog.Debug(ctx, fmt.Sprintf("not set: %s", prefix+"virtualbox"))
 	}
 
 	// Machine: machine -- , *config.DockerMachine
 
-	if _, ok := d.GetOk(prefix + "machine"); ok {
+	if _, ok := d.GetOk(prefix + "machine.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "machine"))
-		thing, err := dsRunnerConfigReadStructConfigDockerMachine(ctx, prefix+"machine", d)
+		thing, err := dsRunnerConfigReadStructConfigDockerMachine(ctx, prefix+"machine.0", d)
 		if err != nil {
 			return val, err
 		}
 		val.Machine = &thing
+	} else {
+		tflog.Debug(ctx, fmt.Sprintf("not set: %s", prefix+"machine"))
 	}
 
 	// Kubernetes: kubernetes -- , *config.KubernetesConfig
 
-	if _, ok := d.GetOk(prefix + "kubernetes"); ok {
+	if _, ok := d.GetOk(prefix + "kubernetes.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "kubernetes"))
-		thing, err := dsRunnerConfigReadStructConfigKubernetesConfig(ctx, prefix+"kubernetes", d)
+		thing, err := dsRunnerConfigReadStructConfigKubernetesConfig(ctx, prefix+"kubernetes.0", d)
 		if err != nil {
 			return val, err
 		}
 		val.Kubernetes = &thing
+	} else {
+		tflog.Debug(ctx, fmt.Sprintf("not set: %s", prefix+"kubernetes"))
 	}
 
 	// Custom: custom -- , *config.CustomConfig
 
-	if _, ok := d.GetOk(prefix + "custom"); ok {
+	if _, ok := d.GetOk(prefix + "custom.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "custom"))
-		thing, err := dsRunnerConfigReadStructConfigCustomConfig(ctx, prefix+"custom", d)
+		thing, err := dsRunnerConfigReadStructConfigCustomConfig(ctx, prefix+"custom.0", d)
 		if err != nil {
 			return val, err
 		}
 		val.Custom = &thing
+	} else {
+		tflog.Debug(ctx, fmt.Sprintf("not set: %s", prefix+"custom"))
 	}
 
 	return val, nil
@@ -6744,6 +6880,8 @@ func dsRunnerConfigReadStructConfigRunnerCredentials(ctx context.Context, prefix
 	if prefix != "" {
 		prefix = prefix + "."
 	}
+
+	tflog.Debug(ctx, fmt.Sprintf("beginning dsRunnerConfigReadStructConfigRunnerCredentials run; prefix is '%s'", prefix))
 
 	val := config.RunnerCredentials{}
 
@@ -6787,6 +6925,8 @@ func dsRunnerConfigReadStructConfigRunnerSettings(ctx context.Context, prefix st
 	if prefix != "" {
 		prefix = prefix + "."
 	}
+
+	tflog.Debug(ctx, fmt.Sprintf("beginning dsRunnerConfigReadStructConfigRunnerSettings run; prefix is '%s'", prefix))
 
 	val := config.RunnerSettings{}
 
@@ -6866,20 +7006,22 @@ func dsRunnerConfigReadStructConfigRunnerSettings(ctx context.Context, prefix st
 
 	// CustomBuildDir: custom_build_dir -- , *config.CustomBuildDir
 
-	if _, ok := d.GetOk(prefix + "custom_build_dir"); ok {
+	if _, ok := d.GetOk(prefix + "custom_build_dir.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "custom_build_dir"))
-		thing, err := dsRunnerConfigReadStructConfigCustomBuildDir(ctx, prefix+"custom_build_dir", d)
+		thing, err := dsRunnerConfigReadStructConfigCustomBuildDir(ctx, prefix+"custom_build_dir.0", d)
 		if err != nil {
 			return val, err
 		}
 		val.CustomBuildDir = &thing
+	} else {
+		tflog.Debug(ctx, fmt.Sprintf("not set: %s", prefix+"custom_build_dir"))
 	}
 
 	// Referees: referees -- Config, referees.Config
 
-	if _, ok := d.GetOk(prefix + "referees"); ok {
+	if _, ok := d.GetOk(prefix + "referees.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "referees"))
-		thing, err := dsRunnerConfigReadStructRefereesConfig(ctx, prefix+"referees", d)
+		thing, err := dsRunnerConfigReadStructRefereesConfig(ctx, prefix+"referees.0", d)
 		if err != nil {
 			return val, err
 		}
@@ -6888,13 +7030,15 @@ func dsRunnerConfigReadStructConfigRunnerSettings(ctx context.Context, prefix st
 
 	// Cache: cache -- , *config.CacheConfig
 
-	if _, ok := d.GetOk(prefix + "cache"); ok {
+	if _, ok := d.GetOk(prefix + "cache.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "cache"))
-		thing, err := dsRunnerConfigReadStructConfigCacheConfig(ctx, prefix+"cache", d)
+		thing, err := dsRunnerConfigReadStructConfigCacheConfig(ctx, prefix+"cache.0", d)
 		if err != nil {
 			return val, err
 		}
 		val.Cache = &thing
+	} else {
+		tflog.Debug(ctx, fmt.Sprintf("not set: %s", prefix+"cache"))
 	}
 
 	// FeatureFlags: feature_flags -- , map[string]bool
@@ -6905,79 +7049,93 @@ func dsRunnerConfigReadStructConfigRunnerSettings(ctx context.Context, prefix st
 
 	// SSH: ssh -- , *ssh.Config
 
-	if _, ok := d.GetOk(prefix + "ssh"); ok {
+	if _, ok := d.GetOk(prefix + "ssh.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "ssh"))
-		thing, err := dsRunnerConfigReadStructSshConfig(ctx, prefix+"ssh", d)
+		thing, err := dsRunnerConfigReadStructSshConfig(ctx, prefix+"ssh.0", d)
 		if err != nil {
 			return val, err
 		}
 		val.SSH = &thing
+	} else {
+		tflog.Debug(ctx, fmt.Sprintf("not set: %s", prefix+"ssh"))
 	}
 
 	// Docker: docker -- , *config.DockerConfig
 
-	if _, ok := d.GetOk(prefix + "docker"); ok {
+	if _, ok := d.GetOk(prefix + "docker.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "docker"))
-		thing, err := dsRunnerConfigReadStructConfigDockerConfig(ctx, prefix+"docker", d)
+		thing, err := dsRunnerConfigReadStructConfigDockerConfig(ctx, prefix+"docker.0", d)
 		if err != nil {
 			return val, err
 		}
 		val.Docker = &thing
+	} else {
+		tflog.Debug(ctx, fmt.Sprintf("not set: %s", prefix+"docker"))
 	}
 
 	// Parallels: parallels -- , *config.ParallelsConfig
 
-	if _, ok := d.GetOk(prefix + "parallels"); ok {
+	if _, ok := d.GetOk(prefix + "parallels.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "parallels"))
-		thing, err := dsRunnerConfigReadStructConfigParallelsConfig(ctx, prefix+"parallels", d)
+		thing, err := dsRunnerConfigReadStructConfigParallelsConfig(ctx, prefix+"parallels.0", d)
 		if err != nil {
 			return val, err
 		}
 		val.Parallels = &thing
+	} else {
+		tflog.Debug(ctx, fmt.Sprintf("not set: %s", prefix+"parallels"))
 	}
 
 	// VirtualBox: virtualbox -- , *config.VirtualBoxConfig
 
-	if _, ok := d.GetOk(prefix + "virtualbox"); ok {
+	if _, ok := d.GetOk(prefix + "virtualbox.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "virtualbox"))
-		thing, err := dsRunnerConfigReadStructConfigVirtualBoxConfig(ctx, prefix+"virtualbox", d)
+		thing, err := dsRunnerConfigReadStructConfigVirtualBoxConfig(ctx, prefix+"virtualbox.0", d)
 		if err != nil {
 			return val, err
 		}
 		val.VirtualBox = &thing
+	} else {
+		tflog.Debug(ctx, fmt.Sprintf("not set: %s", prefix+"virtualbox"))
 	}
 
 	// Machine: machine -- , *config.DockerMachine
 
-	if _, ok := d.GetOk(prefix + "machine"); ok {
+	if _, ok := d.GetOk(prefix + "machine.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "machine"))
-		thing, err := dsRunnerConfigReadStructConfigDockerMachine(ctx, prefix+"machine", d)
+		thing, err := dsRunnerConfigReadStructConfigDockerMachine(ctx, prefix+"machine.0", d)
 		if err != nil {
 			return val, err
 		}
 		val.Machine = &thing
+	} else {
+		tflog.Debug(ctx, fmt.Sprintf("not set: %s", prefix+"machine"))
 	}
 
 	// Kubernetes: kubernetes -- , *config.KubernetesConfig
 
-	if _, ok := d.GetOk(prefix + "kubernetes"); ok {
+	if _, ok := d.GetOk(prefix + "kubernetes.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "kubernetes"))
-		thing, err := dsRunnerConfigReadStructConfigKubernetesConfig(ctx, prefix+"kubernetes", d)
+		thing, err := dsRunnerConfigReadStructConfigKubernetesConfig(ctx, prefix+"kubernetes.0", d)
 		if err != nil {
 			return val, err
 		}
 		val.Kubernetes = &thing
+	} else {
+		tflog.Debug(ctx, fmt.Sprintf("not set: %s", prefix+"kubernetes"))
 	}
 
 	// Custom: custom -- , *config.CustomConfig
 
-	if _, ok := d.GetOk(prefix + "custom"); ok {
+	if _, ok := d.GetOk(prefix + "custom.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "custom"))
-		thing, err := dsRunnerConfigReadStructConfigCustomConfig(ctx, prefix+"custom", d)
+		thing, err := dsRunnerConfigReadStructConfigCustomConfig(ctx, prefix+"custom.0", d)
 		if err != nil {
 			return val, err
 		}
 		val.Custom = &thing
+	} else {
+		tflog.Debug(ctx, fmt.Sprintf("not set: %s", prefix+"custom"))
 	}
 
 	return val, nil
@@ -6990,6 +7148,8 @@ func dsRunnerConfigReadStructConfigService(ctx context.Context, prefix string, d
 	if prefix != "" {
 		prefix = prefix + "."
 	}
+
+	tflog.Debug(ctx, fmt.Sprintf("beginning dsRunnerConfigReadStructConfigService run; prefix is '%s'", prefix))
 
 	val := config.Service{}
 
@@ -7056,6 +7216,8 @@ func dsRunnerConfigReadStructConfigSessionServer(ctx context.Context, prefix str
 		prefix = prefix + "."
 	}
 
+	tflog.Debug(ctx, fmt.Sprintf("beginning dsRunnerConfigReadStructConfigSessionServer run; prefix is '%s'", prefix))
+
 	val := config.SessionServer{}
 
 	// ListenAddress: listen_address -- string, string
@@ -7086,6 +7248,8 @@ func dsRunnerConfigReadStructConfigVirtualBoxConfig(ctx context.Context, prefix 
 	if prefix != "" {
 		prefix = prefix + "."
 	}
+
+	tflog.Debug(ctx, fmt.Sprintf("beginning dsRunnerConfigReadStructConfigVirtualBoxConfig run; prefix is '%s'", prefix))
 
 	val := config.VirtualBoxConfig{}
 
@@ -7144,6 +7308,8 @@ func dsRunnerConfigReadStructConfigWeightedPodAffinityTerm(ctx context.Context, 
 		prefix = prefix + "."
 	}
 
+	tflog.Debug(ctx, fmt.Sprintf("beginning dsRunnerConfigReadStructConfigWeightedPodAffinityTerm run; prefix is '%s'", prefix))
+
 	val := config.WeightedPodAffinityTerm{}
 
 	// Weight: weight -- int32, int32
@@ -7154,9 +7320,9 @@ func dsRunnerConfigReadStructConfigWeightedPodAffinityTerm(ctx context.Context, 
 
 	// PodAffinityTerm: pod_affinity_term -- PodAffinityTerm, config.PodAffinityTerm
 
-	if _, ok := d.GetOk(prefix + "pod_affinity_term"); ok {
+	if _, ok := d.GetOk(prefix + "pod_affinity_term.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "pod_affinity_term"))
-		thing, err := dsRunnerConfigReadStructConfigPodAffinityTerm(ctx, prefix+"pod_affinity_term", d)
+		thing, err := dsRunnerConfigReadStructConfigPodAffinityTerm(ctx, prefix+"pod_affinity_term.0", d)
 		if err != nil {
 			return val, err
 		}
@@ -7173,6 +7339,8 @@ func dsRunnerConfigReadStructDockerCredentials(ctx context.Context, prefix strin
 	if prefix != "" {
 		prefix = prefix + "."
 	}
+
+	tflog.Debug(ctx, fmt.Sprintf("beginning dsRunnerConfigReadStructDockerCredentials run; prefix is '%s'", prefix))
 
 	val := docker.Credentials{}
 
@@ -7205,17 +7373,21 @@ func dsRunnerConfigReadStructRefereesConfig(ctx context.Context, prefix string, 
 		prefix = prefix + "."
 	}
 
+	tflog.Debug(ctx, fmt.Sprintf("beginning dsRunnerConfigReadStructRefereesConfig run; prefix is '%s'", prefix))
+
 	val := referees.Config{}
 
 	// Metrics: metrics -- , *referees.MetricsRefereeConfig
 
-	if _, ok := d.GetOk(prefix + "metrics"); ok {
+	if _, ok := d.GetOk(prefix + "metrics.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "metrics"))
-		thing, err := dsRunnerConfigReadStructRefereesMetricsRefereeConfig(ctx, prefix+"metrics", d)
+		thing, err := dsRunnerConfigReadStructRefereesMetricsRefereeConfig(ctx, prefix+"metrics.0", d)
 		if err != nil {
 			return val, err
 		}
 		val.Metrics = &thing
+	} else {
+		tflog.Debug(ctx, fmt.Sprintf("not set: %s", prefix+"metrics"))
 	}
 
 	return val, nil
@@ -7228,6 +7400,8 @@ func dsRunnerConfigReadStructRefereesMetricsRefereeConfig(ctx context.Context, p
 	if prefix != "" {
 		prefix = prefix + "."
 	}
+
+	tflog.Debug(ctx, fmt.Sprintf("beginning dsRunnerConfigReadStructRefereesMetricsRefereeConfig run; prefix is '%s'", prefix))
 
 	val := referees.MetricsRefereeConfig{}
 
@@ -7273,6 +7447,8 @@ func dsRunnerConfigReadStructSshConfig(ctx context.Context, prefix string, d *sc
 	if prefix != "" {
 		prefix = prefix + "."
 	}
+
+	tflog.Debug(ctx, fmt.Sprintf("beginning dsRunnerConfigReadStructSshConfig run; prefix is '%s'", prefix))
 
 	val := ssh.Config{}
 
