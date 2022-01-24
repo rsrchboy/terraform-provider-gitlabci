@@ -55,13 +55,13 @@ func init() {
 		Description: "The computed configuration id",
 	}
 
-	// // allow for some other config to be used as a template
-	// configDataSourceRawSchema["runners"].Elem.(*schema.Resource).Schema["config_template"] = &schema.Schema{
-	// 	Type:        schema.TypeString,
-	// 	Optional:    true,
-	// 	Sensitive:   true,
-	// 	Description: "Configuration template (toml).  If included, this toml will be used as the base of this runner's configuration.  This attribute is marked sensitive as it may include authentication tokens, cache bucket keys, etc.",
-	// }
+	// allow for some other config to be used as a template
+	configDataSourceRawSchema["runners"].Elem.(*schema.Resource).Schema["config_template"] = &schema.Schema{
+		Type:        schema.TypeString,
+		Optional:    true,
+		Sensitive:   true,
+		Description: "Configuration template (toml).  If included, this toml will be used as the base of this runner's configuration.  This attribute is marked sensitive as it may include authentication tokens, cache bucket keys, etc.",
+	}
 
 	// secrets!
 	findRes("runners", "token").Sensitive = true

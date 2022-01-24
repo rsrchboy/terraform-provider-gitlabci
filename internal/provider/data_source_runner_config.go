@@ -11,6 +11,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/helper/hashcode"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/imdario/mergo"
+	"gitlab.com/rsrchboy/terraform-provider-gitlabci/third_party/gitlab/runner/config"
 )
 
 type schemaMap map[string]*schema.Schema
@@ -26,8 +28,6 @@ attributes (e.g. "output") and inputs for templating.
 `
 
 func dataSourceGitlabCIRunnerConfig() *schema.Resource {
-
-	// structs.DefaultTagName = "toml"
 
 	schema := &schema.Resource{
 		Description: dsRunnerConfigDescription,
@@ -46,36 +46,27 @@ func dataSourceGitlabCIRunnerConfigRead(ctx context.Context, d *schema.ResourceD
 		return diag.FromErr(err)
 	}
 
-	// FIXME need to restore template functionality
-	// if runners, hasRunners := d.GetOk("runners"); hasRunners {
-	// 	c.Runners = make([]*rcommon.RunnerConfig, len(runners.([]interface{})))
-	// 	for i, _ := range runners.([]interface{}) {
-	// 		log.Printf("working on runner block #%d", i)
-
-	// 		// handle templates here
-	// 		if templateData, hasTemplateData := d.GetOkExists(pfx + "config_template"); hasTemplateData {
-	// 			// https://godoc.org/github.com/hashicorp/terraform-plugin-sdk/helper/pathorcontents
-	// 			templateStr, _, err := pathorcontents.Read(templateData.(string))
-	// 			if err != nil {
-	// 				return err
-	// 			}
-	// 			tmpfile, err := ioutil.TempFile("", "runnercfgtemplate*")
-	// 			if err != nil {
-	// 				return err
-	// 			}
-	// 			defer os.Remove(tmpfile.Name())
-	// 			if _, err = tmpfile.WriteString(templateStr); err != nil {
-	// 				return err
-	// 			}
-	// 			ct, err := configtemplate.NewConfigTemplateFromFile(tmpfile.Name())
-	// 			if err != nil {
-	// 				return err
-	// 			}
-	// 			ct.MergeTo(&r)
-	// 		}
-
-	// 		c.Runners[i] = &r
-	// 	}
+	// process runner config templates (if any)
+	for i, r := range c.Runners {
+		key := fmt.Sprintf("runners.%d.config_template", i)
+		if tstr, ok := d.GetOk(key); ok {
+			tflog.Debug(ctx, fmt.Sprintf("template exists for key: %s", key))
+			tc := config.Config{}
+			if _, err = toml.Decode(tstr.(string), &tc); err != nil {
+				return diag.FromErr(err)
+			}
+			if count := len(tc.Runners); count != 1 {
+				return diag.Errorf("template %s has %d != 1 runners sections!", key, count)
+			}
+			// err = mergo.Merge(c.Runners[i], tc.Runners[0])
+			err = mergo.Merge(r, *tc.Runners[0])
+			if err != nil {
+				return diag.FromErr(err)
+			}
+		} else {
+			tflog.Debug(ctx, fmt.Sprintf("template does not exist for key: %s", key))
+		}
+	}
 
 	// generate toml config
 	buf := new(bytes.Buffer)
@@ -85,6 +76,7 @@ func dataSourceGitlabCIRunnerConfigRead(ctx context.Context, d *schema.ResourceD
 
 	d.Set("config", fmt.Sprintf("%s", buf.String()))
 	d.Set("config_not_sensitive", fmt.Sprintf("%s", buf.String()))
+
 	// TODO how concerned should we be about this logging? (from a secrets
 	// perspective)
 	tflog.Debug(ctx, fmt.Sprintf("runner config toml:\n\n%s", buf.String()))
