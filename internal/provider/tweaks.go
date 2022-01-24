@@ -16,17 +16,17 @@ func init() {
 		Type:        schema.TypeString,
 		Computed:    true,
 		Sensitive:   true,
-		Description: "The computed runner configuration (toml).  This attribute is marked sensitive as it may include authentication tokens, cache bucket keys, etc.",
+		Description: "The computed runner configuration (TOML).  This attribute is marked sensitive as it may include authentication tokens, cache bucket keys, etc.",
 	}
 	configDataSourceRawSchema["config_not_sensitive"] = &schema.Schema{
 		Type:        schema.TypeString,
 		Computed:    true,
-		Description: "The computed runner configuration (toml).  This attribute is NOT marked sensitive EVEN THOUGH it may include authentication tokens, cache bucket keys, etc.  If you're uncertain, you should probably just be using the `config` attribute.",
+		Description: "The computed runner configuration (TOML).  This attribute is NOT marked sensitive EVEN THOUGH it may include authentication tokens, cache bucket keys, etc.  If you're uncertain, you should probably just be using the `config` attribute.",
 	}
 	configDataSourceRawSchema["id"] = &schema.Schema{
 		Type:        schema.TypeString,
 		Computed:    true,
-		Description: "The computed configuation id",
+		Description: "The computed configuration id",
 	}
 
 	// // allow for some other config to be used as a template
