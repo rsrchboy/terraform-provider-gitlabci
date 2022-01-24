@@ -8,6 +8,32 @@ import (
 )
 
 // Tweak our generated schema for the runner_config data source.
+//
+// This file contains any changes that we need to make to the schema, etc,
+// prior to its consumption/usage.  These sorts of changes would be ...
+// awkward to embed in the code generation, but reasonably straight-forward to
+// handle here.
+//
+// We're not going to try to include defaults.  (Most of the time, anyways.)
+// There's too many ways someone could reasonably use this datasource that
+// defaults could make a mess of things.  Merge requests demonstrating the
+// error of my ways are welcome :)
+//
+// Generally speaking, one can expect to find:
+//
+// *) computed attributes
+//
+//    e.g. config, or id
+//
+// *) attribute, um, attribute tweaks
+//
+//    Secrets should be marked "Sensitive", some blocks have a maximum, etc.
+//
+// *) validation functions
+//
+//    Some attributes we can clearly validate the inputs; others... not so
+//    much.  We'll try to cover the basics/obvious ones; merge requests
+//    welcome :)
 
 func init() {
 
