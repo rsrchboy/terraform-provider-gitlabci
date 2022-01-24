@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"go/format"
+	"log"
 	"os"
 	"reflect"
 	"strings"
@@ -14,9 +15,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/stoewer/go-strcase"
 	"gitlab.com/rsrchboy/terraform-provider-gitlabci/third_party/gitlab/runner/config"
+	"golang.org/x/tools/imports"
 )
-
-// rcommon "gitlab.com/rsrchboy/terraform-provider-gitlabci/third_party/gitlab/runner/config"
 
 // I'm not going to worry about spacing, alignment, etc, as we effectively run
 // gofmt on the rendered output before spewing it out into a file.
@@ -289,6 +289,8 @@ func dsRunnerConfigReadStruct{{ .Name | title | replace "." "" }}(ctx context.Co
 {{ end }}
 `
 
+const outFile = "internal/provider/generated.go"
+
 var funcMap template.FuncMap
 var tmpl *template.Template
 
@@ -370,21 +372,22 @@ func main() {
 		return
 	}
 
-	fmt.Println(string(source))
+	// goimports
+	process, err := imports.Process(outFile, source, nil)
+	if err != nil {
+		log.Println(string(source))
+		fmt.Printf("failed to format imports: %s\b", err)
+		return
+	}
 
-	// TODO this is either begging for a const or a flag or...
-	err = os.WriteFile("internal/provider/generated.go", source, 0o644)
+	fmt.Println(string(process))
+
+	// TODO this is begging for a flag
+	err = os.WriteFile(outFile, process, 0o644)
 	if err != nil {
 		fmt.Printf("failed to write file: %s\n", err)
 		return
 	}
-
-	// // goimports
-	// process, err := imports.Process(filename, source, nil)
-	// if err != nil {
-	// 	log.Println(string(source))
-	// 	return fmt.Errorf("failed to format imports: %w", err)
-	// }
 
 }
 
@@ -420,7 +423,6 @@ func nodeElemTemplate(f reflect.StructField) string {
 // return the name of the template to process this field with for a
 // schema.Schema's Elem field
 func nodeElemTemplatePart(t reflect.Type) string {
-	// tname := f.Type.Name()
 	tname := t.Kind().String()
 	switch tname {
 	case "ptr":
@@ -449,13 +451,11 @@ func fieldToSchema(f reflect.StructField) *schema.Schema {
 	me := &schema.Schema{}
 
 	if tag := f.Tag.Get("description"); tag != "" {
-		// name = strings.Split(tag, ",")[0]
 		me.Description = tag
 	}
 
 	tname := f.Type.Kind().String()
 	switch tname {
-	// switch tname := f.Type.Kind().String() {
 	case "[]string", "*[]string", "[]*string":
 		me.Type = schema.TypeList
 		me.Elem = &schema.Schema{Type: schema.TypeString}
@@ -475,7 +475,6 @@ func fieldToSchema(f reflect.StructField) *schema.Schema {
 		me.Type = schema.TypeBool
 	default:
 		fmt.Printf("unhandled type: %s\n", tname)
-		// handled = false
 	}
 
 	return me
