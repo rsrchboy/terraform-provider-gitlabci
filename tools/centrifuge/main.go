@@ -24,36 +24,53 @@ package main
 
 import (
 	"fmt"
-	"go/build"
 	"go/types"
 	"log"
 	"os"
-	"path"
 	"path/filepath"
 	"strings"
 )
 
-const rootPkg = "github.com/traefik/traefik/v2/pkg/config/dynamic"
+const rootPkg = "gitlab.com/gitlab-org/gitlab-runner/common"
 
 const (
-	destModuleName = "github.com/traefik/genconf"
-	destPkg        = "dynamic"
+	destModuleName = "gitlab.com/rsrchboy/terraform-provider-gitlabci/third_party/gitlab/runner"
+	destPkg        = "config"
+	// TODO FIXME this just screams out for a flag...
+	workingDir = "../../gitlab/gitlab-runner/common"
 )
+
+var destPath = filepath.Join("third_party", "gitlab", "runner", destPkg)
 
 const marsh = `package %s
 
-import "encoding/json"
+import (
+	"fmt"
+)
 
-type JSONPayload struct {
-	*Configuration
-}
+// StringOrArray is pulled from gitlab-runner/common
 
-func (c JSONPayload) MarshalJSON() ([]byte, error) {
-	if c.Configuration == nil {
-		return nil, nil
+// // StringOrArray implements UnmarshalTOML to unmarshal either a string or array of strings.
+// type StringOrArray []string
+
+func (p *StringOrArray) UnmarshalTOML(data interface{}) error {
+	switch v := data.(type) {
+	case string:
+		*p = StringOrArray{v}
+	case []interface{}:
+		for _, vv := range v {
+			switch item := vv.(type) {
+			case string:
+				*p = append(*p, item)
+			default:
+				return fmt.Errorf("unexpected data type: %%v", item)
+			}
+		}
+	default:
+		return fmt.Errorf("unexpected data type: %%v", v)
 	}
 
-	return json.Marshal(c.Configuration)
+	return nil
 }
 `
 
@@ -62,7 +79,7 @@ func (c JSONPayload) MarshalJSON() ([]byte, error) {
 // that contains Go structs of the dynamic configuration and nothing else.
 // These Go structs do not have any non-exported fields and do not rely on any external dependencies.
 func main() {
-	dest := filepath.Join(path.Join(build.Default.GOPATH, "src"), destModuleName, destPkg)
+	dest := destPath
 
 	log.Println("Output:", dest)
 
@@ -73,28 +90,42 @@ func main() {
 }
 
 func run(dest string) error {
-	centrifuge, err := NewCentrifuge(rootPkg)
+	centrifuge, err := NewCentrifuge(rootPkg, workingDir)
 	if err != nil {
 		return err
 	}
 
 	centrifuge.IncludedImports = []string{
-		"github.com/traefik/traefik/v2/pkg/tls",
-		"github.com/traefik/traefik/v2/pkg/types",
+		"gitlab.com/gitlab-org/gitlab-runner/helpers/docker",
+		"gitlab.com/gitlab-org/gitlab-runner/helpers/ssh",
+		"gitlab.com/gitlab-org/gitlab-runner/referees",
 	}
 
 	centrifuge.ExcludedTypes = []string{
-		// tls
-		"CertificateStore", "Manager",
-		// dynamic
-		"Message", "Configurations",
-		// types
-		"HTTPCodeRanges", "HostResolverConfig",
+		"S3AuthType",              // string
+		"InvalidTimePeriodsError", // unused
+		"DockerPullPolicy",        // string
+		"DockerSysCtls",           // map[string]string
 	}
 
 	centrifuge.ExcludedFiles = []string{
-		"github.com/traefik/traefik/v2/pkg/types/logs.go",
-		"github.com/traefik/traefik/v2/pkg/types/metrics.go",
+		"gitlab.com/gitlab-org/gitlab-runner/common/allowed_images.go",
+		"gitlab.com/gitlab-org/gitlab-runner/common/build.go",
+		"gitlab.com/gitlab-org/gitlab-runner/common/build_logger.go",
+		"gitlab.com/gitlab-org/gitlab-runner/common/executor.go",
+		"gitlab.com/gitlab-org/gitlab-runner/common/network.go",
+		"gitlab.com/gitlab-org/gitlab-runner/common/secrets.go",
+		"gitlab.com/gitlab-org/gitlab-runner/common/shell.go",
+		"gitlab.com/gitlab-org/gitlab-runner/common/trace.go",
+		"gitlab.com/gitlab-org/gitlab-runner/common/variables.go",
+		"gitlab.com/gitlab-org/gitlab-runner/common/version.go",
+		"gitlab.com/gitlab-org/gitlab-runner/helpers/docker/client.go",
+		"gitlab.com/gitlab-org/gitlab-runner/helpers/docker/machine.go",
+		"gitlab.com/gitlab-org/gitlab-runner/helpers/docker/machine_command.go",
+		"gitlab.com/gitlab-org/gitlab-runner/helpers/docker/sockets.go",
+		"gitlab.com/gitlab-org/gitlab-runner/helpers/ssh/ssh_command.go",
+		"gitlab.com/gitlab-org/gitlab-runner/helpers/ssh/stub_ssh_server.go",
+		"gitlab.com/gitlab-org/gitlab-runner/referees/prometheus_api.go",
 	}
 
 	centrifuge.TypeCleaner = cleanType
@@ -109,24 +140,36 @@ func run(dest string) error {
 }
 
 func cleanType(typ types.Type, base string) string {
-	if typ.String() == "github.com/traefik/traefik/v2/pkg/tls.FileOrContent" {
+
+	// base is the module we're importing _from_
+
+	if strings.Contains(typ.String(), "gitlab.com/gitlab-org/gitlab-runner/helpers/") {
+		return strings.ReplaceAll(typ.String(), "gitlab.com/gitlab-org/gitlab-runner/helpers/", "")
+	}
+
+	switch typ.String() {
+	case base + ".DockerPullPolicy":
+		return "string"
+	case base + ".DockerSysCtls":
+		return "map[string]string"
+	case base + ".S3AuthType":
 		return "string"
 	}
 
-	if typ.String() == "[]github.com/traefik/traefik/v2/pkg/tls.FileOrContent" {
+	if typ.String() == "[]k8s.io/api/core/v1.Capability" {
 		return "[]string"
 	}
 
-	if typ.String() == "github.com/traefik/paerser/types.Duration" {
-		return "string"
+	if typ.String() == "*gitlab.com/gitlab-org/gitlab-runner/referees.Config" {
+		return "referees.Config"
+	}
+
+	if typ.String() == "gitlab.com/gitlab-org/gitlab-runner/helpers/docker.Credentials" {
+		return "docker.Credentials"
 	}
 
 	if strings.Contains(typ.String(), base) {
 		return strings.ReplaceAll(typ.String(), base+".", "")
-	}
-
-	if strings.Contains(typ.String(), "github.com/traefik/traefik/v2/pkg/") {
-		return strings.ReplaceAll(typ.String(), "github.com/traefik/traefik/v2/pkg/", "")
 	}
 
 	return typ.String()
@@ -134,12 +177,12 @@ func cleanType(typ types.Type, base string) string {
 
 func cleanPackage(src string) string {
 	switch src {
-	case "github.com/traefik/paerser/types":
-		return ""
-	case "github.com/traefik/traefik/v2/pkg/tls":
-		return path.Join(destModuleName, destPkg, "tls")
-	case "github.com/traefik/traefik/v2/pkg/types":
-		return path.Join(destModuleName, destPkg, "types")
+	case "gitlab.com/gitlab-org/gitlab-runner/helpers/docker":
+		return fmt.Sprintf("%s/%s/%s", destModuleName, destPkg, "docker")
+	case "gitlab.com/gitlab-org/gitlab-runner/helpers/ssh":
+		return fmt.Sprintf("%s/%s/%s", destModuleName, destPkg, "ssh")
+	case "gitlab.com/gitlab-org/gitlab-runner/referees":
+		return fmt.Sprintf("%s/%s/%s", destModuleName, destPkg, "referees")
 	default:
 		return src
 	}
