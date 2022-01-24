@@ -4,7 +4,7 @@ import (
 	"regexp"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
+	v "github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 )
 
 // Tweak our generated schema for the runner_config data source.
@@ -75,16 +75,16 @@ func init() {
 	findRes("runners", "docker", "services", "name").Optional = false
 
 	// validations
-	findRes("concurrent").ValidateFunc = validation.IntAtLeast(1)
-	findRes("check_interval").ValidateFunc = validation.IntAtLeast(0)
+	findRes("concurrent").ValidateFunc = v.IntAtLeast(1)
+	findRes("check_interval").ValidateFunc = v.IntAtLeast(0)
 	findRes("log_level").ValidateFunc =
-		validation.StringInSlice([]string{"panic", "fatal", "error", "warning", "info", "debug"}, false)
+		v.StringInSlice([]string{"panic", "fatal", "error", "warning", "info", "debug"}, false)
 	findRes("log_format").ValidateFunc =
-		validation.StringInSlice([]string{"runner", "text", "json"}, false)
-	findRes("runners", "url").ValidateFunc = validation.IsURLWithHTTPorHTTPS
-	findRes("runners", "clone_url").ValidateFunc = validation.IsURLWithHTTPorHTTPS
+		v.StringInSlice([]string{"runner", "text", "json"}, false)
+	findRes("runners", "url").ValidateFunc = v.IsURLWithHTTPorHTTPS
+	findRes("runners", "clone_url").ValidateFunc = v.IsURLWithHTTPorHTTPS
 	findRes("runners", "executor").ValidateFunc =
-		validation.StringInSlice([]string{
+		v.StringInSlice([]string{
 			"custom",
 			"docker",
 			"docker+machine",
@@ -98,9 +98,9 @@ func init() {
 			"virtualbox",
 		}, false)
 	findRes("runners", "shell").ValidateFunc =
-		validation.StringInSlice([]string{"bash", "sh", "powershell", "pwsh"}, false)
+		v.StringInSlice([]string{"bash", "sh", "powershell", "pwsh"}, false)
 	findRes("runners", "machine", "machine_name").ValidateFunc =
-		validation.StringMatch(regexp.MustCompile(`.*%s.*`), "string must include %s")
+		v.StringMatch(regexp.MustCompile(`.*%s.*`), "string must include %s")
 }
 
 func findRes(path ...string) *schema.Schema {
