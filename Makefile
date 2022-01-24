@@ -1,6 +1,10 @@
 GOFMT_FILES?=$$(find . -name '*.go' |grep -v vendor)
 
 sources = $(wildcard *.go gitlabci/*.go go.mod helper/**/*.go internal/**/*.go)
+docs = $(wildcard docs/**/*)
+doc_sources = $(wildcard templates/**/* examples/**/resource.tf examples/**/data-source.tf) \
+		examples/provider/provider.tf \
+		$(wildcard examples/registering-a-runner/**/*)
 
 binary_name = terraform-provider-gitlabci
 
@@ -31,12 +35,18 @@ vet:
 		exit 1; \
 	fi
 
-gen doc:
+gen:
 	go generate
 
-docs-commit:
+$(docs): $(doc_sources)
+	go generate
+
+# generate docs if templates have been changed
+docs: $(docs)
+
+docs-commit: $(docs)
 	git add -A docs/
-	git commit -m 'Update generated docs'
+	git commit -m 'Update generated docs' -- docs/
 
 gen-third-party: gen-runner-structs
 
