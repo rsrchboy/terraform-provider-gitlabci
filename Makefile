@@ -34,6 +34,10 @@ vet:
 gen doc:
 	go generate
 
+docs-commit:
+	git add -A docs/
+	git commit -m 'Update generated docs'
+
 gen-third-party: gen-runner-structs
 
 runner_structs_tools = $(wildcard tools/centrifuge/*.go)
