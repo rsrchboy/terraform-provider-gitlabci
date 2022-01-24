@@ -84,6 +84,7 @@ func dataSourceGitlabCIRunnerConfigRead(ctx context.Context, d *schema.ResourceD
 	}
 
 	d.Set("config", fmt.Sprintf("%s", buf.String()))
+	d.Set("config_not_sensitive", fmt.Sprintf("%s", buf.String()))
 	tflog.Debug(ctx, "runner config toml:\n\n%s", buf.String())
 
 	configString := buf.String()
