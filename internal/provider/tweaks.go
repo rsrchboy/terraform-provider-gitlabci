@@ -97,6 +97,8 @@ func init() {
 			"ssh",
 			"virtualbox",
 		}, false)
+	findRes("runners", "cache", "type").ValidateFunc =
+		v.StringInSlice([]string{"gcs", "s3", "azure"}, false)
 	findRes("runners", "shell").ValidateFunc =
 		v.StringInSlice([]string{"bash", "sh", "powershell", "pwsh"}, false)
 	findRes("runners", "machine", "machine_name").ValidateFunc =
