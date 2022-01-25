@@ -3,7 +3,8 @@ layout: ""
 page_title: "gitlabci Provider"
 subcategory: ""
 description: |-
-  The GitLabCI provider allows the trivial creation of a runner token.
+  The GitLabCI provider allows the trivial creation of runner tokens and
+  configuration.
 ---
 
 # GitLabCI Provider
@@ -16,6 +17,11 @@ specific user.
 
 For more information, please see the [Registering a
 runner](guides/registering-a-runner) guide.
+
+This provider also provides data sources related to GitLab CI, including
+[`gitlabci_runner_config`](data-sources/runner_config), a data source allowing
+runner configuration to be generated (much as, say, the AWS provider's
+`aws_iam_policy_document` does for IAM policies).
 
 For a general-purpose provider (that includes the ability to look up
 registration tokens), please see the [GitLab terraform

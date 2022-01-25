@@ -1,6 +1,10 @@
 GOFMT_FILES?=$$(find . -name '*.go' |grep -v vendor)
 
 sources = $(wildcard *.go gitlabci/*.go go.mod helper/**/*.go internal/**/*.go)
+docs = $(wildcard docs/**/*)
+doc_sources = $(wildcard templates/**/* examples/**/resource.tf examples/**/data-source.tf) \
+		examples/provider/provider.tf \
+		$(wildcard examples/registering-a-runner/**/*)
 
 binary_name = terraform-provider-gitlabci
 
@@ -10,13 +14,14 @@ build: $(binary_name)
 
 $(binary_name): $(sources)
 	go build .
+	rm -f .terraform.lock.hcl
 
 test: $(binary_name)
 	go test `go list ./...`
 
 clean:
-	rm -f $(binary_name) predefined_variables.md vars-data
-	rm -rf terraform.d/
+	rm -f $(binary_name) predefined_variables.md vars-data .terraform.lock.hcl
+	rm -rf terraform.d/ .terraform/
 
 fmt:
 	gofmt -w $(GOFMT_FILES)
@@ -33,6 +38,39 @@ vet:
 gen:
 	go generate
 
+$(docs): $(doc_sources)
+	go generate
+
+# generate docs if templates have been changed
+docs: $(docs)
+
+docs-commit: $(docs)
+	git add -A docs/
+	git commit -m 'Update generated docs' -- docs/
+
+gen-third-party: gen-runner-structs
+
+runner_structs_tools = $(wildcard tools/centrifuge/*.go)
+runner_structs_files = $(wildcard third_party/**/*.go)
+
+third-party: $(runner_structs_files)
+	git diff -- third_party/
+
+$(runner_structs_files): $(runner_structs_tools)
+	# go run ./tools/centrifuge/*.go
+	go run $(runner_structs_tools)
+	git diff -- third_party/
+
+gen-runner-structs:
+	# go run ./tools/centrifuge/*.go
+	go run $(runner_structs_tools)
+	git diff -- third_party/
+
+gen-schema:
+	go run ./tools/config-schema-gen/*.go
+
+.PHONY: gen-schema gen-runner-structs gen
+
 # convenience targets for development
 
 tfa: $(binary_name)
@@ -42,10 +80,12 @@ tfp: $(binary_name)
 	terraform init && TF_LOG=TRACE terraform plan
 
 local: $(local_bin)
-	echo
 
 init: $(local_bin)
 	terraform init
+
+plan:
+	terraform plan
 
 $(local_bin): $(binary_name)
 	mkdir -p $(dir $@)
@@ -66,4 +106,4 @@ env-ds-struct: vars-data
 env-ds-set: vars-data
 	@cat $< | sed -e 's/^ `//; s/`.*//' | perl -nE 'chomp; say qq{d.Set("} . lc($$_) . qq{", os.Getenv("$$_"))}'
 
-.PHONY: build clean ci-datasource fmt vet tfa tfp test
+.PHONY: build clean fmt vet tfa tfp test
