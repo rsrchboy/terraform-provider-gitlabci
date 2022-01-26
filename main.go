@@ -34,9 +34,7 @@ var (
 	// these will be set by the goreleaser configuration
 	// to appropriate values for the compiled binary
 	version string = "dev"
-
-	// goreleaser can also pass the specific commit if you want
-	// commit  string = ""
+	commit  string = ""
 )
 
 func main() {
@@ -45,7 +43,7 @@ func main() {
 	pflag.BoolVar(&debugMode, "debug", false, "set to true to run the provider with support for debuggers like delve")
 	flag.Parse()
 
-	opts := &plugin.ServeOpts{ProviderFunc: provider.NewProvider(version)}
+	opts := &plugin.ServeOpts{ProviderFunc: provider.NewProvider(version, commit)}
 
 	if debugMode {
 		// TODO: update this string with the full name of your provider as used in your configs

@@ -12,7 +12,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
-	"github.com/parnurzeal/gorequest"
 )
 
 const resourceGitlabRunnerDescription = "The `gitlabci_runner` resource " +
@@ -111,7 +110,7 @@ func resourceGitlabRunner() *schema.Resource {
 }
 
 func resourceGitlabRunnerCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	baseURL := meta.(string)
+	api := meta.(apiClient)
 
 	tflog.Trace(ctx, "create gitlab runner token")
 
@@ -147,15 +146,12 @@ func resourceGitlabRunnerCreate(ctx context.Context, d *schema.ResourceData, met
 		query.TagList = *(stringSetToStringSlice(v.(*schema.Set)))
 	}
 
-	url := baseURL + "/runners"
+	url := api.baseURL + "/runners"
 
 	j, _ := json.Marshal(query)
 	tflog.Trace(ctx, "create gitlab runner query: %s", j)
 
-	req := gorequest.
-		New().
-		Post(url).
-		Send(query)
+	req := api.newAgent().Post(url).Send(query)
 
 	// TODO other registration options...
 
@@ -179,7 +175,9 @@ func resourceGitlabRunnerCreate(ctx context.Context, d *schema.ResourceData, met
 }
 
 func resourceGitlabRunnerRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	baseURL := meta.(string)
+	api := meta.(apiClient)
+
+	tflog.Debug(ctx, "validating runner token")
 
 	runnerID, err := strconv.Atoi(d.Id())
 	if err != nil {
@@ -190,11 +188,9 @@ func resourceGitlabRunnerRead(ctx context.Context, d *schema.ResourceData, meta 
 
 	tflog.Trace(ctx, "read gitlab runner %d", runnerID)
 
-	url := baseURL + "/runners/verify"
-	req := gorequest.
-		New().
-		Post(url).
-		Send("token=" + d.Get("token").(string))
+	url := api.baseURL + "/runners/verify"
+	query := "token=" + d.Get("token").(string)
+	req := api.newAgent().Post(url).Send(query)
 	resp, _, errs := req.End()
 
 	for _, err := range errs {
@@ -211,7 +207,7 @@ func resourceGitlabRunnerRead(ctx context.Context, d *schema.ResourceData, meta 
 }
 
 func resourceGitlabRunnerDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
-	baseURL := meta.(string)
+	api := meta.(apiClient)
 
 	id, err := strconv.Atoi(d.Id())
 	if err != nil {
@@ -220,11 +216,9 @@ func resourceGitlabRunnerDelete(ctx context.Context, d *schema.ResourceData, met
 
 	tflog.Trace(ctx, "Delete gitlab runner %d", id)
 
-	url := baseURL + "/runners"
-	req := gorequest.
-		New().
-		Delete(url).
-		Send("token=" + d.Get("token").(string))
+	url := api.baseURL + "/runners"
+	query := "token=" + d.Get("token").(string)
+	req := api.newAgent().Delete(url).Send(query)
 	resp, _, errs := req.End()
 
 	for _, err := range errs {
