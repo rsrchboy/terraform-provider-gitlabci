@@ -17,12 +17,12 @@ import (
 // command executed to create a provider server to which the CLI can reattach.
 var providerFactories = map[string]func() (*schema.Provider, error){
 	"gitlabci": func() (*schema.Provider, error) {
-		return New("dev")(), nil
+		return NewProvider("dev", "deadb33f")(), nil
 	},
 }
 
 func TestProvider(t *testing.T) {
-	if err := New("dev")().InternalValidate(); err != nil {
+	if err := NewProvider("dev", "deadb22f")().InternalValidate(); err != nil {
 		t.Fatalf("err: %s", err)
 	}
 }
