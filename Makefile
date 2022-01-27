@@ -8,13 +8,13 @@ doc_sources = $(wildcard templates/**/* examples/**/resource.tf examples/**/data
 
 binary_name = terraform-provider-gitlabci
 
-local_bin = terraform.d/plugins/registry.terraform.io/rsrchboy/gitlabci/1.0.0/linux_amd64/$(binary_name)
+local_bin = terraform.d/plugins/registry.terraform.io/rsrchboy/gitlabci/0.0.1/linux_amd64/$(binary_name)
 
 build: $(binary_name)
 
 $(binary_name): $(sources)
 	go build .
-	rm -f .terraform.lock.hcl
+	rm -f .terraform.lock.hcl # ...or provider checksums mismatch
 
 test: $(binary_name)
 	go test `go list ./...`
