@@ -78,7 +78,7 @@ publish:
     - gpg-agent --daemon --default-cache-ttl 7200
     - cat $GPG_SIGNING_KEY | gpg --import --batch --no-tty
     - echo "frobnips!" > /tmp/foo
-    - gpg --detach-sig --yes -v --output=/dev/null --pinentry-mode loopback --passphrase "$(cat $GPG_PASSWORD)" /tmp/foo
+    - gpg --detach-sig --yes -v --output=/dev/null --pinentry-mode loopback --passphrase-file "$GPG_PASSWORD" /tmp/foo
   script:
     - goreleaser release --rm-dist
   cache:
