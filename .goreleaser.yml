@@ -58,3 +58,5 @@ release:
   # draft: true
 changelog:
   skip: true
+gitlab_urls:
+  use_package_registry: true
