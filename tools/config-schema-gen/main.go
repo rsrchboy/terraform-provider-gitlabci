@@ -27,8 +27,13 @@ import (
 const tmplString = `
 
 {{define "schemaSchema" }}
-	Optional:    true,
+{{ $desc := . | nodeDesc | replace "\"" "\\\"" -}}
+{{- if $desc -}}
 	Description: "{{. | nodeDesc | replace "\"" "\\\"" }}",
+{{ else -}}
+	// TODO a description would be nice!
+{{ end -}}
+	Optional:    true,
 {{ $tpl := nodeElemTemplate . }}
 {{- if eq $tpl "elemNull" -}}
 // elemNull
