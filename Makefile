@@ -73,7 +73,11 @@ $(schema_files): $(schema_tools)
 gen-schema: $(schema_files)
 	# schema files regenerated if any changes to the tooling
 
-.PHONY: gen-schema gen-runner-structs gen
+force-regen:
+	touch $(runner_structs_tools) $(schema_tools)
+	$(MAKE) gen-schema gen-runner-structs
+
+.PHONY: gen-schema gen-runner-structs gen force-regen
 
 # convenience targets for development
 
