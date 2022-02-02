@@ -1,6 +1,6 @@
 GOFMT_FILES?=$$(find . -name '*.go' |grep -v vendor)
 
-sources = $(wildcard *.go gitlabci/*.go go.mod helper/**/*.go internal/**/*.go)
+sources = $(wildcard *.go go.mod internal/**/*.go) $(schema_tools) $(runner_structs_tools)
 docs = $(wildcard docs/**/*)
 doc_sources = $(wildcard templates/**/* examples/**/resource.tf examples/**/data-source.tf) \
 		examples/provider/provider.tf \
