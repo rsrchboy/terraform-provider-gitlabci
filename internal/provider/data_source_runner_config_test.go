@@ -41,6 +41,17 @@ data "gitlabci_runner_config" "foo" {
 }
 `
 
+// A note, here, if you're wondering why we're seeing thing like
+// runners.docker.tls_verify = false even when it was never set: the toml
+// library being used does not attempt to distinguish between "false" and
+// "zero, was never explicitly set", see
+// https://github.com/BurntSushi/toml/blob/4272474656f1b35414cdee32185a45e36b39246e/encode.go#L611
+//
+// This isn't something to "blame" anything for; AFAICT it's not possible to
+// make that determination at all (hence the library not even trying).  This
+// behaviour is also in line with how gitlab-runner handles it, so I'm not
+// going to worry about it until such time as gitlab-runner does.
+
 const testAccDataSourceRunnerConfigOutput = `concurrent = 0
 check_interval = 0
 log_format = "json"
