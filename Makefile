@@ -57,17 +57,21 @@ third-party: $(runner_structs_files)
 	git diff -- third_party/
 
 $(runner_structs_files): $(runner_structs_tools)
-	# go run ./tools/centrifuge/*.go
 	go run $(runner_structs_tools)
 	git diff -- third_party/
 
-gen-runner-structs:
-	# go run ./tools/centrifuge/*.go
-	go run $(runner_structs_tools)
-	git diff -- third_party/
+gen-runner-structs: $(runner_structs_files)
+	# structs files regenerated if any changes to the tooling
 
-gen-schema:
-	go run ./tools/config-schema-gen/*.go
+schema_tools = $(wildcard tools/config-schema-gen/*.go)
+schema_files = internal/provider/generated.go
+
+$(schema_files): $(schema_tools)
+	go run $(schema_tools)
+	git diff -- $(schema_files)
+
+gen-schema: $(schema_files)
+	# schema files regenerated if any changes to the tooling
 
 .PHONY: gen-schema gen-runner-structs gen
 
