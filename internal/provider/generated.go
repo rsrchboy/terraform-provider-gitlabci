@@ -17,13 +17,11 @@ import (
 
 var configDataSourceRawSchema = map[string]*schema.Schema{
 	"listen_address": {
-		Computed:    false,
 		Optional:    true,
 		Description: "",
 		Type:        schema.TypeString,
 	},
 	"session_server": {
-		Computed:    false,
 		Optional:    true,
 		Description: "",
 		Type:        schema.TypeList,
@@ -32,19 +30,16 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 		Elem: &schema.Resource{
 			Schema: map[string]*schema.Schema{
 				"listen_address": {
-					Computed:    false,
 					Optional:    true,
 					Description: "Address that the runner will communicate directly with",
 					Type:        schema.TypeString,
 				},
 				"advertise_address": {
-					Computed:    false,
 					Optional:    true,
 					Description: "Address the runner will expose to the world to connect to the session server",
 					Type:        schema.TypeString,
 				},
 				"session_timeout": {
-					Computed:    false,
 					Optional:    true,
 					Description: "How long a terminal session can be active after a build completes, in seconds",
 					Type:        schema.TypeInt,
@@ -53,159 +48,133 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 		},
 	},
 	"concurrent": {
-		Computed:    false,
 		Optional:    true,
 		Description: "",
 		Type:        schema.TypeInt,
 	},
 	"check_interval": {
-		Computed:    false,
 		Optional:    true,
 		Description: "Define active checking interval of jobs",
 		Type:        schema.TypeInt,
 	},
 	"log_level": {
-		Computed:    false,
 		Optional:    true,
 		Description: "Define log level (one of: panic, fatal, error, warning, info, debug)",
 		Type:        schema.TypeString,
 	},
 	"log_format": {
-		Computed:    false,
 		Optional:    true,
 		Description: "Define log format (one of: runner, text, json)",
 		Type:        schema.TypeString,
 	},
 	"user": {
-		Computed:    false,
 		Optional:    true,
 		Description: "",
 		Type:        schema.TypeString,
 	},
 	"runners": {
-		Computed:    false,
 		Optional:    true,
 		Description: "",
 		Type:        schema.TypeList,
 		Elem: &schema.Resource{
 			Schema: map[string]*schema.Schema{
 				"name": {
-					Computed:    false,
 					Optional:    true,
 					Description: "Runner name",
 					Type:        schema.TypeString,
 				},
 				"limit": {
-					Computed:    false,
 					Optional:    true,
 					Description: "Maximum number of builds processed by this runner",
 					Type:        schema.TypeInt,
 				},
 				"output_limit": {
-					Computed:    false,
 					Optional:    true,
 					Description: "Maximum build trace size in kilobytes",
 					Type:        schema.TypeInt,
 				},
 				"request_concurrency": {
-					Computed:    false,
 					Optional:    true,
 					Description: "Maximum concurrency for job requests",
 					Type:        schema.TypeInt,
 				},
 				"url": {
-					Computed:    false,
 					Optional:    true,
 					Description: "Runner URL",
 					Type:        schema.TypeString,
 				},
 				"token": {
-					Computed:    false,
 					Optional:    true,
 					Description: "Runner token",
 					Type:        schema.TypeString,
 				},
 				"tls_ca_file": {
-					Computed:    false,
 					Optional:    true,
 					Description: "File containing the certificates to verify the peer when using HTTPS",
 					Type:        schema.TypeString,
 				},
 				"tls_cert_file": {
-					Computed:    false,
 					Optional:    true,
 					Description: "File containing certificate for TLS client auth when using HTTPS",
 					Type:        schema.TypeString,
 				},
 				"tls_key_file": {
-					Computed:    false,
 					Optional:    true,
 					Description: "File containing private key for TLS client auth when using HTTPS",
 					Type:        schema.TypeString,
 				},
 				"executor": {
-					Computed:    false,
 					Optional:    true,
 					Description: "Select executor, eg. shell, docker, etc.",
 					Type:        schema.TypeString,
 				},
 				"builds_dir": {
-					Computed:    false,
 					Optional:    true,
 					Description: "Directory where builds are stored",
 					Type:        schema.TypeString,
 				},
 				"cache_dir": {
-					Computed:    false,
 					Optional:    true,
 					Description: "Directory where build cache is stored",
 					Type:        schema.TypeString,
 				},
 				"clone_url": {
-					Computed:    false,
 					Optional:    true,
 					Description: "Overwrite the default URL used to clone or fetch the git ref",
 					Type:        schema.TypeString,
 				},
 				"environment": {
-					Computed:    false,
 					Optional:    true,
 					Description: "Custom environment variables injected to build environment",
 					Type:        schema.TypeList,
 					Elem:        &schema.Schema{Type: schema.TypeString},
 				},
 				"pre_clone_script": {
-					Computed:    false,
 					Optional:    true,
 					Description: "Runner-specific command script executed before code is pulled",
 					Type:        schema.TypeString,
 				},
 				"pre_build_script": {
-					Computed:    false,
 					Optional:    true,
 					Description: "Runner-specific command script executed after code is pulled, just before build executes",
 					Type:        schema.TypeString,
 				},
 				"post_build_script": {
-					Computed:    false,
 					Optional:    true,
 					Description: "Runner-specific command script executed after code is pulled and just after build executes",
 					Type:        schema.TypeString,
 				},
 				"debug_trace_disabled": {
-					Computed:    false,
 					Optional:    true,
 					Description: "When set to true Runner will disable the possibility of using the CI_DEBUG_TRACE feature",
 					Type:        schema.TypeBool,
 				},
 				"shell": {
-					Computed:    false,
 					Optional:    true,
 					Description: "Select bash, cmd, pwsh or powershell",
 					Type:        schema.TypeString,
 				},
 				"custom_build_dir": {
-					Computed:    false,
 					Optional:    true,
 					Description: "",
 					Type:        schema.TypeList,
@@ -214,7 +183,6 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 					Elem: &schema.Resource{
 						Schema: map[string]*schema.Schema{
 							"enabled": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Enable job specific build directories",
 								Type:        schema.TypeBool,
@@ -223,7 +191,6 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 					},
 				},
 				"referees": {
-					Computed:    false,
 					Optional:    true,
 					Description: "",
 					Type:        schema.TypeList,
@@ -232,7 +199,6 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 					Elem: &schema.Resource{
 						Schema: map[string]*schema.Schema{
 							"metrics": {
-								Computed:    false,
 								Optional:    true,
 								Description: "",
 								Type:        schema.TypeList,
@@ -241,19 +207,16 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 								Elem: &schema.Resource{
 									Schema: map[string]*schema.Schema{
 										"prometheus_address": {
-											Computed:    false,
 											Optional:    true,
 											Description: "A host:port to a prometheus metrics server",
 											Type:        schema.TypeString,
 										},
 										"query_interval": {
-											Computed:    false,
 											Optional:    true,
 											Description: "Query interval (in seconds)",
 											Type:        schema.TypeInt,
 										},
 										"queries": {
-											Computed:    false,
 											Optional:    true,
 											Description: "A list of metrics to query (in PromQL)",
 											Type:        schema.TypeList,
@@ -266,7 +229,6 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 					},
 				},
 				"cache": {
-					Computed:    false,
 					Optional:    true,
 					Description: "",
 					Type:        schema.TypeList,
@@ -275,25 +237,21 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 					Elem: &schema.Resource{
 						Schema: map[string]*schema.Schema{
 							"type": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Select caching method",
 								Type:        schema.TypeString,
 							},
 							"path": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Name of the path to prepend to the cache URL",
 								Type:        schema.TypeString,
 							},
 							"shared": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Enable cache sharing between runners.",
 								Type:        schema.TypeBool,
 							},
 							"s3": {
-								Computed:    false,
 								Optional:    true,
 								Description: "",
 								Type:        schema.TypeList,
@@ -302,43 +260,36 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 								Elem: &schema.Resource{
 									Schema: map[string]*schema.Schema{
 										"server_address": {
-											Computed:    false,
 											Optional:    true,
 											Description: "A host:port to the used S3-compatible server",
 											Type:        schema.TypeString,
 										},
 										"access_key": {
-											Computed:    false,
 											Optional:    true,
 											Description: "S3 Access Key",
 											Type:        schema.TypeString,
 										},
 										"secret_key": {
-											Computed:    false,
 											Optional:    true,
 											Description: "S3 Secret Key",
 											Type:        schema.TypeString,
 										},
 										"bucket_name": {
-											Computed:    false,
 											Optional:    true,
 											Description: "Name of the bucket where cache will be stored",
 											Type:        schema.TypeString,
 										},
 										"bucket_location": {
-											Computed:    false,
 											Optional:    true,
 											Description: "Name of S3 region",
 											Type:        schema.TypeString,
 										},
 										"insecure": {
-											Computed:    false,
 											Optional:    true,
 											Description: "Use insecure mode (without https)",
 											Type:        schema.TypeBool,
 										},
 										"authentication_type": {
-											Computed:    false,
 											Optional:    true,
 											Description: "IAM or credentials",
 											Type:        schema.TypeString,
@@ -347,7 +298,6 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 								},
 							},
 							"gcs": {
-								Computed:    false,
 								Optional:    true,
 								Description: "",
 								Type:        schema.TypeList,
@@ -356,25 +306,21 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 								Elem: &schema.Resource{
 									Schema: map[string]*schema.Schema{
 										"access_id": {
-											Computed:    false,
 											Optional:    true,
 											Description: "ID of GCP Service Account used to access the storage",
 											Type:        schema.TypeString,
 										},
 										"private_key": {
-											Computed:    false,
 											Optional:    true,
 											Description: "Private key used to sign GCS requests",
 											Type:        schema.TypeString,
 										},
 										"credentials_file": {
-											Computed:    false,
 											Optional:    true,
 											Description: "File with GCP credentials, containing AccessID and PrivateKey",
 											Type:        schema.TypeString,
 										},
 										"bucket_name": {
-											Computed:    false,
 											Optional:    true,
 											Description: "Name of the bucket where cache will be stored",
 											Type:        schema.TypeString,
@@ -383,7 +329,6 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 								},
 							},
 							"azure": {
-								Computed:    false,
 								Optional:    true,
 								Description: "",
 								Type:        schema.TypeList,
@@ -392,25 +337,21 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 								Elem: &schema.Resource{
 									Schema: map[string]*schema.Schema{
 										"account_name": {
-											Computed:    false,
 											Optional:    true,
 											Description: "Account name for Azure Blob Storage",
 											Type:        schema.TypeString,
 										},
 										"account_key": {
-											Computed:    false,
 											Optional:    true,
 											Description: "Access key for Azure Blob Storage",
 											Type:        schema.TypeString,
 										},
 										"container_name": {
-											Computed:    false,
 											Optional:    true,
 											Description: "Name of the Azure container where cache will be stored",
 											Type:        schema.TypeString,
 										},
 										"storage_domain": {
-											Computed:    false,
 											Optional:    true,
 											Description: "Domain name of the Azure storage (e.g. blob.core.windows.net)",
 											Type:        schema.TypeString,
@@ -422,14 +363,12 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 					},
 				},
 				"feature_flags": {
-					Computed:    false,
 					Optional:    true,
 					Description: "Enable/Disable feature flags https://docs.gitlab.com/runner/configuration/feature-flags.html",
 					Type:        schema.TypeMap,
 					Elem:        &schema.Schema{Type: schema.TypeBool},
 				},
 				"ssh": {
-					Computed:    false,
 					Optional:    true,
 					Description: "",
 					Type:        schema.TypeList,
@@ -438,43 +377,36 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 					Elem: &schema.Resource{
 						Schema: map[string]*schema.Schema{
 							"user": {
-								Computed:    false,
 								Optional:    true,
 								Description: "User name",
 								Type:        schema.TypeString,
 							},
 							"password": {
-								Computed:    false,
 								Optional:    true,
 								Description: "User password",
 								Type:        schema.TypeString,
 							},
 							"host": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Remote host",
 								Type:        schema.TypeString,
 							},
 							"port": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Remote host port",
 								Type:        schema.TypeString,
 							},
 							"identity_file": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Identity file to be used",
 								Type:        schema.TypeString,
 							},
 							"disable_strict_host_key_checking": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Disable SSH strict host key checking",
 								Type:        schema.TypeBool,
 							},
 							"known_hosts_file": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Location of known_hosts file. Defaults to ~/.ssh/known_hosts",
 								Type:        schema.TypeString,
@@ -483,7 +415,6 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 					},
 				},
 				"docker": {
-					Computed:    false,
 					Optional:    true,
 					Description: "",
 					Type:        schema.TypeList,
@@ -492,235 +423,198 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 					Elem: &schema.Resource{
 						Schema: map[string]*schema.Schema{
 							"host": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Docker daemon address",
 								Type:        schema.TypeString,
 							},
 							"tls_cert_path": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Certificate path",
 								Type:        schema.TypeString,
 							},
 							"tls_verify": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Use TLS and verify the remote",
 								Type:        schema.TypeBool,
 							},
 							"hostname": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Custom container hostname",
 								Type:        schema.TypeString,
 							},
 							"image": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Docker image to be used",
 								Type:        schema.TypeString,
 							},
 							"runtime": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Docker runtime to be used",
 								Type:        schema.TypeString,
 							},
 							"memory": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Memory limit (format: <number>[<unit>]). Unit can be one of b, k, m, or g. Minimum is 4M.",
 								Type:        schema.TypeString,
 							},
 							"memory_swap": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Total memory limit (memory + swap, format: <number>[<unit>]). Unit can be one of b, k, m, or g.",
 								Type:        schema.TypeString,
 							},
 							"memory_reservation": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Memory soft limit (format: <number>[<unit>]). Unit can be one of b, k, m, or g.",
 								Type:        schema.TypeString,
 							},
 							"cpuset_cpus": {
-								Computed:    false,
 								Optional:    true,
 								Description: "String value containing the cgroups CpusetCpus to use",
 								Type:        schema.TypeString,
 							},
 							"cpus": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Number of CPUs",
 								Type:        schema.TypeString,
 							},
 							"cpu_shares": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Number of CPU shares",
 								Type:        schema.TypeInt,
 							},
 							"dns": {
-								Computed:    false,
 								Optional:    true,
 								Description: "A list of DNS servers for the container to use",
 								Type:        schema.TypeList,
 								Elem:        &schema.Schema{Type: schema.TypeString},
 							},
 							"dns_search": {
-								Computed:    false,
 								Optional:    true,
 								Description: "A list of DNS search domains",
 								Type:        schema.TypeList,
 								Elem:        &schema.Schema{Type: schema.TypeString},
 							},
 							"privileged": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Give extended privileges to container",
 								Type:        schema.TypeBool,
 							},
 							"disable_entrypoint_overwrite": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Disable the possibility for a container to overwrite the default image entrypoint",
 								Type:        schema.TypeBool,
 							},
 							"userns_mode": {
-								Computed:    false,
 								Optional:    true,
 								Description: "User namespace to use",
 								Type:        schema.TypeString,
 							},
 							"cap_add": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Add Linux capabilities",
 								Type:        schema.TypeList,
 								Elem:        &schema.Schema{Type: schema.TypeString},
 							},
 							"cap_drop": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Drop Linux capabilities",
 								Type:        schema.TypeList,
 								Elem:        &schema.Schema{Type: schema.TypeString},
 							},
 							"oom_kill_disable": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Do not kill processes in a container if an out-of-memory (OOM) error occurs",
 								Type:        schema.TypeBool,
 							},
 							"oom_score_adjust": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Adjust OOM score",
 								Type:        schema.TypeInt,
 							},
 							"security_opt": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Security Options",
 								Type:        schema.TypeList,
 								Elem:        &schema.Schema{Type: schema.TypeString},
 							},
 							"devices": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Add a host device to the container",
 								Type:        schema.TypeList,
 								Elem:        &schema.Schema{Type: schema.TypeString},
 							},
 							"gpus": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Request GPUs to be used by Docker",
 								Type:        schema.TypeString,
 							},
 							"disable_cache": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Disable all container caching",
 								Type:        schema.TypeBool,
 							},
 							"volumes": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Bind-mount a volume and create it if it doesn't exist prior to mounting. Can be specified multiple times once per mountpoint, e.g. --docker-volumes 'test0:/test0' --docker-volumes 'test1:/test1'",
 								Type:        schema.TypeList,
 								Elem:        &schema.Schema{Type: schema.TypeString},
 							},
 							"volume_driver": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Volume driver to be used",
 								Type:        schema.TypeString,
 							},
 							"cache_dir": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Directory where to store caches",
 								Type:        schema.TypeString,
 							},
 							"extra_hosts": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Add a custom host-to-IP mapping",
 								Type:        schema.TypeList,
 								Elem:        &schema.Schema{Type: schema.TypeString},
 							},
 							"volumes_from": {
-								Computed:    false,
 								Optional:    true,
 								Description: "A list of volumes to inherit from another container",
 								Type:        schema.TypeList,
 								Elem:        &schema.Schema{Type: schema.TypeString},
 							},
 							"network_mode": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Add container to a custom network",
 								Type:        schema.TypeString,
 							},
 							"links": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Add link to another container",
 								Type:        schema.TypeList,
 								Elem:        &schema.Schema{Type: schema.TypeString},
 							},
 							"services": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Add service that is started with container",
 								Type:        schema.TypeList,
 								Elem: &schema.Resource{
 									Schema: map[string]*schema.Schema{
 										"name": {
-											Computed:    false,
 											Optional:    true,
 											Description: "The image path for the service",
 											Type:        schema.TypeString,
 										},
 										"alias": {
-											Computed:    false,
 											Optional:    true,
 											Description: "The alias of the service",
 											Type:        schema.TypeString,
 										},
 										"command": {
-											Computed:    false,
 											Optional:    true,
 											Description: "Command or script that should be used as the container’s command. Syntax is similar to https://docs.docker.com/engine/reference/builder/#cmd",
 											Type:        schema.TypeList,
 											Elem:        &schema.Schema{Type: schema.TypeString},
 										},
 										"entrypoint": {
-											Computed:    false,
 											Optional:    true,
 											Description: "Command or script that should be executed as the container’s entrypoint. syntax is similar to https://docs.docker.com/engine/reference/builder/#entrypoint",
 											Type:        schema.TypeList,
@@ -730,67 +624,57 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 								},
 							},
 							"wait_for_services_timeout": {
-								Computed:    false,
 								Optional:    true,
 								Description: "How long to wait for service startup",
 								Type:        schema.TypeInt,
 							},
 							"allowed_images": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Image allowlist",
 								Type:        schema.TypeList,
 								Elem:        &schema.Schema{Type: schema.TypeString},
 							},
 							"allowed_services": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Service allowlist",
 								Type:        schema.TypeList,
 								Elem:        &schema.Schema{Type: schema.TypeString},
 							},
 							"pull_policy": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Image pull policy: never, if-not-present, always",
 								Type:        schema.TypeList,
 								Elem:        &schema.Schema{Type: schema.TypeString},
 							},
 							"shm_size": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Shared memory size for docker images (in bytes)",
 								Type:        schema.TypeInt,
 							},
 							"tmpfs": {
-								Computed:    false,
 								Optional:    true,
 								Description: "A toml table/json object with the format key=values. When set this will mount the specified path in the key as a tmpfs volume in the main container, using the options specified as key. For the supported options, see the documentation for the unix 'mount' command",
 								Type:        schema.TypeMap,
 								Elem:        &schema.Schema{Type: schema.TypeString},
 							},
 							"services_tmpfs": {
-								Computed:    false,
 								Optional:    true,
 								Description: "A toml table/json object with the format key=values. When set this will mount the specified path in the key as a tmpfs volume in all the service containers, using the options specified as key. For the supported options, see the documentation for the unix 'mount' command",
 								Type:        schema.TypeMap,
 								Elem:        &schema.Schema{Type: schema.TypeString},
 							},
 							"sysctls": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Sysctl options, a toml table/json object of key=value. Value is expected to be a string.",
 								Type:        schema.TypeMap,
 								Elem:        &schema.Schema{Type: schema.TypeString},
 							},
 							"helper_image": {
-								Computed:    false,
 								Optional:    true,
 								Description: "[ADVANCED] Override the default helper image used to clone repos and upload artifacts",
 								Type:        schema.TypeString,
 							},
 							"helper_image_flavor": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Set helper image flavor (alpine, ubuntu), defaults to alpine",
 								Type:        schema.TypeString,
@@ -799,7 +683,6 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 					},
 				},
 				"parallels": {
-					Computed:    false,
 					Optional:    true,
 					Description: "",
 					Type:        schema.TypeList,
@@ -808,31 +691,26 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 					Elem: &schema.Resource{
 						Schema: map[string]*schema.Schema{
 							"base_name": {
-								Computed:    false,
 								Optional:    true,
 								Description: "VM name to be used",
 								Type:        schema.TypeString,
 							},
 							"template_name": {
-								Computed:    false,
 								Optional:    true,
 								Description: "VM template to be created",
 								Type:        schema.TypeString,
 							},
 							"disable_snapshots": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Disable snapshoting to speedup VM creation",
 								Type:        schema.TypeBool,
 							},
 							"time_server": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Timeserver to sync the guests time from. Defaults to time.apple.com",
 								Type:        schema.TypeString,
 							},
 							"allowed_images": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Image (base_name) allowlist",
 								Type:        schema.TypeList,
@@ -842,7 +720,6 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 					},
 				},
 				"virtualbox": {
-					Computed:    false,
 					Optional:    true,
 					Description: "",
 					Type:        schema.TypeList,
@@ -851,31 +728,26 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 					Elem: &schema.Resource{
 						Schema: map[string]*schema.Schema{
 							"base_name": {
-								Computed:    false,
 								Optional:    true,
 								Description: "VM name to be used",
 								Type:        schema.TypeString,
 							},
 							"base_snapshot": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Name or UUID of a specific VM snapshot to clone",
 								Type:        schema.TypeString,
 							},
 							"base_folder": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Folder in which to save the new VM. If empty, uses VirtualBox default",
 								Type:        schema.TypeString,
 							},
 							"disable_snapshots": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Disable snapshoting to speedup VM creation",
 								Type:        schema.TypeBool,
 							},
 							"allowed_images": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Image allowlist",
 								Type:        schema.TypeList,
@@ -885,7 +757,6 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 					},
 				},
 				"machine": {
-					Computed:    false,
 					Optional:    true,
 					Description: "",
 					Type:        schema.TypeList,
@@ -894,125 +765,105 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 					Elem: &schema.Resource{
 						Schema: map[string]*schema.Schema{
 							"max_growth_rate": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Maximum machines being provisioned concurrently, set to 0 for unlimited",
 								Type:        schema.TypeInt,
 							},
 							"idle_count": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Maximum idle machines",
 								Type:        schema.TypeInt,
 							},
 							"idle_scale_factor": {
-								Computed:    false,
 								Optional:    true,
 								Description: "(Experimental) Defines what factor of in-use machines should be used as current idle value, but never more then defined IdleCount. 0.0 means use IdleCount as a static number (defaults to 0.0). Must be defined as float number.",
 								Type:        schema.TypeFloat,
 							},
 							"idle_count_min": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Minimal number of idle machines when IdleScaleFactor is in use. Defaults to 1.",
 								Type:        schema.TypeInt,
 							},
 							"idle_time": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Minimum time after node can be destroyed",
 								Type:        schema.TypeInt,
 							},
 							"max_builds": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Maximum number of builds processed by machine",
 								Type:        schema.TypeInt,
 							},
 							"machine_driver": {
-								Computed:    false,
 								Optional:    true,
 								Description: "The driver to use when creating machine",
 								Type:        schema.TypeString,
 							},
 							"machine_name": {
-								Computed:    false,
 								Optional:    true,
 								Description: "The template for machine name (needs to include %s)",
 								Type:        schema.TypeString,
 							},
 							"machine_options": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Additional machine creation options",
 								Type:        schema.TypeList,
 								Elem:        &schema.Schema{Type: schema.TypeString},
 							},
 							"off_peak_periods": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Time periods when the scheduler is in the OffPeak mode. DEPRECATED",
 								Type:        schema.TypeList,
 								Elem:        &schema.Schema{Type: schema.TypeString},
 							},
 							"off_peak_timezone": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Timezone for the OffPeak periods (defaults to Local). DEPRECATED",
 								Type:        schema.TypeString,
 							},
 							"off_peak_idle_count": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Maximum idle machines when the scheduler is in the OffPeak mode. DEPRECATED",
 								Type:        schema.TypeInt,
 							},
 							"off_peak_idle_time": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Minimum time after machine can be destroyed when the scheduler is in the OffPeak mode. DEPRECATED",
 								Type:        schema.TypeInt,
 							},
 							"autoscaling": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Ordered list of configurations for autoscaling periods (last match wins)",
 								Type:        schema.TypeList,
 								Elem: &schema.Resource{
 									Schema: map[string]*schema.Schema{
 										"periods": {
-											Computed:    false,
 											Optional:    true,
 											Description: "List of crontab expressions for this autoscaling configuration",
 											Type:        schema.TypeList,
 											Elem:        &schema.Schema{Type: schema.TypeString},
 										},
 										"timezone": {
-											Computed:    false,
 											Optional:    true,
 											Description: "Timezone for the periods (defaults to Local)",
 											Type:        schema.TypeString,
 										},
 										"idle_count": {
-											Computed:    false,
 											Optional:    true,
 											Description: "Maximum idle machines when this configuration is active",
 											Type:        schema.TypeInt,
 										},
 										"idle_scale_factor": {
-											Computed:    false,
 											Optional:    true,
 											Description: "(Experimental) Defines what factor of in-use machines should be used as current idle value, but never more then defined IdleCount. 0.0 means use IdleCount as a static number (defaults to 0.0). Must be defined as float number.",
 											Type:        schema.TypeFloat,
 										},
 										"idle_count_min": {
-											Computed:    false,
 											Optional:    true,
 											Description: "Minimal number of idle machines when IdleScaleFactor is in use. Defaults to 1.",
 											Type:        schema.TypeInt,
 										},
 										"idle_time": {
-											Computed:    false,
 											Optional:    true,
 											Description: "Minimum time after which and idle machine can be destroyed when this configuration is active",
 											Type:        schema.TypeInt,
@@ -1024,7 +875,6 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 					},
 				},
 				"kubernetes": {
-					Computed:    false,
 					Optional:    true,
 					Description: "",
 					Type:        schema.TypeList,
@@ -1033,324 +883,271 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 					Elem: &schema.Resource{
 						Schema: map[string]*schema.Schema{
 							"host": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Optional Kubernetes master host URL (auto-discovery attempted if not specified)",
 								Type:        schema.TypeString,
 							},
 							"cert_file": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Optional Kubernetes master auth certificate",
 								Type:        schema.TypeString,
 							},
 							"key_file": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Optional Kubernetes master auth private key",
 								Type:        schema.TypeString,
 							},
 							"ca_file": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Optional Kubernetes master auth ca certificate",
 								Type:        schema.TypeString,
 							},
 							"bearer_token_overwrite_allowed": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Bool to authorize builds to specify their own bearer token for creation.",
 								Type:        schema.TypeBool,
 							},
 							"bearer_token": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Optional Kubernetes service account token used to start build pods.",
 								Type:        schema.TypeString,
 							},
 							"image": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Default docker image to use for builds when none is specified",
 								Type:        schema.TypeString,
 							},
 							"namespace": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Namespace to run Kubernetes jobs in",
 								Type:        schema.TypeString,
 							},
 							"namespace_overwrite_allowed": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Regex to validate 'KUBERNETES_NAMESPACE_OVERWRITE' value",
 								Type:        schema.TypeString,
 							},
 							"privileged": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Run all containers with the privileged flag enabled",
 								Type:        schema.TypeBool,
 							},
 							"allow_privilege_escalation": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Run all containers with the security context allowPrivilegeEscalation flag enabled. When empty, it does not define the allowPrivilegeEscalation flag in the container SecurityContext and allows Kubernetes to use the default privilege escalation behavior.",
 								Type:        schema.TypeBool,
 							},
 							"cpu_limit": {
-								Computed:    false,
 								Optional:    true,
 								Description: "The CPU allocation given to build containers",
 								Type:        schema.TypeString,
 							},
 							"cpu_limit_overwrite_max_allowed": {
-								Computed:    false,
 								Optional:    true,
 								Description: "If set, the max amount the cpu limit can be set to. Used with the KUBERNETES_CPU_LIMIT variable in the build.",
 								Type:        schema.TypeString,
 							},
 							"cpu_request": {
-								Computed:    false,
 								Optional:    true,
 								Description: "The CPU allocation requested for build containers",
 								Type:        schema.TypeString,
 							},
 							"cpu_request_overwrite_max_allowed": {
-								Computed:    false,
 								Optional:    true,
 								Description: "If set, the max amount the cpu request can be set to. Used with the KUBERNETES_CPU_REQUEST variable in the build.",
 								Type:        schema.TypeString,
 							},
 							"memory_limit": {
-								Computed:    false,
 								Optional:    true,
 								Description: "The amount of memory allocated to build containers",
 								Type:        schema.TypeString,
 							},
 							"memory_limit_overwrite_max_allowed": {
-								Computed:    false,
 								Optional:    true,
 								Description: "If set, the max amount the memory limit can be set to. Used with the KUBERNETES_MEMORY_LIMIT variable in the build.",
 								Type:        schema.TypeString,
 							},
 							"memory_request": {
-								Computed:    false,
 								Optional:    true,
 								Description: "The amount of memory requested from build containers",
 								Type:        schema.TypeString,
 							},
 							"memory_request_overwrite_max_allowed": {
-								Computed:    false,
 								Optional:    true,
 								Description: "If set, the max amount the memory request can be set to. Used with the KUBERNETES_MEMORY_REQUEST variable in the build.",
 								Type:        schema.TypeString,
 							},
 							"ephemeral_storage_limit": {
-								Computed:    false,
 								Optional:    true,
 								Description: "The amount of ephemeral storage allocated to build containers",
 								Type:        schema.TypeString,
 							},
 							"ephemeral_storage_limit_overwrite_max_allowed": {
-								Computed:    false,
 								Optional:    true,
 								Description: "If set, the max amount the ephemeral limit can be set to. Used with the KUBERNETES_EPHEMERAL_STORAGE_LIMIT variable in the build.",
 								Type:        schema.TypeString,
 							},
 							"ephemeral_storage_request": {
-								Computed:    false,
 								Optional:    true,
 								Description: "The amount of ephemeral storage requested from build containers",
 								Type:        schema.TypeString,
 							},
 							"ephemeral_storage_request_overwrite_max_allowed": {
-								Computed:    false,
 								Optional:    true,
 								Description: "If set, the max amount the ephemeral storage request can be set to. Used with the KUBERNETES_EPHEMERAL_STORAGE_REQUEST variable in the build.",
 								Type:        schema.TypeString,
 							},
 							"service_cpu_limit": {
-								Computed:    false,
 								Optional:    true,
 								Description: "The CPU allocation given to build service containers",
 								Type:        schema.TypeString,
 							},
 							"service_cpu_limit_overwrite_max_allowed": {
-								Computed:    false,
 								Optional:    true,
 								Description: "If set, the max amount the service cpu limit can be set to. Used with the KUBERNETES_SERVICE_CPU_LIMIT variable in the build.",
 								Type:        schema.TypeString,
 							},
 							"service_cpu_request": {
-								Computed:    false,
 								Optional:    true,
 								Description: "The CPU allocation requested for build service containers",
 								Type:        schema.TypeString,
 							},
 							"service_cpu_request_overwrite_max_allowed": {
-								Computed:    false,
 								Optional:    true,
 								Description: "If set, the max amount the service cpu request can be set to. Used with the KUBERNETES_SERVICE_CPU_REQUEST variable in the build.",
 								Type:        schema.TypeString,
 							},
 							"service_memory_limit": {
-								Computed:    false,
 								Optional:    true,
 								Description: "The amount of memory allocated to build service containers",
 								Type:        schema.TypeString,
 							},
 							"service_memory_limit_overwrite_max_allowed": {
-								Computed:    false,
 								Optional:    true,
 								Description: "If set, the max amount the service memory limit can be set to. Used with the KUBERNETES_SERVICE_MEMORY_LIMIT variable in the build.",
 								Type:        schema.TypeString,
 							},
 							"service_memory_request": {
-								Computed:    false,
 								Optional:    true,
 								Description: "The amount of memory requested for build service containers",
 								Type:        schema.TypeString,
 							},
 							"service_memory_request_overwrite_max_allowed": {
-								Computed:    false,
 								Optional:    true,
 								Description: "If set, the max amount the service memory request can be set to. Used with the KUBERNETES_SERVICE_MEMORY_REQUEST variable in the build.",
 								Type:        schema.TypeString,
 							},
 							"service_ephemeral_storage_limit": {
-								Computed:    false,
 								Optional:    true,
 								Description: "The amount of ephemeral storage allocated to build service containers",
 								Type:        schema.TypeString,
 							},
 							"service_ephemeral_storage_limit_overwrite_max_allowed": {
-								Computed:    false,
 								Optional:    true,
 								Description: "If set, the max amount the service ephemeral storage limit can be set to. Used with the KUBERNETES_SERVICE_EPHEMERAL_STORAGE_LIMIT variable in the build.",
 								Type:        schema.TypeString,
 							},
 							"service_ephemeral_storage_request": {
-								Computed:    false,
 								Optional:    true,
 								Description: "The amount of ephemeral storage requested for build service containers",
 								Type:        schema.TypeString,
 							},
 							"service_ephemeral_storage_request_overwrite_max_allowed": {
-								Computed:    false,
 								Optional:    true,
 								Description: "If set, the max amount the service ephemeral storage request can be set to. Used with the KUBERNETES_SERVICE_EPHEMERAL_STORAGE_REQUEST variable in the build.",
 								Type:        schema.TypeString,
 							},
 							"helper_cpu_limit": {
-								Computed:    false,
 								Optional:    true,
 								Description: "The CPU allocation given to build helper containers",
 								Type:        schema.TypeString,
 							},
 							"helper_cpu_limit_overwrite_max_allowed": {
-								Computed:    false,
 								Optional:    true,
 								Description: "If set, the max amount the helper cpu limit can be set to. Used with the KUBERNETES_HELPER_CPU_LIMIT variable in the build.",
 								Type:        schema.TypeString,
 							},
 							"helper_cpu_request": {
-								Computed:    false,
 								Optional:    true,
 								Description: "The CPU allocation requested for build helper containers",
 								Type:        schema.TypeString,
 							},
 							"helper_cpu_request_overwrite_max_allowed": {
-								Computed:    false,
 								Optional:    true,
 								Description: "If set, the max amount the helper cpu request can be set to. Used with the KUBERNETES_HELPER_CPU_REQUEST variable in the build.",
 								Type:        schema.TypeString,
 							},
 							"helper_memory_limit": {
-								Computed:    false,
 								Optional:    true,
 								Description: "The amount of memory allocated to build helper containers",
 								Type:        schema.TypeString,
 							},
 							"helper_memory_limit_overwrite_max_allowed": {
-								Computed:    false,
 								Optional:    true,
 								Description: "If set, the max amount the helper memory limit can be set to. Used with the KUBERNETES_HELPER_MEMORY_LIMIT variable in the build.",
 								Type:        schema.TypeString,
 							},
 							"helper_memory_request": {
-								Computed:    false,
 								Optional:    true,
 								Description: "The amount of memory requested for build helper containers",
 								Type:        schema.TypeString,
 							},
 							"helper_memory_request_overwrite_max_allowed": {
-								Computed:    false,
 								Optional:    true,
 								Description: "If set, the max amount the helper memory request can be set to. Used with the KUBERNETES_HELPER_MEMORY_REQUEST variable in the build.",
 								Type:        schema.TypeString,
 							},
 							"helper_ephemeral_storage_limit": {
-								Computed:    false,
 								Optional:    true,
 								Description: "The amount of ephemeral storage allocated to build helper containers",
 								Type:        schema.TypeString,
 							},
 							"helper_ephemeral_storage_limit_overwrite_max_allowed": {
-								Computed:    false,
 								Optional:    true,
 								Description: "If set, the max amount the helper ephemeral storage limit can be set to. Used with the KUBERNETES_HELPER_EPHEMERAL_STORAGE_LIMIT variable in the build.",
 								Type:        schema.TypeString,
 							},
 							"helper_ephemeral_storage_request": {
-								Computed:    false,
 								Optional:    true,
 								Description: "The amount of ephemeral storage requested for build helper containers",
 								Type:        schema.TypeString,
 							},
 							"helper_ephemeral_storage_request_overwrite_max_allowed": {
-								Computed:    false,
 								Optional:    true,
 								Description: "If set, the max amount the helper ephemeral storage request can be set to. Used with the KUBERNETES_HELPER_EPHEMERAL_STORAGE_REQUEST variable in the build.",
 								Type:        schema.TypeString,
 							},
 							"allowed_images": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Image allowlist",
 								Type:        schema.TypeList,
 								Elem:        &schema.Schema{Type: schema.TypeString},
 							},
 							"allowed_services": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Service allowlist",
 								Type:        schema.TypeList,
 								Elem:        &schema.Schema{Type: schema.TypeString},
 							},
 							"pull_policy": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Policy for if/when to pull a container image (never, if-not-present, always). The cluster default will be used if not set",
 								Type:        schema.TypeList,
 								Elem:        &schema.Schema{Type: schema.TypeString},
 							},
 							"node_selector": {
-								Computed:    false,
 								Optional:    true,
 								Description: "A toml table/json object of key:value. Value is expected to be a string. When set this will create pods on k8s nodes that match all the key:value pairs. Only one selector is supported through environment variable configuration.",
 								Type:        schema.TypeMap,
 								Elem:        &schema.Schema{Type: schema.TypeString},
 							},
 							"node_tolerations": {
-								Computed:    false,
 								Optional:    true,
 								Description: "A toml table/json object of key=value:effect. Value and effect are expected to be strings. When set, pods will tolerate the given taints. Only one toleration is supported through environment variable configuration.",
 								Type:        schema.TypeMap,
 								Elem:        &schema.Schema{Type: schema.TypeString},
 							},
 							"affinity": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Kubernetes Affinity setting that is used to select the node that spawns a pod",
 								Type:        schema.TypeList,
@@ -1359,7 +1156,6 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 								Elem: &schema.Resource{
 									Schema: map[string]*schema.Schema{
 										"node_affinity": {
-											Computed:    false,
 											Optional:    true,
 											Description: "Node affinity is conceptually similar to nodeSelector -- it allows you to constrain which nodes your pod is eligible to be scheduled on, based on labels on the node.",
 											Type:        schema.TypeList,
@@ -1368,7 +1164,6 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 											Elem: &schema.Resource{
 												Schema: map[string]*schema.Schema{
 													"required_during_scheduling_ignored_during_execution": {
-														Computed:    false,
 														Optional:    true,
 														Description: "",
 														Type:        schema.TypeList,
@@ -1377,33 +1172,28 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 														Elem: &schema.Resource{
 															Schema: map[string]*schema.Schema{
 																"node_selector_terms": {
-																	Computed:    false,
 																	Optional:    true,
 																	Description: "",
 																	Type:        schema.TypeList,
 																	Elem: &schema.Resource{
 																		Schema: map[string]*schema.Schema{
 																			"match_expressions": {
-																				Computed:    false,
 																				Optional:    true,
 																				Description: "",
 																				Type:        schema.TypeList,
 																				Elem: &schema.Resource{
 																					Schema: map[string]*schema.Schema{
 																						"key": {
-																							Computed:    false,
 																							Optional:    true,
 																							Description: "",
 																							Type:        schema.TypeString,
 																						},
 																						"operator": {
-																							Computed:    false,
 																							Optional:    true,
 																							Description: "",
 																							Type:        schema.TypeString,
 																						},
 																						"values": {
-																							Computed:    false,
 																							Optional:    true,
 																							Description: "",
 																							Type:        schema.TypeList,
@@ -1413,26 +1203,22 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 																				},
 																			},
 																			"match_fields": {
-																				Computed:    false,
 																				Optional:    true,
 																				Description: "",
 																				Type:        schema.TypeList,
 																				Elem: &schema.Resource{
 																					Schema: map[string]*schema.Schema{
 																						"key": {
-																							Computed:    false,
 																							Optional:    true,
 																							Description: "",
 																							Type:        schema.TypeString,
 																						},
 																						"operator": {
-																							Computed:    false,
 																							Optional:    true,
 																							Description: "",
 																							Type:        schema.TypeString,
 																						},
 																						"values": {
-																							Computed:    false,
 																							Optional:    true,
 																							Description: "",
 																							Type:        schema.TypeList,
@@ -1448,20 +1234,17 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 														},
 													},
 													"preferred_during_scheduling_ignored_during_execution": {
-														Computed:    false,
 														Optional:    true,
 														Description: "",
 														Type:        schema.TypeList,
 														Elem: &schema.Resource{
 															Schema: map[string]*schema.Schema{
 																"weight": {
-																	Computed:    false,
 																	Optional:    true,
 																	Description: "",
 																	Type:        schema.TypeInt,
 																},
 																"preference": {
-																	Computed:    false,
 																	Optional:    true,
 																	Description: "",
 																	Type:        schema.TypeList,
@@ -1470,26 +1253,22 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 																	Elem: &schema.Resource{
 																		Schema: map[string]*schema.Schema{
 																			"match_expressions": {
-																				Computed:    false,
 																				Optional:    true,
 																				Description: "",
 																				Type:        schema.TypeList,
 																				Elem: &schema.Resource{
 																					Schema: map[string]*schema.Schema{
 																						"key": {
-																							Computed:    false,
 																							Optional:    true,
 																							Description: "",
 																							Type:        schema.TypeString,
 																						},
 																						"operator": {
-																							Computed:    false,
 																							Optional:    true,
 																							Description: "",
 																							Type:        schema.TypeString,
 																						},
 																						"values": {
-																							Computed:    false,
 																							Optional:    true,
 																							Description: "",
 																							Type:        schema.TypeList,
@@ -1499,26 +1278,22 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 																				},
 																			},
 																			"match_fields": {
-																				Computed:    false,
 																				Optional:    true,
 																				Description: "",
 																				Type:        schema.TypeList,
 																				Elem: &schema.Resource{
 																					Schema: map[string]*schema.Schema{
 																						"key": {
-																							Computed:    false,
 																							Optional:    true,
 																							Description: "",
 																							Type:        schema.TypeString,
 																						},
 																						"operator": {
-																							Computed:    false,
 																							Optional:    true,
 																							Description: "",
 																							Type:        schema.TypeString,
 																						},
 																						"values": {
-																							Computed:    false,
 																							Optional:    true,
 																							Description: "",
 																							Type:        schema.TypeList,
@@ -1537,7 +1312,6 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 											},
 										},
 										"pod_affinity": {
-											Computed:    false,
 											Optional:    true,
 											Description: "Pod affinity allows to constrain which nodes your pod is eligible to be scheduled on based on the labels on other pods.",
 											Type:        schema.TypeList,
@@ -1546,14 +1320,12 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 											Elem: &schema.Resource{
 												Schema: map[string]*schema.Schema{
 													"required_during_scheduling_ignored_during_execution": {
-														Computed:    false,
 														Optional:    true,
 														Description: "",
 														Type:        schema.TypeList,
 														Elem: &schema.Resource{
 															Schema: map[string]*schema.Schema{
 																"label_selector": {
-																	Computed:    false,
 																	Optional:    true,
 																	Description: "",
 																	Type:        schema.TypeList,
@@ -1562,33 +1334,28 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 																	Elem: &schema.Resource{
 																		Schema: map[string]*schema.Schema{
 																			"match_labels": {
-																				Computed:    false,
 																				Optional:    true,
 																				Description: "",
 																				Type:        schema.TypeMap,
 																				Elem:        &schema.Schema{Type: schema.TypeString},
 																			},
 																			"match_expressions": {
-																				Computed:    false,
 																				Optional:    true,
 																				Description: "",
 																				Type:        schema.TypeList,
 																				Elem: &schema.Resource{
 																					Schema: map[string]*schema.Schema{
 																						"key": {
-																							Computed:    false,
 																							Optional:    true,
 																							Description: "",
 																							Type:        schema.TypeString,
 																						},
 																						"operator": {
-																							Computed:    false,
 																							Optional:    true,
 																							Description: "",
 																							Type:        schema.TypeString,
 																						},
 																						"values": {
-																							Computed:    false,
 																							Optional:    true,
 																							Description: "",
 																							Type:        schema.TypeList,
@@ -1601,20 +1368,17 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 																	},
 																},
 																"namespaces": {
-																	Computed:    false,
 																	Optional:    true,
 																	Description: "",
 																	Type:        schema.TypeList,
 																	Elem:        &schema.Schema{Type: schema.TypeString},
 																},
 																"topology_key": {
-																	Computed:    false,
 																	Optional:    true,
 																	Description: "",
 																	Type:        schema.TypeString,
 																},
 																"namespace_selector": {
-																	Computed:    false,
 																	Optional:    true,
 																	Description: "",
 																	Type:        schema.TypeList,
@@ -1623,33 +1387,28 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 																	Elem: &schema.Resource{
 																		Schema: map[string]*schema.Schema{
 																			"match_labels": {
-																				Computed:    false,
 																				Optional:    true,
 																				Description: "",
 																				Type:        schema.TypeMap,
 																				Elem:        &schema.Schema{Type: schema.TypeString},
 																			},
 																			"match_expressions": {
-																				Computed:    false,
 																				Optional:    true,
 																				Description: "",
 																				Type:        schema.TypeList,
 																				Elem: &schema.Resource{
 																					Schema: map[string]*schema.Schema{
 																						"key": {
-																							Computed:    false,
 																							Optional:    true,
 																							Description: "",
 																							Type:        schema.TypeString,
 																						},
 																						"operator": {
-																							Computed:    false,
 																							Optional:    true,
 																							Description: "",
 																							Type:        schema.TypeString,
 																						},
 																						"values": {
-																							Computed:    false,
 																							Optional:    true,
 																							Description: "",
 																							Type:        schema.TypeList,
@@ -1665,20 +1424,17 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 														},
 													},
 													"preferred_during_scheduling_ignored_during_execution": {
-														Computed:    false,
 														Optional:    true,
 														Description: "",
 														Type:        schema.TypeList,
 														Elem: &schema.Resource{
 															Schema: map[string]*schema.Schema{
 																"weight": {
-																	Computed:    false,
 																	Optional:    true,
 																	Description: "",
 																	Type:        schema.TypeInt,
 																},
 																"pod_affinity_term": {
-																	Computed:    false,
 																	Optional:    true,
 																	Description: "",
 																	Type:        schema.TypeList,
@@ -1687,7 +1443,6 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 																	Elem: &schema.Resource{
 																		Schema: map[string]*schema.Schema{
 																			"label_selector": {
-																				Computed:    false,
 																				Optional:    true,
 																				Description: "",
 																				Type:        schema.TypeList,
@@ -1696,33 +1451,28 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 																				Elem: &schema.Resource{
 																					Schema: map[string]*schema.Schema{
 																						"match_labels": {
-																							Computed:    false,
 																							Optional:    true,
 																							Description: "",
 																							Type:        schema.TypeMap,
 																							Elem:        &schema.Schema{Type: schema.TypeString},
 																						},
 																						"match_expressions": {
-																							Computed:    false,
 																							Optional:    true,
 																							Description: "",
 																							Type:        schema.TypeList,
 																							Elem: &schema.Resource{
 																								Schema: map[string]*schema.Schema{
 																									"key": {
-																										Computed:    false,
 																										Optional:    true,
 																										Description: "",
 																										Type:        schema.TypeString,
 																									},
 																									"operator": {
-																										Computed:    false,
 																										Optional:    true,
 																										Description: "",
 																										Type:        schema.TypeString,
 																									},
 																									"values": {
-																										Computed:    false,
 																										Optional:    true,
 																										Description: "",
 																										Type:        schema.TypeList,
@@ -1735,20 +1485,17 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 																				},
 																			},
 																			"namespaces": {
-																				Computed:    false,
 																				Optional:    true,
 																				Description: "",
 																				Type:        schema.TypeList,
 																				Elem:        &schema.Schema{Type: schema.TypeString},
 																			},
 																			"topology_key": {
-																				Computed:    false,
 																				Optional:    true,
 																				Description: "",
 																				Type:        schema.TypeString,
 																			},
 																			"namespace_selector": {
-																				Computed:    false,
 																				Optional:    true,
 																				Description: "",
 																				Type:        schema.TypeList,
@@ -1757,33 +1504,28 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 																				Elem: &schema.Resource{
 																					Schema: map[string]*schema.Schema{
 																						"match_labels": {
-																							Computed:    false,
 																							Optional:    true,
 																							Description: "",
 																							Type:        schema.TypeMap,
 																							Elem:        &schema.Schema{Type: schema.TypeString},
 																						},
 																						"match_expressions": {
-																							Computed:    false,
 																							Optional:    true,
 																							Description: "",
 																							Type:        schema.TypeList,
 																							Elem: &schema.Resource{
 																								Schema: map[string]*schema.Schema{
 																									"key": {
-																										Computed:    false,
 																										Optional:    true,
 																										Description: "",
 																										Type:        schema.TypeString,
 																									},
 																									"operator": {
-																										Computed:    false,
 																										Optional:    true,
 																										Description: "",
 																										Type:        schema.TypeString,
 																									},
 																									"values": {
-																										Computed:    false,
 																										Optional:    true,
 																										Description: "",
 																										Type:        schema.TypeList,
@@ -1805,7 +1547,6 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 											},
 										},
 										"pod_anti_affinity": {
-											Computed:    false,
 											Optional:    true,
 											Description: "Pod anti-affinity allows to constrain which nodes your pod is eligible to be scheduled on based on the labels on other pods.",
 											Type:        schema.TypeList,
@@ -1814,14 +1555,12 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 											Elem: &schema.Resource{
 												Schema: map[string]*schema.Schema{
 													"required_during_scheduling_ignored_during_execution": {
-														Computed:    false,
 														Optional:    true,
 														Description: "",
 														Type:        schema.TypeList,
 														Elem: &schema.Resource{
 															Schema: map[string]*schema.Schema{
 																"label_selector": {
-																	Computed:    false,
 																	Optional:    true,
 																	Description: "",
 																	Type:        schema.TypeList,
@@ -1830,33 +1569,28 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 																	Elem: &schema.Resource{
 																		Schema: map[string]*schema.Schema{
 																			"match_labels": {
-																				Computed:    false,
 																				Optional:    true,
 																				Description: "",
 																				Type:        schema.TypeMap,
 																				Elem:        &schema.Schema{Type: schema.TypeString},
 																			},
 																			"match_expressions": {
-																				Computed:    false,
 																				Optional:    true,
 																				Description: "",
 																				Type:        schema.TypeList,
 																				Elem: &schema.Resource{
 																					Schema: map[string]*schema.Schema{
 																						"key": {
-																							Computed:    false,
 																							Optional:    true,
 																							Description: "",
 																							Type:        schema.TypeString,
 																						},
 																						"operator": {
-																							Computed:    false,
 																							Optional:    true,
 																							Description: "",
 																							Type:        schema.TypeString,
 																						},
 																						"values": {
-																							Computed:    false,
 																							Optional:    true,
 																							Description: "",
 																							Type:        schema.TypeList,
@@ -1869,20 +1603,17 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 																	},
 																},
 																"namespaces": {
-																	Computed:    false,
 																	Optional:    true,
 																	Description: "",
 																	Type:        schema.TypeList,
 																	Elem:        &schema.Schema{Type: schema.TypeString},
 																},
 																"topology_key": {
-																	Computed:    false,
 																	Optional:    true,
 																	Description: "",
 																	Type:        schema.TypeString,
 																},
 																"namespace_selector": {
-																	Computed:    false,
 																	Optional:    true,
 																	Description: "",
 																	Type:        schema.TypeList,
@@ -1891,33 +1622,28 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 																	Elem: &schema.Resource{
 																		Schema: map[string]*schema.Schema{
 																			"match_labels": {
-																				Computed:    false,
 																				Optional:    true,
 																				Description: "",
 																				Type:        schema.TypeMap,
 																				Elem:        &schema.Schema{Type: schema.TypeString},
 																			},
 																			"match_expressions": {
-																				Computed:    false,
 																				Optional:    true,
 																				Description: "",
 																				Type:        schema.TypeList,
 																				Elem: &schema.Resource{
 																					Schema: map[string]*schema.Schema{
 																						"key": {
-																							Computed:    false,
 																							Optional:    true,
 																							Description: "",
 																							Type:        schema.TypeString,
 																						},
 																						"operator": {
-																							Computed:    false,
 																							Optional:    true,
 																							Description: "",
 																							Type:        schema.TypeString,
 																						},
 																						"values": {
-																							Computed:    false,
 																							Optional:    true,
 																							Description: "",
 																							Type:        schema.TypeList,
@@ -1933,20 +1659,17 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 														},
 													},
 													"preferred_during_scheduling_ignored_during_execution": {
-														Computed:    false,
 														Optional:    true,
 														Description: "",
 														Type:        schema.TypeList,
 														Elem: &schema.Resource{
 															Schema: map[string]*schema.Schema{
 																"weight": {
-																	Computed:    false,
 																	Optional:    true,
 																	Description: "",
 																	Type:        schema.TypeInt,
 																},
 																"pod_affinity_term": {
-																	Computed:    false,
 																	Optional:    true,
 																	Description: "",
 																	Type:        schema.TypeList,
@@ -1955,7 +1678,6 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 																	Elem: &schema.Resource{
 																		Schema: map[string]*schema.Schema{
 																			"label_selector": {
-																				Computed:    false,
 																				Optional:    true,
 																				Description: "",
 																				Type:        schema.TypeList,
@@ -1964,33 +1686,28 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 																				Elem: &schema.Resource{
 																					Schema: map[string]*schema.Schema{
 																						"match_labels": {
-																							Computed:    false,
 																							Optional:    true,
 																							Description: "",
 																							Type:        schema.TypeMap,
 																							Elem:        &schema.Schema{Type: schema.TypeString},
 																						},
 																						"match_expressions": {
-																							Computed:    false,
 																							Optional:    true,
 																							Description: "",
 																							Type:        schema.TypeList,
 																							Elem: &schema.Resource{
 																								Schema: map[string]*schema.Schema{
 																									"key": {
-																										Computed:    false,
 																										Optional:    true,
 																										Description: "",
 																										Type:        schema.TypeString,
 																									},
 																									"operator": {
-																										Computed:    false,
 																										Optional:    true,
 																										Description: "",
 																										Type:        schema.TypeString,
 																									},
 																									"values": {
-																										Computed:    false,
 																										Optional:    true,
 																										Description: "",
 																										Type:        schema.TypeList,
@@ -2003,20 +1720,17 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 																				},
 																			},
 																			"namespaces": {
-																				Computed:    false,
 																				Optional:    true,
 																				Description: "",
 																				Type:        schema.TypeList,
 																				Elem:        &schema.Schema{Type: schema.TypeString},
 																			},
 																			"topology_key": {
-																				Computed:    false,
 																				Optional:    true,
 																				Description: "",
 																				Type:        schema.TypeString,
 																			},
 																			"namespace_selector": {
-																				Computed:    false,
 																				Optional:    true,
 																				Description: "",
 																				Type:        schema.TypeList,
@@ -2025,33 +1739,28 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 																				Elem: &schema.Resource{
 																					Schema: map[string]*schema.Schema{
 																						"match_labels": {
-																							Computed:    false,
 																							Optional:    true,
 																							Description: "",
 																							Type:        schema.TypeMap,
 																							Elem:        &schema.Schema{Type: schema.TypeString},
 																						},
 																						"match_expressions": {
-																							Computed:    false,
 																							Optional:    true,
 																							Description: "",
 																							Type:        schema.TypeList,
 																							Elem: &schema.Resource{
 																								Schema: map[string]*schema.Schema{
 																									"key": {
-																										Computed:    false,
 																										Optional:    true,
 																										Description: "",
 																										Type:        schema.TypeString,
 																									},
 																									"operator": {
-																										Computed:    false,
 																										Optional:    true,
 																										Description: "",
 																										Type:        schema.TypeString,
 																									},
 																									"values": {
-																										Computed:    false,
 																										Optional:    true,
 																										Description: "",
 																										Type:        schema.TypeList,
@@ -2076,88 +1785,74 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 								},
 							},
 							"image_pull_secrets": {
-								Computed:    false,
 								Optional:    true,
 								Description: "A list of image pull secrets that are used for pulling docker image",
 								Type:        schema.TypeList,
 								Elem:        &schema.Schema{Type: schema.TypeString},
 							},
 							"helper_image": {
-								Computed:    false,
 								Optional:    true,
 								Description: "[ADVANCED] Override the default helper image used to clone repos and upload artifacts",
 								Type:        schema.TypeString,
 							},
 							"helper_image_flavor": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Set helper image flavor (alpine, ubuntu), defaults to alpine",
 								Type:        schema.TypeString,
 							},
 							"termination_grace_period_seconds": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Duration after the processes running in the pod are sent a termination signal and the time when the processes are forcibly halted with a kill signal.DEPRECATED: use KUBERNETES_POD_TERMINATION_GRACE_PERIOD_SECONDS and KUBERNETES_CLEANUP_GRACE_PERIOD_SECONDS instead.",
 								Type:        schema.TypeInt,
 							},
 							"pod_termination_grace_period_seconds": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Pod-level setting which determines the duration in seconds which the pod has to terminate gracefully. After this, the processes are forcibly halted with a kill signal. Ignored if KUBERNETES_TERMINATIONGRACEPERIODSECONDS is specified.",
 								Type:        schema.TypeInt,
 							},
 							"cleanup_grace_period_seconds": {
-								Computed:    false,
 								Optional:    true,
 								Description: "When cleaning up a pod on completion of a job, the duration in seconds which the pod has to terminate gracefully. After this, the processes are forcibly halted with a kill signal. Ignored if KUBERNETES_TERMINATIONGRACEPERIODSECONDS is specified.",
 								Type:        schema.TypeInt,
 							},
 							"poll_interval": {
-								Computed:    false,
 								Optional:    true,
 								Description: "How frequently, in seconds, the runner will poll the Kubernetes pod it has just created to check its status",
 								Type:        schema.TypeInt,
 							},
 							"poll_timeout": {
-								Computed:    false,
 								Optional:    true,
 								Description: "The total amount of time, in seconds, that needs to pass before the runner will timeout attempting to connect to the pod it has just created (useful for queueing more builds that the cluster can handle at a time)",
 								Type:        schema.TypeInt,
 							},
 							"pod_labels": {
-								Computed:    false,
 								Optional:    true,
 								Description: "A toml table/json object of key-value. Value is expected to be a string. When set, this will create pods with the given pod labels. Environment variables will be substituted for values here.",
 								Type:        schema.TypeMap,
 								Elem:        &schema.Schema{Type: schema.TypeString},
 							},
 							"service_account": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Executor pods will use this Service Account to talk to kubernetes API",
 								Type:        schema.TypeString,
 							},
 							"service_account_overwrite_allowed": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Regex to validate 'KUBERNETES_SERVICE_ACCOUNT' value",
 								Type:        schema.TypeString,
 							},
 							"pod_annotations": {
-								Computed:    false,
 								Optional:    true,
 								Description: "A toml table/json object of key-value. Value is expected to be a string. When set, this will create pods with the given annotations. Can be overwritten in build with KUBERNETES_POD_ANNOTATION_* variables",
 								Type:        schema.TypeMap,
 								Elem:        &schema.Schema{Type: schema.TypeString},
 							},
 							"pod_annotations_overwrite_allowed": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Regex to validate 'KUBERNETES_POD_ANNOTATIONS_*' values",
 								Type:        schema.TypeString,
 							},
 							"pod_security_context": {
-								Computed:    false,
 								Optional:    true,
 								Description: "A security context attached to each build pod",
 								Type:        schema.TypeList,
@@ -2166,31 +1861,26 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 								Elem: &schema.Resource{
 									Schema: map[string]*schema.Schema{
 										"fs_group": {
-											Computed:    false,
 											Optional:    true,
 											Description: "A special supplemental group that applies to all containers in a pod",
 											Type:        schema.TypeInt,
 										},
 										"run_as_group": {
-											Computed:    false,
 											Optional:    true,
 											Description: "The GID to run the entrypoint of the container process",
 											Type:        schema.TypeInt,
 										},
 										"run_as_non_root": {
-											Computed:    false,
 											Optional:    true,
 											Description: "Indicates that the container must run as a non-root user",
 											Type:        schema.TypeBool,
 										},
 										"run_as_user": {
-											Computed:    false,
 											Optional:    true,
 											Description: "The UID to run the entrypoint of the container process",
 											Type:        schema.TypeInt,
 										},
 										"supplemental_groups": {
-											Computed:    false,
 											Optional:    true,
 											Description: "A list of groups applied to the first process run in each container, in addition to the container's primary GID",
 											Type:        schema.TypeList,
@@ -2200,7 +1890,6 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 								},
 							},
 							"build_container_security_context": {
-								Computed:    false,
 								Optional:    true,
 								Description: "A security context attached to the build container inside the build pod",
 								Type:        schema.TypeList,
@@ -2209,7 +1898,6 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 								Elem: &schema.Resource{
 									Schema: map[string]*schema.Schema{
 										"capabilities": {
-											Computed:    false,
 											Optional:    true,
 											Description: "The capabilities to add/drop when running the container",
 											Type:        schema.TypeList,
@@ -2218,14 +1906,12 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 											Elem: &schema.Resource{
 												Schema: map[string]*schema.Schema{
 													"add": {
-														Computed:    false,
 														Optional:    true,
 														Description: "List of capabilities to add to the build container",
 														Type:        schema.TypeList,
 														Elem:        &schema.Schema{Type: schema.TypeString},
 													},
 													"drop": {
-														Computed:    false,
 														Optional:    true,
 														Description: "List of capabilities to drop from the build container",
 														Type:        schema.TypeList,
@@ -2235,37 +1921,31 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 											},
 										},
 										"privileged": {
-											Computed:    false,
 											Optional:    true,
 											Description: "Run container in privileged mode",
 											Type:        schema.TypeBool,
 										},
 										"run_as_user": {
-											Computed:    false,
 											Optional:    true,
 											Description: "The UID to run the entrypoint of the container process",
 											Type:        schema.TypeInt,
 										},
 										"run_as_group": {
-											Computed:    false,
 											Optional:    true,
 											Description: "The GID to run the entrypoint of the container process",
 											Type:        schema.TypeInt,
 										},
 										"run_as_non_root": {
-											Computed:    false,
 											Optional:    true,
 											Description: "Indicates that the container must run as a non-root user",
 											Type:        schema.TypeBool,
 										},
 										"read_only_root_filesystem": {
-											Computed:    false,
 											Optional:    true,
 											Description: " Whether this container has a read-only root filesystem.",
 											Type:        schema.TypeBool,
 										},
 										"allow_privilege_escalation": {
-											Computed:    false,
 											Optional:    true,
 											Description: "AllowPrivilegeEscalation controls whether a process can gain more privileges than its parent process",
 											Type:        schema.TypeBool,
@@ -2274,7 +1954,6 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 								},
 							},
 							"helper_container_security_context": {
-								Computed:    false,
 								Optional:    true,
 								Description: "A security context attached to the helper container inside the build pod",
 								Type:        schema.TypeList,
@@ -2283,7 +1962,6 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 								Elem: &schema.Resource{
 									Schema: map[string]*schema.Schema{
 										"capabilities": {
-											Computed:    false,
 											Optional:    true,
 											Description: "The capabilities to add/drop when running the container",
 											Type:        schema.TypeList,
@@ -2292,14 +1970,12 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 											Elem: &schema.Resource{
 												Schema: map[string]*schema.Schema{
 													"add": {
-														Computed:    false,
 														Optional:    true,
 														Description: "List of capabilities to add to the build container",
 														Type:        schema.TypeList,
 														Elem:        &schema.Schema{Type: schema.TypeString},
 													},
 													"drop": {
-														Computed:    false,
 														Optional:    true,
 														Description: "List of capabilities to drop from the build container",
 														Type:        schema.TypeList,
@@ -2309,37 +1985,31 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 											},
 										},
 										"privileged": {
-											Computed:    false,
 											Optional:    true,
 											Description: "Run container in privileged mode",
 											Type:        schema.TypeBool,
 										},
 										"run_as_user": {
-											Computed:    false,
 											Optional:    true,
 											Description: "The UID to run the entrypoint of the container process",
 											Type:        schema.TypeInt,
 										},
 										"run_as_group": {
-											Computed:    false,
 											Optional:    true,
 											Description: "The GID to run the entrypoint of the container process",
 											Type:        schema.TypeInt,
 										},
 										"run_as_non_root": {
-											Computed:    false,
 											Optional:    true,
 											Description: "Indicates that the container must run as a non-root user",
 											Type:        schema.TypeBool,
 										},
 										"read_only_root_filesystem": {
-											Computed:    false,
 											Optional:    true,
 											Description: " Whether this container has a read-only root filesystem.",
 											Type:        schema.TypeBool,
 										},
 										"allow_privilege_escalation": {
-											Computed:    false,
 											Optional:    true,
 											Description: "AllowPrivilegeEscalation controls whether a process can gain more privileges than its parent process",
 											Type:        schema.TypeBool,
@@ -2348,7 +2018,6 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 								},
 							},
 							"service_container_security_context": {
-								Computed:    false,
 								Optional:    true,
 								Description: "A security context attached to the service containers inside the build pod",
 								Type:        schema.TypeList,
@@ -2357,7 +2026,6 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 								Elem: &schema.Resource{
 									Schema: map[string]*schema.Schema{
 										"capabilities": {
-											Computed:    false,
 											Optional:    true,
 											Description: "The capabilities to add/drop when running the container",
 											Type:        schema.TypeList,
@@ -2366,14 +2034,12 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 											Elem: &schema.Resource{
 												Schema: map[string]*schema.Schema{
 													"add": {
-														Computed:    false,
 														Optional:    true,
 														Description: "List of capabilities to add to the build container",
 														Type:        schema.TypeList,
 														Elem:        &schema.Schema{Type: schema.TypeString},
 													},
 													"drop": {
-														Computed:    false,
 														Optional:    true,
 														Description: "List of capabilities to drop from the build container",
 														Type:        schema.TypeList,
@@ -2383,37 +2049,31 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 											},
 										},
 										"privileged": {
-											Computed:    false,
 											Optional:    true,
 											Description: "Run container in privileged mode",
 											Type:        schema.TypeBool,
 										},
 										"run_as_user": {
-											Computed:    false,
 											Optional:    true,
 											Description: "The UID to run the entrypoint of the container process",
 											Type:        schema.TypeInt,
 										},
 										"run_as_group": {
-											Computed:    false,
 											Optional:    true,
 											Description: "The GID to run the entrypoint of the container process",
 											Type:        schema.TypeInt,
 										},
 										"run_as_non_root": {
-											Computed:    false,
 											Optional:    true,
 											Description: "Indicates that the container must run as a non-root user",
 											Type:        schema.TypeBool,
 										},
 										"read_only_root_filesystem": {
-											Computed:    false,
 											Optional:    true,
 											Description: " Whether this container has a read-only root filesystem.",
 											Type:        schema.TypeBool,
 										},
 										"allow_privilege_escalation": {
-											Computed:    false,
 											Optional:    true,
 											Description: "AllowPrivilegeEscalation controls whether a process can gain more privileges than its parent process",
 											Type:        schema.TypeBool,
@@ -2422,7 +2082,6 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 								},
 							},
 							"volumes": {
-								Computed:    false,
 								Optional:    true,
 								Description: "",
 								Type:        schema.TypeList,
@@ -2431,38 +2090,32 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 								Elem: &schema.Resource{
 									Schema: map[string]*schema.Schema{
 										"host_path": {
-											Computed:    false,
 											Optional:    true,
 											Description: "The host paths which will be mounted",
 											Type:        schema.TypeList,
 											Elem: &schema.Resource{
 												Schema: map[string]*schema.Schema{
 													"name": {
-														Computed:    false,
 														Optional:    true,
 														Description: "The name of the volume",
 														Type:        schema.TypeString,
 													},
 													"mount_path": {
-														Computed:    false,
 														Optional:    true,
 														Description: "Path where volume should be mounted inside of container",
 														Type:        schema.TypeString,
 													},
 													"sub_path": {
-														Computed:    false,
 														Optional:    true,
 														Description: "The sub-path of the volume to mount (defaults to volume root)",
 														Type:        schema.TypeString,
 													},
 													"read_only": {
-														Computed:    false,
 														Optional:    true,
 														Description: "If this volume should be mounted read only",
 														Type:        schema.TypeBool,
 													},
 													"host_path": {
-														Computed:    false,
 														Optional:    true,
 														Description: "Path from the host that should be mounted as a volume",
 														Type:        schema.TypeString,
@@ -2471,32 +2124,27 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 											},
 										},
 										"pvc": {
-											Computed:    false,
 											Optional:    true,
 											Description: "The persistent volume claims that will be mounted",
 											Type:        schema.TypeList,
 											Elem: &schema.Resource{
 												Schema: map[string]*schema.Schema{
 													"name": {
-														Computed:    false,
 														Optional:    true,
 														Description: "The name of the volume and PVC to use",
 														Type:        schema.TypeString,
 													},
 													"mount_path": {
-														Computed:    false,
 														Optional:    true,
 														Description: "Path where volume should be mounted inside of container",
 														Type:        schema.TypeString,
 													},
 													"sub_path": {
-														Computed:    false,
 														Optional:    true,
 														Description: "The sub-path of the volume to mount (defaults to volume root)",
 														Type:        schema.TypeString,
 													},
 													"read_only": {
-														Computed:    false,
 														Optional:    true,
 														Description: "If this volume should be mounted read only",
 														Type:        schema.TypeBool,
@@ -2505,38 +2153,32 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 											},
 										},
 										"config_map": {
-											Computed:    false,
 											Optional:    true,
 											Description: "The config maps which will be mounted as volumes",
 											Type:        schema.TypeList,
 											Elem: &schema.Resource{
 												Schema: map[string]*schema.Schema{
 													"name": {
-														Computed:    false,
 														Optional:    true,
 														Description: "The name of the volume and ConfigMap to use",
 														Type:        schema.TypeString,
 													},
 													"mount_path": {
-														Computed:    false,
 														Optional:    true,
 														Description: "Path where volume should be mounted inside of container",
 														Type:        schema.TypeString,
 													},
 													"sub_path": {
-														Computed:    false,
 														Optional:    true,
 														Description: "The sub-path of the volume to mount (defaults to volume root)",
 														Type:        schema.TypeString,
 													},
 													"read_only": {
-														Computed:    false,
 														Optional:    true,
 														Description: "If this volume should be mounted read only",
 														Type:        schema.TypeBool,
 													},
 													"items": {
-														Computed:    false,
 														Optional:    true,
 														Description: "Key-to-path mapping for keys from the config map that should be used.",
 														Type:        schema.TypeMap,
@@ -2546,38 +2188,32 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 											},
 										},
 										"secret": {
-											Computed:    false,
 											Optional:    true,
 											Description: "The secret maps which will be mounted",
 											Type:        schema.TypeList,
 											Elem: &schema.Resource{
 												Schema: map[string]*schema.Schema{
 													"name": {
-														Computed:    false,
 														Optional:    true,
 														Description: "The name of the volume and Secret to use",
 														Type:        schema.TypeString,
 													},
 													"mount_path": {
-														Computed:    false,
 														Optional:    true,
 														Description: "Path where volume should be mounted inside of container",
 														Type:        schema.TypeString,
 													},
 													"sub_path": {
-														Computed:    false,
 														Optional:    true,
 														Description: "The sub-path of the volume to mount (defaults to volume root)",
 														Type:        schema.TypeString,
 													},
 													"read_only": {
-														Computed:    false,
 														Optional:    true,
 														Description: "If this volume should be mounted read only",
 														Type:        schema.TypeBool,
 													},
 													"items": {
-														Computed:    false,
 														Optional:    true,
 														Description: "Key-to-path mapping for keys from the secret that should be used.",
 														Type:        schema.TypeMap,
@@ -2587,32 +2223,27 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 											},
 										},
 										"empty_dir": {
-											Computed:    false,
 											Optional:    true,
 											Description: "The empty dirs which will be mounted",
 											Type:        schema.TypeList,
 											Elem: &schema.Resource{
 												Schema: map[string]*schema.Schema{
 													"name": {
-														Computed:    false,
 														Optional:    true,
 														Description: "The name of the volume and EmptyDir to use",
 														Type:        schema.TypeString,
 													},
 													"mount_path": {
-														Computed:    false,
 														Optional:    true,
 														Description: "Path where volume should be mounted inside of container",
 														Type:        schema.TypeString,
 													},
 													"sub_path": {
-														Computed:    false,
 														Optional:    true,
 														Description: "The sub-path of the volume to mount (defaults to volume root)",
 														Type:        schema.TypeString,
 													},
 													"medium": {
-														Computed:    false,
 														Optional:    true,
 														Description: "Set to 'Memory' to have a tmpfs",
 														Type:        schema.TypeString,
@@ -2621,50 +2252,42 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 											},
 										},
 										"csi": {
-											Computed:    false,
 											Optional:    true,
 											Description: "The CSI volumes which will be mounted",
 											Type:        schema.TypeList,
 											Elem: &schema.Resource{
 												Schema: map[string]*schema.Schema{
 													"name": {
-														Computed:    false,
 														Optional:    true,
 														Description: "The name of the CSI volume and volumeMount to use",
 														Type:        schema.TypeString,
 													},
 													"mount_path": {
-														Computed:    false,
 														Optional:    true,
 														Description: "Path where volume should be mounted inside of container",
 														Type:        schema.TypeString,
 													},
 													"sub_path": {
-														Computed:    false,
 														Optional:    true,
 														Description: "The sub-path of the volume to mount (defaults to volume root)",
 														Type:        schema.TypeString,
 													},
 													"driver": {
-														Computed:    false,
 														Optional:    true,
 														Description: "A string value that specifies the name of the volume driver to use.",
 														Type:        schema.TypeString,
 													},
 													"fs_type": {
-														Computed:    false,
 														Optional:    true,
 														Description: "Filesystem type to mount. If not provided, the empty value is passed to the associated CSI driver which will determine the default filesystem to apply.",
 														Type:        schema.TypeString,
 													},
 													"read_only": {
-														Computed:    false,
 														Optional:    true,
 														Description: "If this volume should be mounted read only",
 														Type:        schema.TypeBool,
 													},
 													"volume_attributes": {
-														Computed:    false,
 														Optional:    true,
 														Description: "Key-value pair mapping for attributes of the CSI volume.",
 														Type:        schema.TypeMap,
@@ -2677,20 +2300,17 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 								},
 							},
 							"host_aliases": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Add a custom host-to-IP mapping",
 								Type:        schema.TypeList,
 								Elem: &schema.Resource{
 									Schema: map[string]*schema.Schema{
 										"ip": {
-											Computed:    false,
 											Optional:    true,
 											Description: "The IP address you want to attach hosts to",
 											Type:        schema.TypeString,
 										},
 										"hostnames": {
-											Computed:    false,
 											Optional:    true,
 											Description: "A list of hostnames that will be attached to the IP",
 											Type:        schema.TypeList,
@@ -2700,33 +2320,28 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 								},
 							},
 							"services": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Add service that is started with container",
 								Type:        schema.TypeList,
 								Elem: &schema.Resource{
 									Schema: map[string]*schema.Schema{
 										"name": {
-											Computed:    false,
 											Optional:    true,
 											Description: "The image path for the service",
 											Type:        schema.TypeString,
 										},
 										"alias": {
-											Computed:    false,
 											Optional:    true,
 											Description: "The alias of the service",
 											Type:        schema.TypeString,
 										},
 										"command": {
-											Computed:    false,
 											Optional:    true,
 											Description: "Command or script that should be used as the container’s command. Syntax is similar to https://docs.docker.com/engine/reference/builder/#cmd",
 											Type:        schema.TypeList,
 											Elem:        &schema.Schema{Type: schema.TypeString},
 										},
 										"entrypoint": {
-											Computed:    false,
 											Optional:    true,
 											Description: "Command or script that should be executed as the container’s entrypoint. syntax is similar to https://docs.docker.com/engine/reference/builder/#entrypoint",
 											Type:        schema.TypeList,
@@ -2736,27 +2351,23 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 								},
 							},
 							"cap_add": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Add Linux capabilities",
 								Type:        schema.TypeList,
 								Elem:        &schema.Schema{Type: schema.TypeString},
 							},
 							"cap_drop": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Drop Linux capabilities",
 								Type:        schema.TypeList,
 								Elem:        &schema.Schema{Type: schema.TypeString},
 							},
 							"dns_policy": {
-								Computed:    false,
 								Optional:    true,
 								Description: "How Kubernetes should try to resolve DNS from the created pods. If unset, Kubernetes will use the default 'ClusterFirst'. Valid values are: none, default, cluster-first, cluster-first-with-host-net",
 								Type:        schema.TypeString,
 							},
 							"dns_config": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Pod DNS config",
 								Type:        schema.TypeList,
@@ -2765,27 +2376,23 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 								Elem: &schema.Resource{
 									Schema: map[string]*schema.Schema{
 										"nameservers": {
-											Computed:    false,
 											Optional:    true,
 											Description: "A list of IP addresses that will be used as DNS servers for the Pod.",
 											Type:        schema.TypeList,
 											Elem:        &schema.Schema{Type: schema.TypeString},
 										},
 										"options": {
-											Computed:    false,
 											Optional:    true,
 											Description: "An optional list of objects where each object may have a name property (required) and a value property (optional).",
 											Type:        schema.TypeList,
 											Elem: &schema.Resource{
 												Schema: map[string]*schema.Schema{
 													"name": {
-														Computed:    false,
 														Optional:    true,
 														Description: "",
 														Type:        schema.TypeString,
 													},
 													"value": {
-														Computed:    false,
 														Optional:    true,
 														Description: "",
 														Type:        schema.TypeString,
@@ -2794,7 +2401,6 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 											},
 										},
 										"searches": {
-											Computed:    false,
 											Optional:    true,
 											Description: "A list of DNS search domains for hostname lookup in the Pod.",
 											Type:        schema.TypeList,
@@ -2804,7 +2410,6 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 								},
 							},
 							"container_lifecycle": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Actions that the management system should take in response to container lifecycle events",
 								Type:        schema.TypeList,
@@ -2813,7 +2418,6 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 								Elem: &schema.Resource{
 									Schema: map[string]*schema.Schema{
 										"post_start": {
-											Computed:    false,
 											Optional:    true,
 											Description: "PostStart is called immediately after a container is created. If the handler fails, the container is terminated and restarted according to its restart policy. Other management of the container blocks until the hook completes",
 											Type:        schema.TypeList,
@@ -2822,7 +2426,6 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 											Elem: &schema.Resource{
 												Schema: map[string]*schema.Schema{
 													"exec": {
-														Computed:    false,
 														Optional:    true,
 														Description: "Exec specifies the action to take",
 														Type:        schema.TypeList,
@@ -2831,7 +2434,6 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 														Elem: &schema.Resource{
 															Schema: map[string]*schema.Schema{
 																"command": {
-																	Computed:    false,
 																	Optional:    true,
 																	Description: "Command is the command line to execute inside the container, the working directory for the command  is root ('/') in the container's filesystem. The command is simply exec'd, it is not run inside a shell, so traditional shell instructions ('|', etc) won't work. To use a shell, you need to explicitly call out to that shell. Exit status of 0 is treated as live/healthy and non-zero is unhealthy",
 																	Type:        schema.TypeList,
@@ -2841,7 +2443,6 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 														},
 													},
 													"http_get": {
-														Computed:    false,
 														Optional:    true,
 														Description: "HTTPGet specifies the http request to perform.",
 														Type:        schema.TypeList,
@@ -2850,26 +2451,22 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 														Elem: &schema.Resource{
 															Schema: map[string]*schema.Schema{
 																"host": {
-																	Computed:    false,
 																	Optional:    true,
 																	Description: "Host name to connect to, defaults to the pod IP. You probably want to set \"Host\" in httpHeaders instead",
 																	Type:        schema.TypeString,
 																},
 																"http_headers": {
-																	Computed:    false,
 																	Optional:    true,
 																	Description: "Custom headers to set in the request. HTTP allows repeated headers",
 																	Type:        schema.TypeList,
 																	Elem: &schema.Resource{
 																		Schema: map[string]*schema.Schema{
 																			"name": {
-																				Computed:    false,
 																				Optional:    true,
 																				Description: "The header field name",
 																				Type:        schema.TypeString,
 																			},
 																			"value": {
-																				Computed:    false,
 																				Optional:    true,
 																				Description: "The header field value",
 																				Type:        schema.TypeString,
@@ -2878,19 +2475,16 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 																	},
 																},
 																"path": {
-																	Computed:    false,
 																	Optional:    true,
 																	Description: "Path to access on the HTTP server",
 																	Type:        schema.TypeString,
 																},
 																"port": {
-																	Computed:    false,
 																	Optional:    true,
 																	Description: "Number of the port to access on the container. Number must be in the range 1 to 65535",
 																	Type:        schema.TypeInt,
 																},
 																"scheme": {
-																	Computed:    false,
 																	Optional:    true,
 																	Description: "Scheme to use for connecting to the host. Defaults to HTTP",
 																	Type:        schema.TypeString,
@@ -2899,7 +2493,6 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 														},
 													},
 													"tcp_socket": {
-														Computed:    false,
 														Optional:    true,
 														Description: "TCPSocket specifies an action involving a TCP port",
 														Type:        schema.TypeList,
@@ -2908,13 +2501,11 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 														Elem: &schema.Resource{
 															Schema: map[string]*schema.Schema{
 																"host": {
-																	Computed:    false,
 																	Optional:    true,
 																	Description: "Host name to connect to, defaults to the pod IP. You probably want to set \"Host\" in httpHeaders instead",
 																	Type:        schema.TypeString,
 																},
 																"port": {
-																	Computed:    false,
 																	Optional:    true,
 																	Description: "Number of the port to access on the container. Number must be in the range 1 to 65535",
 																	Type:        schema.TypeInt,
@@ -2926,7 +2517,6 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 											},
 										},
 										"pre_stop": {
-											Computed:    false,
 											Optional:    true,
 											Description: "PreStop is called immediately before a container is terminated due to an API request or management event such as liveness/startup probe failure, preemption, resource contention, etc. The handler is not called if the container crashes or exits. The reason for termination is passed to the handler. The Pod's termination grace period countdown begins before the PreStop hooked is executed. Regardless of the outcome of the handler, the container will eventually terminate within the Pod's termination grace period. Other management of the container blocks until the hook completes or until the termination grace period is reached",
 											Type:        schema.TypeList,
@@ -2935,7 +2525,6 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 											Elem: &schema.Resource{
 												Schema: map[string]*schema.Schema{
 													"exec": {
-														Computed:    false,
 														Optional:    true,
 														Description: "Exec specifies the action to take",
 														Type:        schema.TypeList,
@@ -2944,7 +2533,6 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 														Elem: &schema.Resource{
 															Schema: map[string]*schema.Schema{
 																"command": {
-																	Computed:    false,
 																	Optional:    true,
 																	Description: "Command is the command line to execute inside the container, the working directory for the command  is root ('/') in the container's filesystem. The command is simply exec'd, it is not run inside a shell, so traditional shell instructions ('|', etc) won't work. To use a shell, you need to explicitly call out to that shell. Exit status of 0 is treated as live/healthy and non-zero is unhealthy",
 																	Type:        schema.TypeList,
@@ -2954,7 +2542,6 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 														},
 													},
 													"http_get": {
-														Computed:    false,
 														Optional:    true,
 														Description: "HTTPGet specifies the http request to perform.",
 														Type:        schema.TypeList,
@@ -2963,26 +2550,22 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 														Elem: &schema.Resource{
 															Schema: map[string]*schema.Schema{
 																"host": {
-																	Computed:    false,
 																	Optional:    true,
 																	Description: "Host name to connect to, defaults to the pod IP. You probably want to set \"Host\" in httpHeaders instead",
 																	Type:        schema.TypeString,
 																},
 																"http_headers": {
-																	Computed:    false,
 																	Optional:    true,
 																	Description: "Custom headers to set in the request. HTTP allows repeated headers",
 																	Type:        schema.TypeList,
 																	Elem: &schema.Resource{
 																		Schema: map[string]*schema.Schema{
 																			"name": {
-																				Computed:    false,
 																				Optional:    true,
 																				Description: "The header field name",
 																				Type:        schema.TypeString,
 																			},
 																			"value": {
-																				Computed:    false,
 																				Optional:    true,
 																				Description: "The header field value",
 																				Type:        schema.TypeString,
@@ -2991,19 +2574,16 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 																	},
 																},
 																"path": {
-																	Computed:    false,
 																	Optional:    true,
 																	Description: "Path to access on the HTTP server",
 																	Type:        schema.TypeString,
 																},
 																"port": {
-																	Computed:    false,
 																	Optional:    true,
 																	Description: "Number of the port to access on the container. Number must be in the range 1 to 65535",
 																	Type:        schema.TypeInt,
 																},
 																"scheme": {
-																	Computed:    false,
 																	Optional:    true,
 																	Description: "Scheme to use for connecting to the host. Defaults to HTTP",
 																	Type:        schema.TypeString,
@@ -3012,7 +2592,6 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 														},
 													},
 													"tcp_socket": {
-														Computed:    false,
 														Optional:    true,
 														Description: "TCPSocket specifies an action involving a TCP port",
 														Type:        schema.TypeList,
@@ -3021,13 +2600,11 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 														Elem: &schema.Resource{
 															Schema: map[string]*schema.Schema{
 																"host": {
-																	Computed:    false,
 																	Optional:    true,
 																	Description: "Host name to connect to, defaults to the pod IP. You probably want to set \"Host\" in httpHeaders instead",
 																	Type:        schema.TypeString,
 																},
 																"port": {
-																	Computed:    false,
 																	Optional:    true,
 																	Description: "Number of the port to access on the container. Number must be in the range 1 to 65535",
 																	Type:        schema.TypeInt,
@@ -3045,7 +2622,6 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 					},
 				},
 				"custom": {
-					Computed:    false,
 					Optional:    true,
 					Description: "",
 					Type:        schema.TypeList,
@@ -3054,83 +2630,70 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 					Elem: &schema.Resource{
 						Schema: map[string]*schema.Schema{
 							"config_exec": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Executable that allows to inject configuration values to the executor",
 								Type:        schema.TypeString,
 							},
 							"config_args": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Arguments for the config executable",
 								Type:        schema.TypeList,
 								Elem:        &schema.Schema{Type: schema.TypeString},
 							},
 							"config_exec_timeout": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Timeout for the config executable (in seconds)",
 								Type:        schema.TypeInt,
 							},
 							"prepare_exec": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Executable that prepares executor",
 								Type:        schema.TypeString,
 							},
 							"prepare_args": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Arguments for the prepare executable",
 								Type:        schema.TypeList,
 								Elem:        &schema.Schema{Type: schema.TypeString},
 							},
 							"prepare_exec_timeout": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Timeout for the prepare executable (in seconds)",
 								Type:        schema.TypeInt,
 							},
 							"run_exec": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Executable that runs the job script in executor",
 								Type:        schema.TypeString,
 							},
 							"run_args": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Arguments for the run executable",
 								Type:        schema.TypeList,
 								Elem:        &schema.Schema{Type: schema.TypeString},
 							},
 							"cleanup_exec": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Executable that cleanups after executor run",
 								Type:        schema.TypeString,
 							},
 							"cleanup_args": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Arguments for the cleanup executable",
 								Type:        schema.TypeList,
 								Elem:        &schema.Schema{Type: schema.TypeString},
 							},
 							"cleanup_exec_timeout": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Timeout for the cleanup executable (in seconds)",
 								Type:        schema.TypeInt,
 							},
 							"graceful_kill_timeout": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Graceful timeout for scripts execution after SIGTERM is sent to the process (in seconds). This limits the time given for scripts to perform the cleanup before exiting",
 								Type:        schema.TypeInt,
 							},
 							"force_kill_timeout": {
-								Computed:    false,
 								Optional:    true,
 								Description: "Force timeout for scripts execution (in seconds). Counted from the force kill call; if process will be not terminated, Runner will abandon process termination and log an error",
 								Type:        schema.TypeInt,
@@ -3142,7 +2705,6 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 		},
 	},
 	"sentry_dsn": {
-		Computed:    false,
 		Optional:    true,
 		Description: "",
 		Type:        schema.TypeString,
@@ -3299,7 +2861,7 @@ func dsRunnerConfigReadStructConfigCacheConfig(ctx context.Context, prefix strin
 		}
 		val.S3 = &thing
 	} else {
-		tflog.Debug(ctx, fmt.Sprintf("not set: %s", prefix+"s3"))
+		tflog.Trace(ctx, fmt.Sprintf("not set: %s", prefix+"s3.0"))
 	}
 
 	// GCS: gcs -- , *config.CacheGCSConfig
@@ -3312,7 +2874,7 @@ func dsRunnerConfigReadStructConfigCacheConfig(ctx context.Context, prefix strin
 		}
 		val.GCS = &thing
 	} else {
-		tflog.Debug(ctx, fmt.Sprintf("not set: %s", prefix+"gcs"))
+		tflog.Trace(ctx, fmt.Sprintf("not set: %s", prefix+"gcs.0"))
 	}
 
 	// Azure: azure -- , *config.CacheAzureConfig
@@ -3325,7 +2887,7 @@ func dsRunnerConfigReadStructConfigCacheConfig(ctx context.Context, prefix strin
 		}
 		val.Azure = &thing
 	} else {
-		tflog.Debug(ctx, fmt.Sprintf("not set: %s", prefix+"azure"))
+		tflog.Trace(ctx, fmt.Sprintf("not set: %s", prefix+"azure.0"))
 	}
 
 	return val, nil
@@ -4407,7 +3969,7 @@ func dsRunnerConfigReadStructConfigKubernetesAffinity(ctx context.Context, prefi
 		}
 		val.NodeAffinity = &thing
 	} else {
-		tflog.Debug(ctx, fmt.Sprintf("not set: %s", prefix+"node_affinity"))
+		tflog.Trace(ctx, fmt.Sprintf("not set: %s", prefix+"node_affinity.0"))
 	}
 
 	// PodAffinity: pod_affinity -- , *config.KubernetesPodAffinity
@@ -4420,7 +3982,7 @@ func dsRunnerConfigReadStructConfigKubernetesAffinity(ctx context.Context, prefi
 		}
 		val.PodAffinity = &thing
 	} else {
-		tflog.Debug(ctx, fmt.Sprintf("not set: %s", prefix+"pod_affinity"))
+		tflog.Trace(ctx, fmt.Sprintf("not set: %s", prefix+"pod_affinity.0"))
 	}
 
 	// PodAntiAffinity: pod_anti_affinity -- , *config.KubernetesPodAntiAffinity
@@ -4433,7 +3995,7 @@ func dsRunnerConfigReadStructConfigKubernetesAffinity(ctx context.Context, prefi
 		}
 		val.PodAntiAffinity = &thing
 	} else {
-		tflog.Debug(ctx, fmt.Sprintf("not set: %s", prefix+"pod_anti_affinity"))
+		tflog.Trace(ctx, fmt.Sprintf("not set: %s", prefix+"pod_anti_affinity.0"))
 	}
 
 	return val, nil
@@ -5244,7 +4806,7 @@ func dsRunnerConfigReadStructConfigKubernetesContainerLifecyle(ctx context.Conte
 		}
 		val.PostStart = &thing
 	} else {
-		tflog.Debug(ctx, fmt.Sprintf("not set: %s", prefix+"post_start"))
+		tflog.Trace(ctx, fmt.Sprintf("not set: %s", prefix+"post_start.0"))
 	}
 
 	// PreStop: pre_stop -- , *config.KubernetesLifecycleHandler
@@ -5257,7 +4819,7 @@ func dsRunnerConfigReadStructConfigKubernetesContainerLifecyle(ctx context.Conte
 		}
 		val.PreStop = &thing
 	} else {
-		tflog.Debug(ctx, fmt.Sprintf("not set: %s", prefix+"pre_stop"))
+		tflog.Trace(ctx, fmt.Sprintf("not set: %s", prefix+"pre_stop.0"))
 	}
 
 	return val, nil
@@ -5285,7 +4847,7 @@ func dsRunnerConfigReadStructConfigKubernetesContainerSecurityContext(ctx contex
 		}
 		val.Capabilities = &thing
 	} else {
-		tflog.Debug(ctx, fmt.Sprintf("not set: %s", prefix+"capabilities"))
+		tflog.Trace(ctx, fmt.Sprintf("not set: %s", prefix+"capabilities.0"))
 	}
 
 	// Privileged: privileged -- , *bool
@@ -5705,7 +5267,7 @@ func dsRunnerConfigReadStructConfigKubernetesLifecycleHandler(ctx context.Contex
 		}
 		val.Exec = &thing
 	} else {
-		tflog.Debug(ctx, fmt.Sprintf("not set: %s", prefix+"exec"))
+		tflog.Trace(ctx, fmt.Sprintf("not set: %s", prefix+"exec.0"))
 	}
 
 	// HTTPGet: http_get -- , *config.KubernetesLifecycleHTTPGet
@@ -5718,7 +5280,7 @@ func dsRunnerConfigReadStructConfigKubernetesLifecycleHandler(ctx context.Contex
 		}
 		val.HTTPGet = &thing
 	} else {
-		tflog.Debug(ctx, fmt.Sprintf("not set: %s", prefix+"http_get"))
+		tflog.Trace(ctx, fmt.Sprintf("not set: %s", prefix+"http_get.0"))
 	}
 
 	// TCPSocket: tcp_socket -- , *config.KubernetesLifecycleTCPSocket
@@ -5731,7 +5293,7 @@ func dsRunnerConfigReadStructConfigKubernetesLifecycleHandler(ctx context.Contex
 		}
 		val.TCPSocket = &thing
 	} else {
-		tflog.Debug(ctx, fmt.Sprintf("not set: %s", prefix+"tcp_socket"))
+		tflog.Trace(ctx, fmt.Sprintf("not set: %s", prefix+"tcp_socket.0"))
 	}
 
 	return val, nil
@@ -5786,7 +5348,7 @@ func dsRunnerConfigReadStructConfigKubernetesNodeAffinity(ctx context.Context, p
 		}
 		val.RequiredDuringSchedulingIgnoredDuringExecution = &thing
 	} else {
-		tflog.Debug(ctx, fmt.Sprintf("not set: %s", prefix+"required_during_scheduling_ignored_during_execution"))
+		tflog.Trace(ctx, fmt.Sprintf("not set: %s", prefix+"required_during_scheduling_ignored_during_execution.0"))
 	}
 
 	// PreferredDuringSchedulingIgnoredDuringExecution: preferred_during_scheduling_ignored_during_execution -- , []config.PreferredSchedulingTerm
@@ -6519,7 +6081,7 @@ func dsRunnerConfigReadStructConfigPodAffinityTerm(ctx context.Context, prefix s
 		}
 		val.LabelSelector = &thing
 	} else {
-		tflog.Debug(ctx, fmt.Sprintf("not set: %s", prefix+"label_selector"))
+		tflog.Trace(ctx, fmt.Sprintf("not set: %s", prefix+"label_selector.0"))
 	}
 
 	// Namespaces: namespaces -- , []string
@@ -6558,7 +6120,7 @@ func dsRunnerConfigReadStructConfigPodAffinityTerm(ctx context.Context, prefix s
 		}
 		val.NamespaceSelector = &thing
 	} else {
-		tflog.Debug(ctx, fmt.Sprintf("not set: %s", prefix+"namespace_selector"))
+		tflog.Trace(ctx, fmt.Sprintf("not set: %s", prefix+"namespace_selector.0"))
 	}
 
 	return val, nil
@@ -6746,7 +6308,7 @@ func dsRunnerConfigReadStructConfigRunnerConfig(ctx context.Context, prefix stri
 		}
 		val.CustomBuildDir = &thing
 	} else {
-		tflog.Debug(ctx, fmt.Sprintf("not set: %s", prefix+"custom_build_dir"))
+		tflog.Trace(ctx, fmt.Sprintf("not set: %s", prefix+"custom_build_dir.0"))
 	}
 
 	// Referees: referees -- Config, referees.Config
@@ -6770,7 +6332,7 @@ func dsRunnerConfigReadStructConfigRunnerConfig(ctx context.Context, prefix stri
 		}
 		val.Cache = &thing
 	} else {
-		tflog.Debug(ctx, fmt.Sprintf("not set: %s", prefix+"cache"))
+		tflog.Trace(ctx, fmt.Sprintf("not set: %s", prefix+"cache.0"))
 	}
 
 	// FeatureFlags: feature_flags -- , map[string]bool
@@ -6789,7 +6351,7 @@ func dsRunnerConfigReadStructConfigRunnerConfig(ctx context.Context, prefix stri
 		}
 		val.SSH = &thing
 	} else {
-		tflog.Debug(ctx, fmt.Sprintf("not set: %s", prefix+"ssh"))
+		tflog.Trace(ctx, fmt.Sprintf("not set: %s", prefix+"ssh.0"))
 	}
 
 	// Docker: docker -- , *config.DockerConfig
@@ -6802,7 +6364,7 @@ func dsRunnerConfigReadStructConfigRunnerConfig(ctx context.Context, prefix stri
 		}
 		val.Docker = &thing
 	} else {
-		tflog.Debug(ctx, fmt.Sprintf("not set: %s", prefix+"docker"))
+		tflog.Trace(ctx, fmt.Sprintf("not set: %s", prefix+"docker.0"))
 	}
 
 	// Parallels: parallels -- , *config.ParallelsConfig
@@ -6815,7 +6377,7 @@ func dsRunnerConfigReadStructConfigRunnerConfig(ctx context.Context, prefix stri
 		}
 		val.Parallels = &thing
 	} else {
-		tflog.Debug(ctx, fmt.Sprintf("not set: %s", prefix+"parallels"))
+		tflog.Trace(ctx, fmt.Sprintf("not set: %s", prefix+"parallels.0"))
 	}
 
 	// VirtualBox: virtualbox -- , *config.VirtualBoxConfig
@@ -6828,7 +6390,7 @@ func dsRunnerConfigReadStructConfigRunnerConfig(ctx context.Context, prefix stri
 		}
 		val.VirtualBox = &thing
 	} else {
-		tflog.Debug(ctx, fmt.Sprintf("not set: %s", prefix+"virtualbox"))
+		tflog.Trace(ctx, fmt.Sprintf("not set: %s", prefix+"virtualbox.0"))
 	}
 
 	// Machine: machine -- , *config.DockerMachine
@@ -6841,7 +6403,7 @@ func dsRunnerConfigReadStructConfigRunnerConfig(ctx context.Context, prefix stri
 		}
 		val.Machine = &thing
 	} else {
-		tflog.Debug(ctx, fmt.Sprintf("not set: %s", prefix+"machine"))
+		tflog.Trace(ctx, fmt.Sprintf("not set: %s", prefix+"machine.0"))
 	}
 
 	// Kubernetes: kubernetes -- , *config.KubernetesConfig
@@ -6854,7 +6416,7 @@ func dsRunnerConfigReadStructConfigRunnerConfig(ctx context.Context, prefix stri
 		}
 		val.Kubernetes = &thing
 	} else {
-		tflog.Debug(ctx, fmt.Sprintf("not set: %s", prefix+"kubernetes"))
+		tflog.Trace(ctx, fmt.Sprintf("not set: %s", prefix+"kubernetes.0"))
 	}
 
 	// Custom: custom -- , *config.CustomConfig
@@ -6867,7 +6429,7 @@ func dsRunnerConfigReadStructConfigRunnerConfig(ctx context.Context, prefix stri
 		}
 		val.Custom = &thing
 	} else {
-		tflog.Debug(ctx, fmt.Sprintf("not set: %s", prefix+"custom"))
+		tflog.Trace(ctx, fmt.Sprintf("not set: %s", prefix+"custom.0"))
 	}
 
 	return val, nil
@@ -7014,7 +6576,7 @@ func dsRunnerConfigReadStructConfigRunnerSettings(ctx context.Context, prefix st
 		}
 		val.CustomBuildDir = &thing
 	} else {
-		tflog.Debug(ctx, fmt.Sprintf("not set: %s", prefix+"custom_build_dir"))
+		tflog.Trace(ctx, fmt.Sprintf("not set: %s", prefix+"custom_build_dir.0"))
 	}
 
 	// Referees: referees -- Config, referees.Config
@@ -7038,7 +6600,7 @@ func dsRunnerConfigReadStructConfigRunnerSettings(ctx context.Context, prefix st
 		}
 		val.Cache = &thing
 	} else {
-		tflog.Debug(ctx, fmt.Sprintf("not set: %s", prefix+"cache"))
+		tflog.Trace(ctx, fmt.Sprintf("not set: %s", prefix+"cache.0"))
 	}
 
 	// FeatureFlags: feature_flags -- , map[string]bool
@@ -7057,7 +6619,7 @@ func dsRunnerConfigReadStructConfigRunnerSettings(ctx context.Context, prefix st
 		}
 		val.SSH = &thing
 	} else {
-		tflog.Debug(ctx, fmt.Sprintf("not set: %s", prefix+"ssh"))
+		tflog.Trace(ctx, fmt.Sprintf("not set: %s", prefix+"ssh.0"))
 	}
 
 	// Docker: docker -- , *config.DockerConfig
@@ -7070,7 +6632,7 @@ func dsRunnerConfigReadStructConfigRunnerSettings(ctx context.Context, prefix st
 		}
 		val.Docker = &thing
 	} else {
-		tflog.Debug(ctx, fmt.Sprintf("not set: %s", prefix+"docker"))
+		tflog.Trace(ctx, fmt.Sprintf("not set: %s", prefix+"docker.0"))
 	}
 
 	// Parallels: parallels -- , *config.ParallelsConfig
@@ -7083,7 +6645,7 @@ func dsRunnerConfigReadStructConfigRunnerSettings(ctx context.Context, prefix st
 		}
 		val.Parallels = &thing
 	} else {
-		tflog.Debug(ctx, fmt.Sprintf("not set: %s", prefix+"parallels"))
+		tflog.Trace(ctx, fmt.Sprintf("not set: %s", prefix+"parallels.0"))
 	}
 
 	// VirtualBox: virtualbox -- , *config.VirtualBoxConfig
@@ -7096,7 +6658,7 @@ func dsRunnerConfigReadStructConfigRunnerSettings(ctx context.Context, prefix st
 		}
 		val.VirtualBox = &thing
 	} else {
-		tflog.Debug(ctx, fmt.Sprintf("not set: %s", prefix+"virtualbox"))
+		tflog.Trace(ctx, fmt.Sprintf("not set: %s", prefix+"virtualbox.0"))
 	}
 
 	// Machine: machine -- , *config.DockerMachine
@@ -7109,7 +6671,7 @@ func dsRunnerConfigReadStructConfigRunnerSettings(ctx context.Context, prefix st
 		}
 		val.Machine = &thing
 	} else {
-		tflog.Debug(ctx, fmt.Sprintf("not set: %s", prefix+"machine"))
+		tflog.Trace(ctx, fmt.Sprintf("not set: %s", prefix+"machine.0"))
 	}
 
 	// Kubernetes: kubernetes -- , *config.KubernetesConfig
@@ -7122,7 +6684,7 @@ func dsRunnerConfigReadStructConfigRunnerSettings(ctx context.Context, prefix st
 		}
 		val.Kubernetes = &thing
 	} else {
-		tflog.Debug(ctx, fmt.Sprintf("not set: %s", prefix+"kubernetes"))
+		tflog.Trace(ctx, fmt.Sprintf("not set: %s", prefix+"kubernetes.0"))
 	}
 
 	// Custom: custom -- , *config.CustomConfig
@@ -7135,7 +6697,7 @@ func dsRunnerConfigReadStructConfigRunnerSettings(ctx context.Context, prefix st
 		}
 		val.Custom = &thing
 	} else {
-		tflog.Debug(ctx, fmt.Sprintf("not set: %s", prefix+"custom"))
+		tflog.Trace(ctx, fmt.Sprintf("not set: %s", prefix+"custom.0"))
 	}
 
 	return val, nil
@@ -7387,7 +6949,7 @@ func dsRunnerConfigReadStructRefereesConfig(ctx context.Context, prefix string, 
 		}
 		val.Metrics = &thing
 	} else {
-		tflog.Debug(ctx, fmt.Sprintf("not set: %s", prefix+"metrics"))
+		tflog.Trace(ctx, fmt.Sprintf("not set: %s", prefix+"metrics.0"))
 	}
 
 	return val, nil
