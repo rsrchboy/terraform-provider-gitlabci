@@ -113,13 +113,33 @@ map[string]*schema.Schema{
 		i := 0
 		val.{{.Name}} = {{ $type }}{}
 		for {
-			pfx := fmt.Sprintf("%s.%s.%d", prefix, "{{$nname}}", i)
+			pfx := fmt.Sprintf("%s%s.%d", prefix, "{{$nname}}", i)
 			if v, ok := d.GetOk(pfx); ok {
 				tflog.Debug(ctx, fmt.Sprintf("key is set: %s", pfx))
 				val.{{.Name}} = append(val.{{.Name}}, v.({{$plainType}}))
 				i++
 			} else {
 				tflog.Debug(ctx, "not set: %s", pfx)
+				break
+			}
+		}
+	}
+{{ end }}
+
+{{ define "handleSlice2" -}}
+	{{ $plainType := coalesce .SingleType (.Type | trimPrefix "[]") }}
+	if _, ok := d.GetOk(prefix + "{{.Name}}"); ok {
+		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "{{.Name}}"))
+		i := 0
+		val.{{.Field}} = {{ .Type }}{}
+		for {
+			pfx := fmt.Sprintf("%s%s.%d", prefix, "{{.Name}}", i)
+			if v, ok := d.GetOk(pfx); ok {
+				tflog.Debug(ctx, fmt.Sprintf("key is set: %s", pfx))
+				val.{{.Field}} = append(val.{{.Field}}, v.({{$plainType}}))
+				i++
+			} else {
+				tflog.Debug(ctx, "not set: " + pfx)
 				break
 			}
 		}
@@ -179,10 +199,7 @@ func dsRunnerConfigReadStruct{{ .Name | title | replace "." "" }}(ctx context.Co
 {{ $nname := nodeName . }}
 // {{ .Name }}: {{$nname}} -- {{ .Type.Name }}, {{ .Type.String }}
 {{ if eq $type "config.StringOrArray" -}}
-	if v, ok := d.GetOk(prefix + "{{$nname}}"); ok {
-		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "{{$nname}}"))
-		val.{{.Name}} = v.([]string)
-	}
+{{ template "handleSlice2" dict "SingleType" "string" "Name" $nname "Field" .Name "Type" $type }}
 {{ else if eq "elemSliceString" (. | nodeElemTemplate)}}
 {{ template "handleSlice" . }}
 {{ else if eq "elemSliceBool" (. | nodeElemTemplate)}}
