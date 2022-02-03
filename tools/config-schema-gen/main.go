@@ -115,14 +115,15 @@ map[string]*schema.Schema{
 
 */ -}}
 	{{ $plainType := coalesce .SingleType (.Type | trimPrefix "[]") }}
+	tflog.Trace(ctx, "checking key: " + prefix + "{{.Key}}")
 	if _, ok := d.GetOk(prefix + "{{.Key}}"); ok {
-		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "{{.Key}}"))
+		tflog.Debug(ctx, "is set: " + prefix + "{{.Key}}")
 		i := 0
 		val.{{.Name}} = {{ .Type }}{}
 		for {
 			pfx := fmt.Sprintf("%s%s.%d", prefix, "{{.Key}}", i)
 			if v, ok := d.GetOk(pfx); ok {
-				tflog.Debug(ctx, fmt.Sprintf("key is set: %s", pfx))
+				tflog.Debug(ctx, "is set: " + pfx)
 				val.{{.Name}} = append(val.{{.Name}}, v.({{$plainType}}))
 				i++
 			} else {
@@ -195,7 +196,7 @@ func dataSourceGitlabCIRunnerConfigReadNEW(d *schema.ResourceData, meta interfac
 
 */ -}}
 	{{ $plainType := .Type | trimPrefix "[]" }}
-	// HEREx {{.Type}}
+	tflog.Trace(ctx, "checking key: " + prefix + "{{.Key}}")
 	if _, ok := d.GetOk(prefix + "{{.Key}}"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("key is set: %s%s", prefix, "{{.Key}}"))
 		i := 0
@@ -226,6 +227,7 @@ func dataSourceGitlabCIRunnerConfigReadNEW(d *schema.ResourceData, meta interfac
 	.Type  ...yeah, that
 
 */ -}}
+	tflog.Trace(ctx, "checking key: " + prefix + "{{.Key}}.0")
 	if _, ok := d.GetOk(prefix + "{{.Key}}.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "{{.Key}}"))
 		thing, err := dsRunnerConfigReadStruct{{ .Type | title | replace "." "" | replace "*" "" }}(ctx, prefix+"{{.Key}}.0", d)
