@@ -2853,6 +2853,7 @@ func dsRunnerConfigReadStructConfigCacheConfig(ctx context.Context, prefix strin
 
 	// S3: s3 -- , *config.CacheS3Config
 
+	tflog.Trace(ctx, "checking key: "+prefix+"s3.0")
 	if _, ok := d.GetOk(prefix + "s3.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "s3"))
 		thing, err := dsRunnerConfigReadStructConfigCacheS3Config(ctx, prefix+"s3.0", d)
@@ -2866,6 +2867,7 @@ func dsRunnerConfigReadStructConfigCacheConfig(ctx context.Context, prefix strin
 
 	// GCS: gcs -- , *config.CacheGCSConfig
 
+	tflog.Trace(ctx, "checking key: "+prefix+"gcs.0")
 	if _, ok := d.GetOk(prefix + "gcs.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "gcs"))
 		thing, err := dsRunnerConfigReadStructConfigCacheGCSConfig(ctx, prefix+"gcs.0", d)
@@ -2879,6 +2881,7 @@ func dsRunnerConfigReadStructConfigCacheConfig(ctx context.Context, prefix strin
 
 	// Azure: azure -- , *config.CacheAzureConfig
 
+	tflog.Trace(ctx, "checking key: "+prefix+"azure.0")
 	if _, ok := d.GetOk(prefix + "azure.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "azure"))
 		thing, err := dsRunnerConfigReadStructConfigCacheAzureConfig(ctx, prefix+"azure.0", d)
@@ -3036,6 +3039,7 @@ func dsRunnerConfigReadStructConfigConfig(ctx context.Context, prefix string, d 
 
 	// SessionServer: session_server -- SessionServer, config.SessionServer
 
+	tflog.Trace(ctx, "checking key: "+prefix+"session_server.0")
 	if _, ok := d.GetOk(prefix + "session_server.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "session_server"))
 		thing, err := dsRunnerConfigReadStructConfigSessionServer(ctx, prefix+"session_server.0", d)
@@ -3043,6 +3047,8 @@ func dsRunnerConfigReadStructConfigConfig(ctx context.Context, prefix string, d 
 			return val, err
 		}
 		val.SessionServer = thing
+	} else {
+		tflog.Trace(ctx, fmt.Sprintf("not set: %s", prefix+"session_server.0"))
 	}
 
 	// Concurrent: concurrent -- int, int
@@ -3059,14 +3065,16 @@ func dsRunnerConfigReadStructConfigConfig(ctx context.Context, prefix string, d 
 
 	// LogLevel: log_level -- , *string
 	if v, ok := d.GetOk(prefix + "log_level"); ok {
-		tflog.Debug(ctx, "set: %s.%s", prefix, "log_level")
+		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "log_level"))
 		val.LogLevel = to.StringP(v.(string))
+
 	}
 
 	// LogFormat: log_format -- , *string
 	if v, ok := d.GetOk(prefix + "log_format"); ok {
-		tflog.Debug(ctx, "set: %s.%s", prefix, "log_format")
+		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "log_format"))
 		val.LogFormat = to.StringP(v.(string))
+
 	}
 
 	// User: user -- string, string
@@ -3077,7 +3085,7 @@ func dsRunnerConfigReadStructConfigConfig(ctx context.Context, prefix string, d 
 
 	// Runners: runners -- , []*config.RunnerConfig
 
-	// HERE
+	tflog.Trace(ctx, "checking key: "+prefix+"runners")
 	if _, ok := d.GetOk(prefix + "runners"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("key is set: %s%s", prefix, "runners"))
 		i := 0
@@ -3101,8 +3109,9 @@ func dsRunnerConfigReadStructConfigConfig(ctx context.Context, prefix string, d 
 
 	// SentryDSN: sentry_dsn -- , *string
 	if v, ok := d.GetOk(prefix + "sentry_dsn"); ok {
-		tflog.Debug(ctx, "set: %s.%s", prefix, "sentry_dsn")
+		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "sentry_dsn"))
 		val.SentryDSN = to.StringP(v.(string))
+
 	}
 
 	return val, nil
@@ -3149,19 +3158,19 @@ func dsRunnerConfigReadStructConfigCustomConfig(ctx context.Context, prefix stri
 
 	// ConfigArgs: config_args -- , []string
 
-	// HERE
+	tflog.Trace(ctx, "checking key: "+prefix+"config_args")
 	if _, ok := d.GetOk(prefix + "config_args"); ok {
-		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "config_args"))
+		tflog.Debug(ctx, "is set: "+prefix+"config_args")
 		i := 0
 		val.ConfigArgs = []string{}
 		for {
-			pfx := fmt.Sprintf("%s.%s.%d", prefix, "config_args", i)
+			pfx := fmt.Sprintf("%s%s.%d", prefix, "config_args", i)
 			if v, ok := d.GetOk(pfx); ok {
-				tflog.Debug(ctx, fmt.Sprintf("key is set: %s", pfx))
+				tflog.Debug(ctx, "is set: "+pfx)
 				val.ConfigArgs = append(val.ConfigArgs, v.(string))
 				i++
 			} else {
-				tflog.Debug(ctx, "not set: %s", pfx)
+				tflog.Debug(ctx, "not set: "+pfx)
 				break
 			}
 		}
@@ -3169,8 +3178,9 @@ func dsRunnerConfigReadStructConfigCustomConfig(ctx context.Context, prefix stri
 
 	// ConfigExecTimeout: config_exec_timeout -- , *int
 	if v, ok := d.GetOk(prefix + "config_exec_timeout"); ok {
-		tflog.Debug(ctx, "set: %s.%s", prefix, "config_exec_timeout")
+		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "config_exec_timeout"))
 		val.ConfigExecTimeout = to.IntP(v.(int))
+
 	}
 
 	// PrepareExec: prepare_exec -- string, string
@@ -3181,19 +3191,19 @@ func dsRunnerConfigReadStructConfigCustomConfig(ctx context.Context, prefix stri
 
 	// PrepareArgs: prepare_args -- , []string
 
-	// HERE
+	tflog.Trace(ctx, "checking key: "+prefix+"prepare_args")
 	if _, ok := d.GetOk(prefix + "prepare_args"); ok {
-		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "prepare_args"))
+		tflog.Debug(ctx, "is set: "+prefix+"prepare_args")
 		i := 0
 		val.PrepareArgs = []string{}
 		for {
-			pfx := fmt.Sprintf("%s.%s.%d", prefix, "prepare_args", i)
+			pfx := fmt.Sprintf("%s%s.%d", prefix, "prepare_args", i)
 			if v, ok := d.GetOk(pfx); ok {
-				tflog.Debug(ctx, fmt.Sprintf("key is set: %s", pfx))
+				tflog.Debug(ctx, "is set: "+pfx)
 				val.PrepareArgs = append(val.PrepareArgs, v.(string))
 				i++
 			} else {
-				tflog.Debug(ctx, "not set: %s", pfx)
+				tflog.Debug(ctx, "not set: "+pfx)
 				break
 			}
 		}
@@ -3201,8 +3211,9 @@ func dsRunnerConfigReadStructConfigCustomConfig(ctx context.Context, prefix stri
 
 	// PrepareExecTimeout: prepare_exec_timeout -- , *int
 	if v, ok := d.GetOk(prefix + "prepare_exec_timeout"); ok {
-		tflog.Debug(ctx, "set: %s.%s", prefix, "prepare_exec_timeout")
+		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "prepare_exec_timeout"))
 		val.PrepareExecTimeout = to.IntP(v.(int))
+
 	}
 
 	// RunExec: run_exec -- string, string
@@ -3213,19 +3224,19 @@ func dsRunnerConfigReadStructConfigCustomConfig(ctx context.Context, prefix stri
 
 	// RunArgs: run_args -- , []string
 
-	// HERE
+	tflog.Trace(ctx, "checking key: "+prefix+"run_args")
 	if _, ok := d.GetOk(prefix + "run_args"); ok {
-		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "run_args"))
+		tflog.Debug(ctx, "is set: "+prefix+"run_args")
 		i := 0
 		val.RunArgs = []string{}
 		for {
-			pfx := fmt.Sprintf("%s.%s.%d", prefix, "run_args", i)
+			pfx := fmt.Sprintf("%s%s.%d", prefix, "run_args", i)
 			if v, ok := d.GetOk(pfx); ok {
-				tflog.Debug(ctx, fmt.Sprintf("key is set: %s", pfx))
+				tflog.Debug(ctx, "is set: "+pfx)
 				val.RunArgs = append(val.RunArgs, v.(string))
 				i++
 			} else {
-				tflog.Debug(ctx, "not set: %s", pfx)
+				tflog.Debug(ctx, "not set: "+pfx)
 				break
 			}
 		}
@@ -3239,19 +3250,19 @@ func dsRunnerConfigReadStructConfigCustomConfig(ctx context.Context, prefix stri
 
 	// CleanupArgs: cleanup_args -- , []string
 
-	// HERE
+	tflog.Trace(ctx, "checking key: "+prefix+"cleanup_args")
 	if _, ok := d.GetOk(prefix + "cleanup_args"); ok {
-		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "cleanup_args"))
+		tflog.Debug(ctx, "is set: "+prefix+"cleanup_args")
 		i := 0
 		val.CleanupArgs = []string{}
 		for {
-			pfx := fmt.Sprintf("%s.%s.%d", prefix, "cleanup_args", i)
+			pfx := fmt.Sprintf("%s%s.%d", prefix, "cleanup_args", i)
 			if v, ok := d.GetOk(pfx); ok {
-				tflog.Debug(ctx, fmt.Sprintf("key is set: %s", pfx))
+				tflog.Debug(ctx, "is set: "+pfx)
 				val.CleanupArgs = append(val.CleanupArgs, v.(string))
 				i++
 			} else {
-				tflog.Debug(ctx, "not set: %s", pfx)
+				tflog.Debug(ctx, "not set: "+pfx)
 				break
 			}
 		}
@@ -3259,20 +3270,23 @@ func dsRunnerConfigReadStructConfigCustomConfig(ctx context.Context, prefix stri
 
 	// CleanupExecTimeout: cleanup_exec_timeout -- , *int
 	if v, ok := d.GetOk(prefix + "cleanup_exec_timeout"); ok {
-		tflog.Debug(ctx, "set: %s.%s", prefix, "cleanup_exec_timeout")
+		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "cleanup_exec_timeout"))
 		val.CleanupExecTimeout = to.IntP(v.(int))
+
 	}
 
 	// GracefulKillTimeout: graceful_kill_timeout -- , *int
 	if v, ok := d.GetOk(prefix + "graceful_kill_timeout"); ok {
-		tflog.Debug(ctx, "set: %s.%s", prefix, "graceful_kill_timeout")
+		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "graceful_kill_timeout"))
 		val.GracefulKillTimeout = to.IntP(v.(int))
+
 	}
 
 	// ForceKillTimeout: force_kill_timeout -- , *int
 	if v, ok := d.GetOk(prefix + "force_kill_timeout"); ok {
-		tflog.Debug(ctx, "set: %s.%s", prefix, "force_kill_timeout")
+		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "force_kill_timeout"))
 		val.ForceKillTimeout = to.IntP(v.(int))
+
 	}
 
 	return val, nil
@@ -3364,19 +3378,19 @@ func dsRunnerConfigReadStructConfigDockerConfig(ctx context.Context, prefix stri
 
 	// DNS: dns -- , []string
 
-	// HERE
+	tflog.Trace(ctx, "checking key: "+prefix+"dns")
 	if _, ok := d.GetOk(prefix + "dns"); ok {
-		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "dns"))
+		tflog.Debug(ctx, "is set: "+prefix+"dns")
 		i := 0
 		val.DNS = []string{}
 		for {
-			pfx := fmt.Sprintf("%s.%s.%d", prefix, "dns", i)
+			pfx := fmt.Sprintf("%s%s.%d", prefix, "dns", i)
 			if v, ok := d.GetOk(pfx); ok {
-				tflog.Debug(ctx, fmt.Sprintf("key is set: %s", pfx))
+				tflog.Debug(ctx, "is set: "+pfx)
 				val.DNS = append(val.DNS, v.(string))
 				i++
 			} else {
-				tflog.Debug(ctx, "not set: %s", pfx)
+				tflog.Debug(ctx, "not set: "+pfx)
 				break
 			}
 		}
@@ -3384,19 +3398,19 @@ func dsRunnerConfigReadStructConfigDockerConfig(ctx context.Context, prefix stri
 
 	// DNSSearch: dns_search -- , []string
 
-	// HERE
+	tflog.Trace(ctx, "checking key: "+prefix+"dns_search")
 	if _, ok := d.GetOk(prefix + "dns_search"); ok {
-		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "dns_search"))
+		tflog.Debug(ctx, "is set: "+prefix+"dns_search")
 		i := 0
 		val.DNSSearch = []string{}
 		for {
-			pfx := fmt.Sprintf("%s.%s.%d", prefix, "dns_search", i)
+			pfx := fmt.Sprintf("%s%s.%d", prefix, "dns_search", i)
 			if v, ok := d.GetOk(pfx); ok {
-				tflog.Debug(ctx, fmt.Sprintf("key is set: %s", pfx))
+				tflog.Debug(ctx, "is set: "+pfx)
 				val.DNSSearch = append(val.DNSSearch, v.(string))
 				i++
 			} else {
-				tflog.Debug(ctx, "not set: %s", pfx)
+				tflog.Debug(ctx, "not set: "+pfx)
 				break
 			}
 		}
@@ -3422,19 +3436,19 @@ func dsRunnerConfigReadStructConfigDockerConfig(ctx context.Context, prefix stri
 
 	// CapAdd: cap_add -- , []string
 
-	// HERE
+	tflog.Trace(ctx, "checking key: "+prefix+"cap_add")
 	if _, ok := d.GetOk(prefix + "cap_add"); ok {
-		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "cap_add"))
+		tflog.Debug(ctx, "is set: "+prefix+"cap_add")
 		i := 0
 		val.CapAdd = []string{}
 		for {
-			pfx := fmt.Sprintf("%s.%s.%d", prefix, "cap_add", i)
+			pfx := fmt.Sprintf("%s%s.%d", prefix, "cap_add", i)
 			if v, ok := d.GetOk(pfx); ok {
-				tflog.Debug(ctx, fmt.Sprintf("key is set: %s", pfx))
+				tflog.Debug(ctx, "is set: "+pfx)
 				val.CapAdd = append(val.CapAdd, v.(string))
 				i++
 			} else {
-				tflog.Debug(ctx, "not set: %s", pfx)
+				tflog.Debug(ctx, "not set: "+pfx)
 				break
 			}
 		}
@@ -3442,19 +3456,19 @@ func dsRunnerConfigReadStructConfigDockerConfig(ctx context.Context, prefix stri
 
 	// CapDrop: cap_drop -- , []string
 
-	// HERE
+	tflog.Trace(ctx, "checking key: "+prefix+"cap_drop")
 	if _, ok := d.GetOk(prefix + "cap_drop"); ok {
-		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "cap_drop"))
+		tflog.Debug(ctx, "is set: "+prefix+"cap_drop")
 		i := 0
 		val.CapDrop = []string{}
 		for {
-			pfx := fmt.Sprintf("%s.%s.%d", prefix, "cap_drop", i)
+			pfx := fmt.Sprintf("%s%s.%d", prefix, "cap_drop", i)
 			if v, ok := d.GetOk(pfx); ok {
-				tflog.Debug(ctx, fmt.Sprintf("key is set: %s", pfx))
+				tflog.Debug(ctx, "is set: "+pfx)
 				val.CapDrop = append(val.CapDrop, v.(string))
 				i++
 			} else {
-				tflog.Debug(ctx, "not set: %s", pfx)
+				tflog.Debug(ctx, "not set: "+pfx)
 				break
 			}
 		}
@@ -3474,19 +3488,19 @@ func dsRunnerConfigReadStructConfigDockerConfig(ctx context.Context, prefix stri
 
 	// SecurityOpt: security_opt -- , []string
 
-	// HERE
+	tflog.Trace(ctx, "checking key: "+prefix+"security_opt")
 	if _, ok := d.GetOk(prefix + "security_opt"); ok {
-		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "security_opt"))
+		tflog.Debug(ctx, "is set: "+prefix+"security_opt")
 		i := 0
 		val.SecurityOpt = []string{}
 		for {
-			pfx := fmt.Sprintf("%s.%s.%d", prefix, "security_opt", i)
+			pfx := fmt.Sprintf("%s%s.%d", prefix, "security_opt", i)
 			if v, ok := d.GetOk(pfx); ok {
-				tflog.Debug(ctx, fmt.Sprintf("key is set: %s", pfx))
+				tflog.Debug(ctx, "is set: "+pfx)
 				val.SecurityOpt = append(val.SecurityOpt, v.(string))
 				i++
 			} else {
-				tflog.Debug(ctx, "not set: %s", pfx)
+				tflog.Debug(ctx, "not set: "+pfx)
 				break
 			}
 		}
@@ -3494,19 +3508,19 @@ func dsRunnerConfigReadStructConfigDockerConfig(ctx context.Context, prefix stri
 
 	// Devices: devices -- , []string
 
-	// HERE
+	tflog.Trace(ctx, "checking key: "+prefix+"devices")
 	if _, ok := d.GetOk(prefix + "devices"); ok {
-		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "devices"))
+		tflog.Debug(ctx, "is set: "+prefix+"devices")
 		i := 0
 		val.Devices = []string{}
 		for {
-			pfx := fmt.Sprintf("%s.%s.%d", prefix, "devices", i)
+			pfx := fmt.Sprintf("%s%s.%d", prefix, "devices", i)
 			if v, ok := d.GetOk(pfx); ok {
-				tflog.Debug(ctx, fmt.Sprintf("key is set: %s", pfx))
+				tflog.Debug(ctx, "is set: "+pfx)
 				val.Devices = append(val.Devices, v.(string))
 				i++
 			} else {
-				tflog.Debug(ctx, "not set: %s", pfx)
+				tflog.Debug(ctx, "not set: "+pfx)
 				break
 			}
 		}
@@ -3526,19 +3540,19 @@ func dsRunnerConfigReadStructConfigDockerConfig(ctx context.Context, prefix stri
 
 	// Volumes: volumes -- , []string
 
-	// HERE
+	tflog.Trace(ctx, "checking key: "+prefix+"volumes")
 	if _, ok := d.GetOk(prefix + "volumes"); ok {
-		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "volumes"))
+		tflog.Debug(ctx, "is set: "+prefix+"volumes")
 		i := 0
 		val.Volumes = []string{}
 		for {
-			pfx := fmt.Sprintf("%s.%s.%d", prefix, "volumes", i)
+			pfx := fmt.Sprintf("%s%s.%d", prefix, "volumes", i)
 			if v, ok := d.GetOk(pfx); ok {
-				tflog.Debug(ctx, fmt.Sprintf("key is set: %s", pfx))
+				tflog.Debug(ctx, "is set: "+pfx)
 				val.Volumes = append(val.Volumes, v.(string))
 				i++
 			} else {
-				tflog.Debug(ctx, "not set: %s", pfx)
+				tflog.Debug(ctx, "not set: "+pfx)
 				break
 			}
 		}
@@ -3558,19 +3572,19 @@ func dsRunnerConfigReadStructConfigDockerConfig(ctx context.Context, prefix stri
 
 	// ExtraHosts: extra_hosts -- , []string
 
-	// HERE
+	tflog.Trace(ctx, "checking key: "+prefix+"extra_hosts")
 	if _, ok := d.GetOk(prefix + "extra_hosts"); ok {
-		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "extra_hosts"))
+		tflog.Debug(ctx, "is set: "+prefix+"extra_hosts")
 		i := 0
 		val.ExtraHosts = []string{}
 		for {
-			pfx := fmt.Sprintf("%s.%s.%d", prefix, "extra_hosts", i)
+			pfx := fmt.Sprintf("%s%s.%d", prefix, "extra_hosts", i)
 			if v, ok := d.GetOk(pfx); ok {
-				tflog.Debug(ctx, fmt.Sprintf("key is set: %s", pfx))
+				tflog.Debug(ctx, "is set: "+pfx)
 				val.ExtraHosts = append(val.ExtraHosts, v.(string))
 				i++
 			} else {
-				tflog.Debug(ctx, "not set: %s", pfx)
+				tflog.Debug(ctx, "not set: "+pfx)
 				break
 			}
 		}
@@ -3578,19 +3592,19 @@ func dsRunnerConfigReadStructConfigDockerConfig(ctx context.Context, prefix stri
 
 	// VolumesFrom: volumes_from -- , []string
 
-	// HERE
+	tflog.Trace(ctx, "checking key: "+prefix+"volumes_from")
 	if _, ok := d.GetOk(prefix + "volumes_from"); ok {
-		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "volumes_from"))
+		tflog.Debug(ctx, "is set: "+prefix+"volumes_from")
 		i := 0
 		val.VolumesFrom = []string{}
 		for {
-			pfx := fmt.Sprintf("%s.%s.%d", prefix, "volumes_from", i)
+			pfx := fmt.Sprintf("%s%s.%d", prefix, "volumes_from", i)
 			if v, ok := d.GetOk(pfx); ok {
-				tflog.Debug(ctx, fmt.Sprintf("key is set: %s", pfx))
+				tflog.Debug(ctx, "is set: "+pfx)
 				val.VolumesFrom = append(val.VolumesFrom, v.(string))
 				i++
 			} else {
-				tflog.Debug(ctx, "not set: %s", pfx)
+				tflog.Debug(ctx, "not set: "+pfx)
 				break
 			}
 		}
@@ -3604,19 +3618,19 @@ func dsRunnerConfigReadStructConfigDockerConfig(ctx context.Context, prefix stri
 
 	// Links: links -- , []string
 
-	// HERE
+	tflog.Trace(ctx, "checking key: "+prefix+"links")
 	if _, ok := d.GetOk(prefix + "links"); ok {
-		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "links"))
+		tflog.Debug(ctx, "is set: "+prefix+"links")
 		i := 0
 		val.Links = []string{}
 		for {
-			pfx := fmt.Sprintf("%s.%s.%d", prefix, "links", i)
+			pfx := fmt.Sprintf("%s%s.%d", prefix, "links", i)
 			if v, ok := d.GetOk(pfx); ok {
-				tflog.Debug(ctx, fmt.Sprintf("key is set: %s", pfx))
+				tflog.Debug(ctx, "is set: "+pfx)
 				val.Links = append(val.Links, v.(string))
 				i++
 			} else {
-				tflog.Debug(ctx, "not set: %s", pfx)
+				tflog.Debug(ctx, "not set: "+pfx)
 				break
 			}
 		}
@@ -3624,15 +3638,15 @@ func dsRunnerConfigReadStructConfigDockerConfig(ctx context.Context, prefix stri
 
 	// Services: services -- , []config.Service
 
-	// HERE
+	tflog.Trace(ctx, "checking key: "+prefix+"services")
 	if _, ok := d.GetOk(prefix + "services"); ok {
-		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "services"))
+		tflog.Debug(ctx, fmt.Sprintf("key is set: %s%s", prefix, "services"))
 		i := 0
 		val.Services = []config.Service{}
 		for {
-			pfx := fmt.Sprintf("%s.%s.%d", prefix, "services", i)
+			pfx := fmt.Sprintf("%s%s.%d", prefix, "services", i)
 			if _, ok := d.GetOk(pfx); ok {
-				tflog.Debug(ctx, "set: %s", pfx)
+				tflog.Debug(ctx, fmt.Sprintf("key is set: %s", pfx))
 				thing, err := dsRunnerConfigReadStructConfigService(ctx, pfx, d)
 				if err != nil {
 					return val, err
@@ -3640,7 +3654,7 @@ func dsRunnerConfigReadStructConfigDockerConfig(ctx context.Context, prefix stri
 				val.Services = append(val.Services, thing)
 				i++
 			} else {
-				tflog.Debug(ctx, "not set: %s", pfx)
+				tflog.Debug(ctx, fmt.Sprintf("not set: %s", pfx))
 				break
 			}
 		}
@@ -3654,19 +3668,19 @@ func dsRunnerConfigReadStructConfigDockerConfig(ctx context.Context, prefix stri
 
 	// AllowedImages: allowed_images -- , []string
 
-	// HERE
+	tflog.Trace(ctx, "checking key: "+prefix+"allowed_images")
 	if _, ok := d.GetOk(prefix + "allowed_images"); ok {
-		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "allowed_images"))
+		tflog.Debug(ctx, "is set: "+prefix+"allowed_images")
 		i := 0
 		val.AllowedImages = []string{}
 		for {
-			pfx := fmt.Sprintf("%s.%s.%d", prefix, "allowed_images", i)
+			pfx := fmt.Sprintf("%s%s.%d", prefix, "allowed_images", i)
 			if v, ok := d.GetOk(pfx); ok {
-				tflog.Debug(ctx, fmt.Sprintf("key is set: %s", pfx))
+				tflog.Debug(ctx, "is set: "+pfx)
 				val.AllowedImages = append(val.AllowedImages, v.(string))
 				i++
 			} else {
-				tflog.Debug(ctx, "not set: %s", pfx)
+				tflog.Debug(ctx, "not set: "+pfx)
 				break
 			}
 		}
@@ -3674,28 +3688,42 @@ func dsRunnerConfigReadStructConfigDockerConfig(ctx context.Context, prefix stri
 
 	// AllowedServices: allowed_services -- , []string
 
-	// HERE
+	tflog.Trace(ctx, "checking key: "+prefix+"allowed_services")
 	if _, ok := d.GetOk(prefix + "allowed_services"); ok {
-		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "allowed_services"))
+		tflog.Debug(ctx, "is set: "+prefix+"allowed_services")
 		i := 0
 		val.AllowedServices = []string{}
 		for {
-			pfx := fmt.Sprintf("%s.%s.%d", prefix, "allowed_services", i)
+			pfx := fmt.Sprintf("%s%s.%d", prefix, "allowed_services", i)
 			if v, ok := d.GetOk(pfx); ok {
-				tflog.Debug(ctx, fmt.Sprintf("key is set: %s", pfx))
+				tflog.Debug(ctx, "is set: "+pfx)
 				val.AllowedServices = append(val.AllowedServices, v.(string))
 				i++
 			} else {
-				tflog.Debug(ctx, "not set: %s", pfx)
+				tflog.Debug(ctx, "not set: "+pfx)
 				break
 			}
 		}
 	}
 
 	// PullPolicy: pull_policy -- StringOrArray, config.StringOrArray
-	if v, ok := d.GetOk(prefix + "pull_policy"); ok {
-		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "pull_policy"))
-		val.PullPolicy = v.([]string)
+
+	tflog.Trace(ctx, "checking key: "+prefix+"pull_policy")
+	if _, ok := d.GetOk(prefix + "pull_policy"); ok {
+		tflog.Debug(ctx, "is set: "+prefix+"pull_policy")
+		i := 0
+		val.PullPolicy = config.StringOrArray{}
+		for {
+			pfx := fmt.Sprintf("%s%s.%d", prefix, "pull_policy", i)
+			if v, ok := d.GetOk(pfx); ok {
+				tflog.Debug(ctx, "is set: "+pfx)
+				val.PullPolicy = append(val.PullPolicy, v.(string))
+				i++
+			} else {
+				tflog.Debug(ctx, "not set: "+pfx)
+				break
+			}
+		}
 	}
 
 	// ShmSize: shm_size -- int64, int64
@@ -3799,19 +3827,19 @@ func dsRunnerConfigReadStructConfigDockerMachine(ctx context.Context, prefix str
 
 	// MachineOptions: machine_options -- , []string
 
-	// HERE
+	tflog.Trace(ctx, "checking key: "+prefix+"machine_options")
 	if _, ok := d.GetOk(prefix + "machine_options"); ok {
-		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "machine_options"))
+		tflog.Debug(ctx, "is set: "+prefix+"machine_options")
 		i := 0
 		val.MachineOptions = []string{}
 		for {
-			pfx := fmt.Sprintf("%s.%s.%d", prefix, "machine_options", i)
+			pfx := fmt.Sprintf("%s%s.%d", prefix, "machine_options", i)
 			if v, ok := d.GetOk(pfx); ok {
-				tflog.Debug(ctx, fmt.Sprintf("key is set: %s", pfx))
+				tflog.Debug(ctx, "is set: "+pfx)
 				val.MachineOptions = append(val.MachineOptions, v.(string))
 				i++
 			} else {
-				tflog.Debug(ctx, "not set: %s", pfx)
+				tflog.Debug(ctx, "not set: "+pfx)
 				break
 			}
 		}
@@ -3819,19 +3847,19 @@ func dsRunnerConfigReadStructConfigDockerMachine(ctx context.Context, prefix str
 
 	// OffPeakPeriods: off_peak_periods -- , []string
 
-	// HERE
+	tflog.Trace(ctx, "checking key: "+prefix+"off_peak_periods")
 	if _, ok := d.GetOk(prefix + "off_peak_periods"); ok {
-		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "off_peak_periods"))
+		tflog.Debug(ctx, "is set: "+prefix+"off_peak_periods")
 		i := 0
 		val.OffPeakPeriods = []string{}
 		for {
-			pfx := fmt.Sprintf("%s.%s.%d", prefix, "off_peak_periods", i)
+			pfx := fmt.Sprintf("%s%s.%d", prefix, "off_peak_periods", i)
 			if v, ok := d.GetOk(pfx); ok {
-				tflog.Debug(ctx, fmt.Sprintf("key is set: %s", pfx))
+				tflog.Debug(ctx, "is set: "+pfx)
 				val.OffPeakPeriods = append(val.OffPeakPeriods, v.(string))
 				i++
 			} else {
-				tflog.Debug(ctx, "not set: %s", pfx)
+				tflog.Debug(ctx, "not set: "+pfx)
 				break
 			}
 		}
@@ -3857,7 +3885,7 @@ func dsRunnerConfigReadStructConfigDockerMachine(ctx context.Context, prefix str
 
 	// AutoscalingConfigs: autoscaling -- , []*config.DockerMachineAutoscaling
 
-	// HERE
+	tflog.Trace(ctx, "checking key: "+prefix+"autoscaling")
 	if _, ok := d.GetOk(prefix + "autoscaling"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("key is set: %s%s", prefix, "autoscaling"))
 		i := 0
@@ -3896,19 +3924,19 @@ func dsRunnerConfigReadStructConfigDockerMachineAutoscaling(ctx context.Context,
 
 	// Periods: periods -- , []string
 
-	// HERE
+	tflog.Trace(ctx, "checking key: "+prefix+"periods")
 	if _, ok := d.GetOk(prefix + "periods"); ok {
-		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "periods"))
+		tflog.Debug(ctx, "is set: "+prefix+"periods")
 		i := 0
 		val.Periods = []string{}
 		for {
-			pfx := fmt.Sprintf("%s.%s.%d", prefix, "periods", i)
+			pfx := fmt.Sprintf("%s%s.%d", prefix, "periods", i)
 			if v, ok := d.GetOk(pfx); ok {
-				tflog.Debug(ctx, fmt.Sprintf("key is set: %s", pfx))
+				tflog.Debug(ctx, "is set: "+pfx)
 				val.Periods = append(val.Periods, v.(string))
 				i++
 			} else {
-				tflog.Debug(ctx, "not set: %s", pfx)
+				tflog.Debug(ctx, "not set: "+pfx)
 				break
 			}
 		}
@@ -3961,6 +3989,7 @@ func dsRunnerConfigReadStructConfigKubernetesAffinity(ctx context.Context, prefi
 
 	// NodeAffinity: node_affinity -- , *config.KubernetesNodeAffinity
 
+	tflog.Trace(ctx, "checking key: "+prefix+"node_affinity.0")
 	if _, ok := d.GetOk(prefix + "node_affinity.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "node_affinity"))
 		thing, err := dsRunnerConfigReadStructConfigKubernetesNodeAffinity(ctx, prefix+"node_affinity.0", d)
@@ -3974,6 +4003,7 @@ func dsRunnerConfigReadStructConfigKubernetesAffinity(ctx context.Context, prefi
 
 	// PodAffinity: pod_affinity -- , *config.KubernetesPodAffinity
 
+	tflog.Trace(ctx, "checking key: "+prefix+"pod_affinity.0")
 	if _, ok := d.GetOk(prefix + "pod_affinity.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "pod_affinity"))
 		thing, err := dsRunnerConfigReadStructConfigKubernetesPodAffinity(ctx, prefix+"pod_affinity.0", d)
@@ -3987,6 +4017,7 @@ func dsRunnerConfigReadStructConfigKubernetesAffinity(ctx context.Context, prefi
 
 	// PodAntiAffinity: pod_anti_affinity -- , *config.KubernetesPodAntiAffinity
 
+	tflog.Trace(ctx, "checking key: "+prefix+"pod_anti_affinity.0")
 	if _, ok := d.GetOk(prefix + "pod_anti_affinity.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "pod_anti_affinity"))
 		thing, err := dsRunnerConfigReadStructConfigKubernetesPodAntiAffinity(ctx, prefix+"pod_anti_affinity.0", d)
@@ -4126,14 +4157,16 @@ func dsRunnerConfigReadStructConfigKubernetesConfig(ctx context.Context, prefix 
 
 	// Privileged: privileged -- , *bool
 	if v, ok := d.GetOk(prefix + "privileged"); ok {
-		tflog.Debug(ctx, "set: %s.%s", prefix, "privileged")
+		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "privileged"))
 		val.Privileged = to.BoolP(v.(bool))
+
 	}
 
 	// AllowPrivilegeEscalation: allow_privilege_escalation -- , *bool
 	if v, ok := d.GetOk(prefix + "allow_privilege_escalation"); ok {
-		tflog.Debug(ctx, "set: %s.%s", prefix, "allow_privilege_escalation")
+		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "allow_privilege_escalation"))
 		val.AllowPrivilegeEscalation = to.BoolP(v.(bool))
+
 	}
 
 	// CPULimit: cpu_limit -- string, string
@@ -4354,19 +4387,19 @@ func dsRunnerConfigReadStructConfigKubernetesConfig(ctx context.Context, prefix 
 
 	// AllowedImages: allowed_images -- , []string
 
-	// HERE
+	tflog.Trace(ctx, "checking key: "+prefix+"allowed_images")
 	if _, ok := d.GetOk(prefix + "allowed_images"); ok {
-		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "allowed_images"))
+		tflog.Debug(ctx, "is set: "+prefix+"allowed_images")
 		i := 0
 		val.AllowedImages = []string{}
 		for {
-			pfx := fmt.Sprintf("%s.%s.%d", prefix, "allowed_images", i)
+			pfx := fmt.Sprintf("%s%s.%d", prefix, "allowed_images", i)
 			if v, ok := d.GetOk(pfx); ok {
-				tflog.Debug(ctx, fmt.Sprintf("key is set: %s", pfx))
+				tflog.Debug(ctx, "is set: "+pfx)
 				val.AllowedImages = append(val.AllowedImages, v.(string))
 				i++
 			} else {
-				tflog.Debug(ctx, "not set: %s", pfx)
+				tflog.Debug(ctx, "not set: "+pfx)
 				break
 			}
 		}
@@ -4374,28 +4407,42 @@ func dsRunnerConfigReadStructConfigKubernetesConfig(ctx context.Context, prefix 
 
 	// AllowedServices: allowed_services -- , []string
 
-	// HERE
+	tflog.Trace(ctx, "checking key: "+prefix+"allowed_services")
 	if _, ok := d.GetOk(prefix + "allowed_services"); ok {
-		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "allowed_services"))
+		tflog.Debug(ctx, "is set: "+prefix+"allowed_services")
 		i := 0
 		val.AllowedServices = []string{}
 		for {
-			pfx := fmt.Sprintf("%s.%s.%d", prefix, "allowed_services", i)
+			pfx := fmt.Sprintf("%s%s.%d", prefix, "allowed_services", i)
 			if v, ok := d.GetOk(pfx); ok {
-				tflog.Debug(ctx, fmt.Sprintf("key is set: %s", pfx))
+				tflog.Debug(ctx, "is set: "+pfx)
 				val.AllowedServices = append(val.AllowedServices, v.(string))
 				i++
 			} else {
-				tflog.Debug(ctx, "not set: %s", pfx)
+				tflog.Debug(ctx, "not set: "+pfx)
 				break
 			}
 		}
 	}
 
 	// PullPolicy: pull_policy -- StringOrArray, config.StringOrArray
-	if v, ok := d.GetOk(prefix + "pull_policy"); ok {
-		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "pull_policy"))
-		val.PullPolicy = v.([]string)
+
+	tflog.Trace(ctx, "checking key: "+prefix+"pull_policy")
+	if _, ok := d.GetOk(prefix + "pull_policy"); ok {
+		tflog.Debug(ctx, "is set: "+prefix+"pull_policy")
+		i := 0
+		val.PullPolicy = config.StringOrArray{}
+		for {
+			pfx := fmt.Sprintf("%s%s.%d", prefix, "pull_policy", i)
+			if v, ok := d.GetOk(pfx); ok {
+				tflog.Debug(ctx, "is set: "+pfx)
+				val.PullPolicy = append(val.PullPolicy, v.(string))
+				i++
+			} else {
+				tflog.Debug(ctx, "not set: "+pfx)
+				break
+			}
+		}
 	}
 
 	// NodeSelector: node_selector -- , map[string]string
@@ -4412,6 +4459,7 @@ func dsRunnerConfigReadStructConfigKubernetesConfig(ctx context.Context, prefix 
 
 	// Affinity: affinity -- KubernetesAffinity, config.KubernetesAffinity
 
+	tflog.Trace(ctx, "checking key: "+prefix+"affinity.0")
 	if _, ok := d.GetOk(prefix + "affinity.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "affinity"))
 		thing, err := dsRunnerConfigReadStructConfigKubernetesAffinity(ctx, prefix+"affinity.0", d)
@@ -4419,23 +4467,25 @@ func dsRunnerConfigReadStructConfigKubernetesConfig(ctx context.Context, prefix 
 			return val, err
 		}
 		val.Affinity = thing
+	} else {
+		tflog.Trace(ctx, fmt.Sprintf("not set: %s", prefix+"affinity.0"))
 	}
 
 	// ImagePullSecrets: image_pull_secrets -- , []string
 
-	// HERE
+	tflog.Trace(ctx, "checking key: "+prefix+"image_pull_secrets")
 	if _, ok := d.GetOk(prefix + "image_pull_secrets"); ok {
-		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "image_pull_secrets"))
+		tflog.Debug(ctx, "is set: "+prefix+"image_pull_secrets")
 		i := 0
 		val.ImagePullSecrets = []string{}
 		for {
-			pfx := fmt.Sprintf("%s.%s.%d", prefix, "image_pull_secrets", i)
+			pfx := fmt.Sprintf("%s%s.%d", prefix, "image_pull_secrets", i)
 			if v, ok := d.GetOk(pfx); ok {
-				tflog.Debug(ctx, fmt.Sprintf("key is set: %s", pfx))
+				tflog.Debug(ctx, "is set: "+pfx)
 				val.ImagePullSecrets = append(val.ImagePullSecrets, v.(string))
 				i++
 			} else {
-				tflog.Debug(ctx, "not set: %s", pfx)
+				tflog.Debug(ctx, "not set: "+pfx)
 				break
 			}
 		}
@@ -4455,20 +4505,23 @@ func dsRunnerConfigReadStructConfigKubernetesConfig(ctx context.Context, prefix 
 
 	// TerminationGracePeriodSeconds: termination_grace_period_seconds -- , *int64
 	if v, ok := d.GetOk(prefix + "termination_grace_period_seconds"); ok {
-		tflog.Debug(ctx, "set: %s.%s", prefix, "termination_grace_period_seconds")
+		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "termination_grace_period_seconds"))
 		val.TerminationGracePeriodSeconds = to.Int64P(v.(int64))
+
 	}
 
 	// PodTerminationGracePeriodSeconds: pod_termination_grace_period_seconds -- , *int64
 	if v, ok := d.GetOk(prefix + "pod_termination_grace_period_seconds"); ok {
-		tflog.Debug(ctx, "set: %s.%s", prefix, "pod_termination_grace_period_seconds")
+		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "pod_termination_grace_period_seconds"))
 		val.PodTerminationGracePeriodSeconds = to.Int64P(v.(int64))
+
 	}
 
 	// CleanupGracePeriodSeconds: cleanup_grace_period_seconds -- , *int64
 	if v, ok := d.GetOk(prefix + "cleanup_grace_period_seconds"); ok {
-		tflog.Debug(ctx, "set: %s.%s", prefix, "cleanup_grace_period_seconds")
+		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "cleanup_grace_period_seconds"))
 		val.CleanupGracePeriodSeconds = to.Int64P(v.(int64))
+
 	}
 
 	// PollInterval: poll_interval -- int, int
@@ -4515,6 +4568,7 @@ func dsRunnerConfigReadStructConfigKubernetesConfig(ctx context.Context, prefix 
 
 	// PodSecurityContext: pod_security_context -- KubernetesPodSecurityContext, config.KubernetesPodSecurityContext
 
+	tflog.Trace(ctx, "checking key: "+prefix+"pod_security_context.0")
 	if _, ok := d.GetOk(prefix + "pod_security_context.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "pod_security_context"))
 		thing, err := dsRunnerConfigReadStructConfigKubernetesPodSecurityContext(ctx, prefix+"pod_security_context.0", d)
@@ -4522,10 +4576,13 @@ func dsRunnerConfigReadStructConfigKubernetesConfig(ctx context.Context, prefix 
 			return val, err
 		}
 		val.PodSecurityContext = thing
+	} else {
+		tflog.Trace(ctx, fmt.Sprintf("not set: %s", prefix+"pod_security_context.0"))
 	}
 
 	// BuildContainerSecurityContext: build_container_security_context -- KubernetesContainerSecurityContext, config.KubernetesContainerSecurityContext
 
+	tflog.Trace(ctx, "checking key: "+prefix+"build_container_security_context.0")
 	if _, ok := d.GetOk(prefix + "build_container_security_context.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "build_container_security_context"))
 		thing, err := dsRunnerConfigReadStructConfigKubernetesContainerSecurityContext(ctx, prefix+"build_container_security_context.0", d)
@@ -4533,10 +4590,13 @@ func dsRunnerConfigReadStructConfigKubernetesConfig(ctx context.Context, prefix 
 			return val, err
 		}
 		val.BuildContainerSecurityContext = thing
+	} else {
+		tflog.Trace(ctx, fmt.Sprintf("not set: %s", prefix+"build_container_security_context.0"))
 	}
 
 	// HelperContainerSecurityContext: helper_container_security_context -- KubernetesContainerSecurityContext, config.KubernetesContainerSecurityContext
 
+	tflog.Trace(ctx, "checking key: "+prefix+"helper_container_security_context.0")
 	if _, ok := d.GetOk(prefix + "helper_container_security_context.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "helper_container_security_context"))
 		thing, err := dsRunnerConfigReadStructConfigKubernetesContainerSecurityContext(ctx, prefix+"helper_container_security_context.0", d)
@@ -4544,10 +4604,13 @@ func dsRunnerConfigReadStructConfigKubernetesConfig(ctx context.Context, prefix 
 			return val, err
 		}
 		val.HelperContainerSecurityContext = thing
+	} else {
+		tflog.Trace(ctx, fmt.Sprintf("not set: %s", prefix+"helper_container_security_context.0"))
 	}
 
 	// ServiceContainerSecurityContext: service_container_security_context -- KubernetesContainerSecurityContext, config.KubernetesContainerSecurityContext
 
+	tflog.Trace(ctx, "checking key: "+prefix+"service_container_security_context.0")
 	if _, ok := d.GetOk(prefix + "service_container_security_context.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "service_container_security_context"))
 		thing, err := dsRunnerConfigReadStructConfigKubernetesContainerSecurityContext(ctx, prefix+"service_container_security_context.0", d)
@@ -4555,10 +4618,13 @@ func dsRunnerConfigReadStructConfigKubernetesConfig(ctx context.Context, prefix 
 			return val, err
 		}
 		val.ServiceContainerSecurityContext = thing
+	} else {
+		tflog.Trace(ctx, fmt.Sprintf("not set: %s", prefix+"service_container_security_context.0"))
 	}
 
 	// Volumes: volumes -- KubernetesVolumes, config.KubernetesVolumes
 
+	tflog.Trace(ctx, "checking key: "+prefix+"volumes.0")
 	if _, ok := d.GetOk(prefix + "volumes.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "volumes"))
 		thing, err := dsRunnerConfigReadStructConfigKubernetesVolumes(ctx, prefix+"volumes.0", d)
@@ -4566,19 +4632,21 @@ func dsRunnerConfigReadStructConfigKubernetesConfig(ctx context.Context, prefix 
 			return val, err
 		}
 		val.Volumes = thing
+	} else {
+		tflog.Trace(ctx, fmt.Sprintf("not set: %s", prefix+"volumes.0"))
 	}
 
 	// HostAliases: host_aliases -- , []config.KubernetesHostAliases
 
-	// HERE
+	tflog.Trace(ctx, "checking key: "+prefix+"host_aliases")
 	if _, ok := d.GetOk(prefix + "host_aliases"); ok {
-		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "host_aliases"))
+		tflog.Debug(ctx, fmt.Sprintf("key is set: %s%s", prefix, "host_aliases"))
 		i := 0
 		val.HostAliases = []config.KubernetesHostAliases{}
 		for {
-			pfx := fmt.Sprintf("%s.%s.%d", prefix, "host_aliases", i)
+			pfx := fmt.Sprintf("%s%s.%d", prefix, "host_aliases", i)
 			if _, ok := d.GetOk(pfx); ok {
-				tflog.Debug(ctx, "set: %s", pfx)
+				tflog.Debug(ctx, fmt.Sprintf("key is set: %s", pfx))
 				thing, err := dsRunnerConfigReadStructConfigKubernetesHostAliases(ctx, pfx, d)
 				if err != nil {
 					return val, err
@@ -4586,7 +4654,7 @@ func dsRunnerConfigReadStructConfigKubernetesConfig(ctx context.Context, prefix 
 				val.HostAliases = append(val.HostAliases, thing)
 				i++
 			} else {
-				tflog.Debug(ctx, "not set: %s", pfx)
+				tflog.Debug(ctx, fmt.Sprintf("not set: %s", pfx))
 				break
 			}
 		}
@@ -4594,15 +4662,15 @@ func dsRunnerConfigReadStructConfigKubernetesConfig(ctx context.Context, prefix 
 
 	// Services: services -- , []config.Service
 
-	// HERE
+	tflog.Trace(ctx, "checking key: "+prefix+"services")
 	if _, ok := d.GetOk(prefix + "services"); ok {
-		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "services"))
+		tflog.Debug(ctx, fmt.Sprintf("key is set: %s%s", prefix, "services"))
 		i := 0
 		val.Services = []config.Service{}
 		for {
-			pfx := fmt.Sprintf("%s.%s.%d", prefix, "services", i)
+			pfx := fmt.Sprintf("%s%s.%d", prefix, "services", i)
 			if _, ok := d.GetOk(pfx); ok {
-				tflog.Debug(ctx, "set: %s", pfx)
+				tflog.Debug(ctx, fmt.Sprintf("key is set: %s", pfx))
 				thing, err := dsRunnerConfigReadStructConfigService(ctx, pfx, d)
 				if err != nil {
 					return val, err
@@ -4610,7 +4678,7 @@ func dsRunnerConfigReadStructConfigKubernetesConfig(ctx context.Context, prefix 
 				val.Services = append(val.Services, thing)
 				i++
 			} else {
-				tflog.Debug(ctx, "not set: %s", pfx)
+				tflog.Debug(ctx, fmt.Sprintf("not set: %s", pfx))
 				break
 			}
 		}
@@ -4618,19 +4686,19 @@ func dsRunnerConfigReadStructConfigKubernetesConfig(ctx context.Context, prefix 
 
 	// CapAdd: cap_add -- , []string
 
-	// HERE
+	tflog.Trace(ctx, "checking key: "+prefix+"cap_add")
 	if _, ok := d.GetOk(prefix + "cap_add"); ok {
-		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "cap_add"))
+		tflog.Debug(ctx, "is set: "+prefix+"cap_add")
 		i := 0
 		val.CapAdd = []string{}
 		for {
-			pfx := fmt.Sprintf("%s.%s.%d", prefix, "cap_add", i)
+			pfx := fmt.Sprintf("%s%s.%d", prefix, "cap_add", i)
 			if v, ok := d.GetOk(pfx); ok {
-				tflog.Debug(ctx, fmt.Sprintf("key is set: %s", pfx))
+				tflog.Debug(ctx, "is set: "+pfx)
 				val.CapAdd = append(val.CapAdd, v.(string))
 				i++
 			} else {
-				tflog.Debug(ctx, "not set: %s", pfx)
+				tflog.Debug(ctx, "not set: "+pfx)
 				break
 			}
 		}
@@ -4638,19 +4706,19 @@ func dsRunnerConfigReadStructConfigKubernetesConfig(ctx context.Context, prefix 
 
 	// CapDrop: cap_drop -- , []string
 
-	// HERE
+	tflog.Trace(ctx, "checking key: "+prefix+"cap_drop")
 	if _, ok := d.GetOk(prefix + "cap_drop"); ok {
-		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "cap_drop"))
+		tflog.Debug(ctx, "is set: "+prefix+"cap_drop")
 		i := 0
 		val.CapDrop = []string{}
 		for {
-			pfx := fmt.Sprintf("%s.%s.%d", prefix, "cap_drop", i)
+			pfx := fmt.Sprintf("%s%s.%d", prefix, "cap_drop", i)
 			if v, ok := d.GetOk(pfx); ok {
-				tflog.Debug(ctx, fmt.Sprintf("key is set: %s", pfx))
+				tflog.Debug(ctx, "is set: "+pfx)
 				val.CapDrop = append(val.CapDrop, v.(string))
 				i++
 			} else {
-				tflog.Debug(ctx, "not set: %s", pfx)
+				tflog.Debug(ctx, "not set: "+pfx)
 				break
 			}
 		}
@@ -4661,6 +4729,7 @@ func dsRunnerConfigReadStructConfigKubernetesConfig(ctx context.Context, prefix 
 
 	// DNSConfig: dns_config -- KubernetesDNSConfig, config.KubernetesDNSConfig
 
+	tflog.Trace(ctx, "checking key: "+prefix+"dns_config.0")
 	if _, ok := d.GetOk(prefix + "dns_config.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "dns_config"))
 		thing, err := dsRunnerConfigReadStructConfigKubernetesDNSConfig(ctx, prefix+"dns_config.0", d)
@@ -4668,10 +4737,13 @@ func dsRunnerConfigReadStructConfigKubernetesConfig(ctx context.Context, prefix 
 			return val, err
 		}
 		val.DNSConfig = thing
+	} else {
+		tflog.Trace(ctx, fmt.Sprintf("not set: %s", prefix+"dns_config.0"))
 	}
 
 	// ContainerLifecycle: container_lifecycle -- KubernetesContainerLifecyle, config.KubernetesContainerLifecyle
 
+	tflog.Trace(ctx, "checking key: "+prefix+"container_lifecycle.0")
 	if _, ok := d.GetOk(prefix + "container_lifecycle.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "container_lifecycle"))
 		thing, err := dsRunnerConfigReadStructConfigKubernetesContainerLifecyle(ctx, prefix+"container_lifecycle.0", d)
@@ -4679,6 +4751,8 @@ func dsRunnerConfigReadStructConfigKubernetesConfig(ctx context.Context, prefix 
 			return val, err
 		}
 		val.ContainerLifecycle = thing
+	} else {
+		tflog.Trace(ctx, fmt.Sprintf("not set: %s", prefix+"container_lifecycle.0"))
 	}
 
 	return val, nil
@@ -4743,19 +4817,19 @@ func dsRunnerConfigReadStructConfigKubernetesContainerCapabilities(ctx context.C
 
 	// Add: add -- , []string
 
-	// HERE
+	tflog.Trace(ctx, "checking key: "+prefix+"add")
 	if _, ok := d.GetOk(prefix + "add"); ok {
-		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "add"))
+		tflog.Debug(ctx, "is set: "+prefix+"add")
 		i := 0
 		val.Add = []string{}
 		for {
-			pfx := fmt.Sprintf("%s.%s.%d", prefix, "add", i)
+			pfx := fmt.Sprintf("%s%s.%d", prefix, "add", i)
 			if v, ok := d.GetOk(pfx); ok {
-				tflog.Debug(ctx, fmt.Sprintf("key is set: %s", pfx))
+				tflog.Debug(ctx, "is set: "+pfx)
 				val.Add = append(val.Add, v.(string))
 				i++
 			} else {
-				tflog.Debug(ctx, "not set: %s", pfx)
+				tflog.Debug(ctx, "not set: "+pfx)
 				break
 			}
 		}
@@ -4763,19 +4837,19 @@ func dsRunnerConfigReadStructConfigKubernetesContainerCapabilities(ctx context.C
 
 	// Drop: drop -- , []string
 
-	// HERE
+	tflog.Trace(ctx, "checking key: "+prefix+"drop")
 	if _, ok := d.GetOk(prefix + "drop"); ok {
-		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "drop"))
+		tflog.Debug(ctx, "is set: "+prefix+"drop")
 		i := 0
 		val.Drop = []string{}
 		for {
-			pfx := fmt.Sprintf("%s.%s.%d", prefix, "drop", i)
+			pfx := fmt.Sprintf("%s%s.%d", prefix, "drop", i)
 			if v, ok := d.GetOk(pfx); ok {
-				tflog.Debug(ctx, fmt.Sprintf("key is set: %s", pfx))
+				tflog.Debug(ctx, "is set: "+pfx)
 				val.Drop = append(val.Drop, v.(string))
 				i++
 			} else {
-				tflog.Debug(ctx, "not set: %s", pfx)
+				tflog.Debug(ctx, "not set: "+pfx)
 				break
 			}
 		}
@@ -4798,6 +4872,7 @@ func dsRunnerConfigReadStructConfigKubernetesContainerLifecyle(ctx context.Conte
 
 	// PostStart: post_start -- , *config.KubernetesLifecycleHandler
 
+	tflog.Trace(ctx, "checking key: "+prefix+"post_start.0")
 	if _, ok := d.GetOk(prefix + "post_start.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "post_start"))
 		thing, err := dsRunnerConfigReadStructConfigKubernetesLifecycleHandler(ctx, prefix+"post_start.0", d)
@@ -4811,6 +4886,7 @@ func dsRunnerConfigReadStructConfigKubernetesContainerLifecyle(ctx context.Conte
 
 	// PreStop: pre_stop -- , *config.KubernetesLifecycleHandler
 
+	tflog.Trace(ctx, "checking key: "+prefix+"pre_stop.0")
 	if _, ok := d.GetOk(prefix + "pre_stop.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "pre_stop"))
 		thing, err := dsRunnerConfigReadStructConfigKubernetesLifecycleHandler(ctx, prefix+"pre_stop.0", d)
@@ -4839,6 +4915,7 @@ func dsRunnerConfigReadStructConfigKubernetesContainerSecurityContext(ctx contex
 
 	// Capabilities: capabilities -- , *config.KubernetesContainerCapabilities
 
+	tflog.Trace(ctx, "checking key: "+prefix+"capabilities.0")
 	if _, ok := d.GetOk(prefix + "capabilities.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "capabilities"))
 		thing, err := dsRunnerConfigReadStructConfigKubernetesContainerCapabilities(ctx, prefix+"capabilities.0", d)
@@ -4852,38 +4929,44 @@ func dsRunnerConfigReadStructConfigKubernetesContainerSecurityContext(ctx contex
 
 	// Privileged: privileged -- , *bool
 	if v, ok := d.GetOk(prefix + "privileged"); ok {
-		tflog.Debug(ctx, "set: %s.%s", prefix, "privileged")
+		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "privileged"))
 		val.Privileged = to.BoolP(v.(bool))
+
 	}
 
 	// RunAsUser: run_as_user -- , *int64
 	if v, ok := d.GetOk(prefix + "run_as_user"); ok {
-		tflog.Debug(ctx, "set: %s.%s", prefix, "run_as_user")
+		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "run_as_user"))
 		val.RunAsUser = to.Int64P(v.(int64))
+
 	}
 
 	// RunAsGroup: run_as_group -- , *int64
 	if v, ok := d.GetOk(prefix + "run_as_group"); ok {
-		tflog.Debug(ctx, "set: %s.%s", prefix, "run_as_group")
+		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "run_as_group"))
 		val.RunAsGroup = to.Int64P(v.(int64))
+
 	}
 
 	// RunAsNonRoot: run_as_non_root -- , *bool
 	if v, ok := d.GetOk(prefix + "run_as_non_root"); ok {
-		tflog.Debug(ctx, "set: %s.%s", prefix, "run_as_non_root")
+		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "run_as_non_root"))
 		val.RunAsNonRoot = to.BoolP(v.(bool))
+
 	}
 
 	// ReadOnlyRootFilesystem: read_only_root_filesystem -- , *bool
 	if v, ok := d.GetOk(prefix + "read_only_root_filesystem"); ok {
-		tflog.Debug(ctx, "set: %s.%s", prefix, "read_only_root_filesystem")
+		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "read_only_root_filesystem"))
 		val.ReadOnlyRootFilesystem = to.BoolP(v.(bool))
+
 	}
 
 	// AllowPrivilegeEscalation: allow_privilege_escalation -- , *bool
 	if v, ok := d.GetOk(prefix + "allow_privilege_escalation"); ok {
-		tflog.Debug(ctx, "set: %s.%s", prefix, "allow_privilege_escalation")
+		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "allow_privilege_escalation"))
 		val.AllowPrivilegeEscalation = to.BoolP(v.(bool))
+
 	}
 
 	return val, nil
@@ -4903,19 +4986,19 @@ func dsRunnerConfigReadStructConfigKubernetesDNSConfig(ctx context.Context, pref
 
 	// Nameservers: nameservers -- , []string
 
-	// HERE
+	tflog.Trace(ctx, "checking key: "+prefix+"nameservers")
 	if _, ok := d.GetOk(prefix + "nameservers"); ok {
-		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "nameservers"))
+		tflog.Debug(ctx, "is set: "+prefix+"nameservers")
 		i := 0
 		val.Nameservers = []string{}
 		for {
-			pfx := fmt.Sprintf("%s.%s.%d", prefix, "nameservers", i)
+			pfx := fmt.Sprintf("%s%s.%d", prefix, "nameservers", i)
 			if v, ok := d.GetOk(pfx); ok {
-				tflog.Debug(ctx, fmt.Sprintf("key is set: %s", pfx))
+				tflog.Debug(ctx, "is set: "+pfx)
 				val.Nameservers = append(val.Nameservers, v.(string))
 				i++
 			} else {
-				tflog.Debug(ctx, "not set: %s", pfx)
+				tflog.Debug(ctx, "not set: "+pfx)
 				break
 			}
 		}
@@ -4923,15 +5006,15 @@ func dsRunnerConfigReadStructConfigKubernetesDNSConfig(ctx context.Context, pref
 
 	// Options: options -- , []config.KubernetesDNSConfigOption
 
-	// HERE
+	tflog.Trace(ctx, "checking key: "+prefix+"options")
 	if _, ok := d.GetOk(prefix + "options"); ok {
-		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "options"))
+		tflog.Debug(ctx, fmt.Sprintf("key is set: %s%s", prefix, "options"))
 		i := 0
 		val.Options = []config.KubernetesDNSConfigOption{}
 		for {
-			pfx := fmt.Sprintf("%s.%s.%d", prefix, "options", i)
+			pfx := fmt.Sprintf("%s%s.%d", prefix, "options", i)
 			if _, ok := d.GetOk(pfx); ok {
-				tflog.Debug(ctx, "set: %s", pfx)
+				tflog.Debug(ctx, fmt.Sprintf("key is set: %s", pfx))
 				thing, err := dsRunnerConfigReadStructConfigKubernetesDNSConfigOption(ctx, pfx, d)
 				if err != nil {
 					return val, err
@@ -4939,7 +5022,7 @@ func dsRunnerConfigReadStructConfigKubernetesDNSConfig(ctx context.Context, pref
 				val.Options = append(val.Options, thing)
 				i++
 			} else {
-				tflog.Debug(ctx, "not set: %s", pfx)
+				tflog.Debug(ctx, fmt.Sprintf("not set: %s", pfx))
 				break
 			}
 		}
@@ -4947,19 +5030,19 @@ func dsRunnerConfigReadStructConfigKubernetesDNSConfig(ctx context.Context, pref
 
 	// Searches: searches -- , []string
 
-	// HERE
+	tflog.Trace(ctx, "checking key: "+prefix+"searches")
 	if _, ok := d.GetOk(prefix + "searches"); ok {
-		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "searches"))
+		tflog.Debug(ctx, "is set: "+prefix+"searches")
 		i := 0
 		val.Searches = []string{}
 		for {
-			pfx := fmt.Sprintf("%s.%s.%d", prefix, "searches", i)
+			pfx := fmt.Sprintf("%s%s.%d", prefix, "searches", i)
 			if v, ok := d.GetOk(pfx); ok {
-				tflog.Debug(ctx, fmt.Sprintf("key is set: %s", pfx))
+				tflog.Debug(ctx, "is set: "+pfx)
 				val.Searches = append(val.Searches, v.(string))
 				i++
 			} else {
-				tflog.Debug(ctx, "not set: %s", pfx)
+				tflog.Debug(ctx, "not set: "+pfx)
 				break
 			}
 		}
@@ -4988,8 +5071,9 @@ func dsRunnerConfigReadStructConfigKubernetesDNSConfigOption(ctx context.Context
 
 	// Value: value -- , *string
 	if v, ok := d.GetOk(prefix + "value"); ok {
-		tflog.Debug(ctx, "set: %s.%s", prefix, "value")
+		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "value"))
 		val.Value = to.StringP(v.(string))
+
 	}
 
 	return val, nil
@@ -5054,19 +5138,19 @@ func dsRunnerConfigReadStructConfigKubernetesHostAliases(ctx context.Context, pr
 
 	// Hostnames: hostnames -- , []string
 
-	// HERE
+	tflog.Trace(ctx, "checking key: "+prefix+"hostnames")
 	if _, ok := d.GetOk(prefix + "hostnames"); ok {
-		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "hostnames"))
+		tflog.Debug(ctx, "is set: "+prefix+"hostnames")
 		i := 0
 		val.Hostnames = []string{}
 		for {
-			pfx := fmt.Sprintf("%s.%s.%d", prefix, "hostnames", i)
+			pfx := fmt.Sprintf("%s%s.%d", prefix, "hostnames", i)
 			if v, ok := d.GetOk(pfx); ok {
-				tflog.Debug(ctx, fmt.Sprintf("key is set: %s", pfx))
+				tflog.Debug(ctx, "is set: "+pfx)
 				val.Hostnames = append(val.Hostnames, v.(string))
 				i++
 			} else {
-				tflog.Debug(ctx, "not set: %s", pfx)
+				tflog.Debug(ctx, "not set: "+pfx)
 				break
 			}
 		}
@@ -5134,19 +5218,19 @@ func dsRunnerConfigReadStructConfigKubernetesLifecycleExecAction(ctx context.Con
 
 	// Command: command -- , []string
 
-	// HERE
+	tflog.Trace(ctx, "checking key: "+prefix+"command")
 	if _, ok := d.GetOk(prefix + "command"); ok {
-		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "command"))
+		tflog.Debug(ctx, "is set: "+prefix+"command")
 		i := 0
 		val.Command = []string{}
 		for {
-			pfx := fmt.Sprintf("%s.%s.%d", prefix, "command", i)
+			pfx := fmt.Sprintf("%s%s.%d", prefix, "command", i)
 			if v, ok := d.GetOk(pfx); ok {
-				tflog.Debug(ctx, fmt.Sprintf("key is set: %s", pfx))
+				tflog.Debug(ctx, "is set: "+pfx)
 				val.Command = append(val.Command, v.(string))
 				i++
 			} else {
-				tflog.Debug(ctx, "not set: %s", pfx)
+				tflog.Debug(ctx, "not set: "+pfx)
 				break
 			}
 		}
@@ -5175,15 +5259,15 @@ func dsRunnerConfigReadStructConfigKubernetesLifecycleHTTPGet(ctx context.Contex
 
 	// HTTPHeaders: http_headers -- , []config.KubernetesLifecycleHTTPGetHeader
 
-	// HERE
+	tflog.Trace(ctx, "checking key: "+prefix+"http_headers")
 	if _, ok := d.GetOk(prefix + "http_headers"); ok {
-		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "http_headers"))
+		tflog.Debug(ctx, fmt.Sprintf("key is set: %s%s", prefix, "http_headers"))
 		i := 0
 		val.HTTPHeaders = []config.KubernetesLifecycleHTTPGetHeader{}
 		for {
-			pfx := fmt.Sprintf("%s.%s.%d", prefix, "http_headers", i)
+			pfx := fmt.Sprintf("%s%s.%d", prefix, "http_headers", i)
 			if _, ok := d.GetOk(pfx); ok {
-				tflog.Debug(ctx, "set: %s", pfx)
+				tflog.Debug(ctx, fmt.Sprintf("key is set: %s", pfx))
 				thing, err := dsRunnerConfigReadStructConfigKubernetesLifecycleHTTPGetHeader(ctx, pfx, d)
 				if err != nil {
 					return val, err
@@ -5191,7 +5275,7 @@ func dsRunnerConfigReadStructConfigKubernetesLifecycleHTTPGet(ctx context.Contex
 				val.HTTPHeaders = append(val.HTTPHeaders, thing)
 				i++
 			} else {
-				tflog.Debug(ctx, "not set: %s", pfx)
+				tflog.Debug(ctx, fmt.Sprintf("not set: %s", pfx))
 				break
 			}
 		}
@@ -5259,6 +5343,7 @@ func dsRunnerConfigReadStructConfigKubernetesLifecycleHandler(ctx context.Contex
 
 	// Exec: exec -- , *config.KubernetesLifecycleExecAction
 
+	tflog.Trace(ctx, "checking key: "+prefix+"exec.0")
 	if _, ok := d.GetOk(prefix + "exec.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "exec"))
 		thing, err := dsRunnerConfigReadStructConfigKubernetesLifecycleExecAction(ctx, prefix+"exec.0", d)
@@ -5272,6 +5357,7 @@ func dsRunnerConfigReadStructConfigKubernetesLifecycleHandler(ctx context.Contex
 
 	// HTTPGet: http_get -- , *config.KubernetesLifecycleHTTPGet
 
+	tflog.Trace(ctx, "checking key: "+prefix+"http_get.0")
 	if _, ok := d.GetOk(prefix + "http_get.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "http_get"))
 		thing, err := dsRunnerConfigReadStructConfigKubernetesLifecycleHTTPGet(ctx, prefix+"http_get.0", d)
@@ -5285,6 +5371,7 @@ func dsRunnerConfigReadStructConfigKubernetesLifecycleHandler(ctx context.Contex
 
 	// TCPSocket: tcp_socket -- , *config.KubernetesLifecycleTCPSocket
 
+	tflog.Trace(ctx, "checking key: "+prefix+"tcp_socket.0")
 	if _, ok := d.GetOk(prefix + "tcp_socket.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "tcp_socket"))
 		thing, err := dsRunnerConfigReadStructConfigKubernetesLifecycleTCPSocket(ctx, prefix+"tcp_socket.0", d)
@@ -5340,6 +5427,7 @@ func dsRunnerConfigReadStructConfigKubernetesNodeAffinity(ctx context.Context, p
 
 	// RequiredDuringSchedulingIgnoredDuringExecution: required_during_scheduling_ignored_during_execution -- , *config.NodeSelector
 
+	tflog.Trace(ctx, "checking key: "+prefix+"required_during_scheduling_ignored_during_execution.0")
 	if _, ok := d.GetOk(prefix + "required_during_scheduling_ignored_during_execution.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "required_during_scheduling_ignored_during_execution"))
 		thing, err := dsRunnerConfigReadStructConfigNodeSelector(ctx, prefix+"required_during_scheduling_ignored_during_execution.0", d)
@@ -5353,15 +5441,15 @@ func dsRunnerConfigReadStructConfigKubernetesNodeAffinity(ctx context.Context, p
 
 	// PreferredDuringSchedulingIgnoredDuringExecution: preferred_during_scheduling_ignored_during_execution -- , []config.PreferredSchedulingTerm
 
-	// HERE
+	tflog.Trace(ctx, "checking key: "+prefix+"preferred_during_scheduling_ignored_during_execution")
 	if _, ok := d.GetOk(prefix + "preferred_during_scheduling_ignored_during_execution"); ok {
-		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "preferred_during_scheduling_ignored_during_execution"))
+		tflog.Debug(ctx, fmt.Sprintf("key is set: %s%s", prefix, "preferred_during_scheduling_ignored_during_execution"))
 		i := 0
 		val.PreferredDuringSchedulingIgnoredDuringExecution = []config.PreferredSchedulingTerm{}
 		for {
-			pfx := fmt.Sprintf("%s.%s.%d", prefix, "preferred_during_scheduling_ignored_during_execution", i)
+			pfx := fmt.Sprintf("%s%s.%d", prefix, "preferred_during_scheduling_ignored_during_execution", i)
 			if _, ok := d.GetOk(pfx); ok {
-				tflog.Debug(ctx, "set: %s", pfx)
+				tflog.Debug(ctx, fmt.Sprintf("key is set: %s", pfx))
 				thing, err := dsRunnerConfigReadStructConfigPreferredSchedulingTerm(ctx, pfx, d)
 				if err != nil {
 					return val, err
@@ -5369,7 +5457,7 @@ func dsRunnerConfigReadStructConfigKubernetesNodeAffinity(ctx context.Context, p
 				val.PreferredDuringSchedulingIgnoredDuringExecution = append(val.PreferredDuringSchedulingIgnoredDuringExecution, thing)
 				i++
 			} else {
-				tflog.Debug(ctx, "not set: %s", pfx)
+				tflog.Debug(ctx, fmt.Sprintf("not set: %s", pfx))
 				break
 			}
 		}
@@ -5431,15 +5519,15 @@ func dsRunnerConfigReadStructConfigKubernetesPodAffinity(ctx context.Context, pr
 
 	// RequiredDuringSchedulingIgnoredDuringExecution: required_during_scheduling_ignored_during_execution -- , []config.PodAffinityTerm
 
-	// HERE
+	tflog.Trace(ctx, "checking key: "+prefix+"required_during_scheduling_ignored_during_execution")
 	if _, ok := d.GetOk(prefix + "required_during_scheduling_ignored_during_execution"); ok {
-		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "required_during_scheduling_ignored_during_execution"))
+		tflog.Debug(ctx, fmt.Sprintf("key is set: %s%s", prefix, "required_during_scheduling_ignored_during_execution"))
 		i := 0
 		val.RequiredDuringSchedulingIgnoredDuringExecution = []config.PodAffinityTerm{}
 		for {
-			pfx := fmt.Sprintf("%s.%s.%d", prefix, "required_during_scheduling_ignored_during_execution", i)
+			pfx := fmt.Sprintf("%s%s.%d", prefix, "required_during_scheduling_ignored_during_execution", i)
 			if _, ok := d.GetOk(pfx); ok {
-				tflog.Debug(ctx, "set: %s", pfx)
+				tflog.Debug(ctx, fmt.Sprintf("key is set: %s", pfx))
 				thing, err := dsRunnerConfigReadStructConfigPodAffinityTerm(ctx, pfx, d)
 				if err != nil {
 					return val, err
@@ -5447,7 +5535,7 @@ func dsRunnerConfigReadStructConfigKubernetesPodAffinity(ctx context.Context, pr
 				val.RequiredDuringSchedulingIgnoredDuringExecution = append(val.RequiredDuringSchedulingIgnoredDuringExecution, thing)
 				i++
 			} else {
-				tflog.Debug(ctx, "not set: %s", pfx)
+				tflog.Debug(ctx, fmt.Sprintf("not set: %s", pfx))
 				break
 			}
 		}
@@ -5455,15 +5543,15 @@ func dsRunnerConfigReadStructConfigKubernetesPodAffinity(ctx context.Context, pr
 
 	// PreferredDuringSchedulingIgnoredDuringExecution: preferred_during_scheduling_ignored_during_execution -- , []config.WeightedPodAffinityTerm
 
-	// HERE
+	tflog.Trace(ctx, "checking key: "+prefix+"preferred_during_scheduling_ignored_during_execution")
 	if _, ok := d.GetOk(prefix + "preferred_during_scheduling_ignored_during_execution"); ok {
-		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "preferred_during_scheduling_ignored_during_execution"))
+		tflog.Debug(ctx, fmt.Sprintf("key is set: %s%s", prefix, "preferred_during_scheduling_ignored_during_execution"))
 		i := 0
 		val.PreferredDuringSchedulingIgnoredDuringExecution = []config.WeightedPodAffinityTerm{}
 		for {
-			pfx := fmt.Sprintf("%s.%s.%d", prefix, "preferred_during_scheduling_ignored_during_execution", i)
+			pfx := fmt.Sprintf("%s%s.%d", prefix, "preferred_during_scheduling_ignored_during_execution", i)
 			if _, ok := d.GetOk(pfx); ok {
-				tflog.Debug(ctx, "set: %s", pfx)
+				tflog.Debug(ctx, fmt.Sprintf("key is set: %s", pfx))
 				thing, err := dsRunnerConfigReadStructConfigWeightedPodAffinityTerm(ctx, pfx, d)
 				if err != nil {
 					return val, err
@@ -5471,7 +5559,7 @@ func dsRunnerConfigReadStructConfigKubernetesPodAffinity(ctx context.Context, pr
 				val.PreferredDuringSchedulingIgnoredDuringExecution = append(val.PreferredDuringSchedulingIgnoredDuringExecution, thing)
 				i++
 			} else {
-				tflog.Debug(ctx, "not set: %s", pfx)
+				tflog.Debug(ctx, fmt.Sprintf("not set: %s", pfx))
 				break
 			}
 		}
@@ -5494,15 +5582,15 @@ func dsRunnerConfigReadStructConfigKubernetesPodAntiAffinity(ctx context.Context
 
 	// RequiredDuringSchedulingIgnoredDuringExecution: required_during_scheduling_ignored_during_execution -- , []config.PodAffinityTerm
 
-	// HERE
+	tflog.Trace(ctx, "checking key: "+prefix+"required_during_scheduling_ignored_during_execution")
 	if _, ok := d.GetOk(prefix + "required_during_scheduling_ignored_during_execution"); ok {
-		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "required_during_scheduling_ignored_during_execution"))
+		tflog.Debug(ctx, fmt.Sprintf("key is set: %s%s", prefix, "required_during_scheduling_ignored_during_execution"))
 		i := 0
 		val.RequiredDuringSchedulingIgnoredDuringExecution = []config.PodAffinityTerm{}
 		for {
-			pfx := fmt.Sprintf("%s.%s.%d", prefix, "required_during_scheduling_ignored_during_execution", i)
+			pfx := fmt.Sprintf("%s%s.%d", prefix, "required_during_scheduling_ignored_during_execution", i)
 			if _, ok := d.GetOk(pfx); ok {
-				tflog.Debug(ctx, "set: %s", pfx)
+				tflog.Debug(ctx, fmt.Sprintf("key is set: %s", pfx))
 				thing, err := dsRunnerConfigReadStructConfigPodAffinityTerm(ctx, pfx, d)
 				if err != nil {
 					return val, err
@@ -5510,7 +5598,7 @@ func dsRunnerConfigReadStructConfigKubernetesPodAntiAffinity(ctx context.Context
 				val.RequiredDuringSchedulingIgnoredDuringExecution = append(val.RequiredDuringSchedulingIgnoredDuringExecution, thing)
 				i++
 			} else {
-				tflog.Debug(ctx, "not set: %s", pfx)
+				tflog.Debug(ctx, fmt.Sprintf("not set: %s", pfx))
 				break
 			}
 		}
@@ -5518,15 +5606,15 @@ func dsRunnerConfigReadStructConfigKubernetesPodAntiAffinity(ctx context.Context
 
 	// PreferredDuringSchedulingIgnoredDuringExecution: preferred_during_scheduling_ignored_during_execution -- , []config.WeightedPodAffinityTerm
 
-	// HERE
+	tflog.Trace(ctx, "checking key: "+prefix+"preferred_during_scheduling_ignored_during_execution")
 	if _, ok := d.GetOk(prefix + "preferred_during_scheduling_ignored_during_execution"); ok {
-		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "preferred_during_scheduling_ignored_during_execution"))
+		tflog.Debug(ctx, fmt.Sprintf("key is set: %s%s", prefix, "preferred_during_scheduling_ignored_during_execution"))
 		i := 0
 		val.PreferredDuringSchedulingIgnoredDuringExecution = []config.WeightedPodAffinityTerm{}
 		for {
-			pfx := fmt.Sprintf("%s.%s.%d", prefix, "preferred_during_scheduling_ignored_during_execution", i)
+			pfx := fmt.Sprintf("%s%s.%d", prefix, "preferred_during_scheduling_ignored_during_execution", i)
 			if _, ok := d.GetOk(pfx); ok {
-				tflog.Debug(ctx, "set: %s", pfx)
+				tflog.Debug(ctx, fmt.Sprintf("key is set: %s", pfx))
 				thing, err := dsRunnerConfigReadStructConfigWeightedPodAffinityTerm(ctx, pfx, d)
 				if err != nil {
 					return val, err
@@ -5534,7 +5622,7 @@ func dsRunnerConfigReadStructConfigKubernetesPodAntiAffinity(ctx context.Context
 				val.PreferredDuringSchedulingIgnoredDuringExecution = append(val.PreferredDuringSchedulingIgnoredDuringExecution, thing)
 				i++
 			} else {
-				tflog.Debug(ctx, "not set: %s", pfx)
+				tflog.Debug(ctx, fmt.Sprintf("not set: %s", pfx))
 				break
 			}
 		}
@@ -5557,43 +5645,47 @@ func dsRunnerConfigReadStructConfigKubernetesPodSecurityContext(ctx context.Cont
 
 	// FSGroup: fs_group -- , *int64
 	if v, ok := d.GetOk(prefix + "fs_group"); ok {
-		tflog.Debug(ctx, "set: %s.%s", prefix, "fs_group")
+		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "fs_group"))
 		val.FSGroup = to.Int64P(v.(int64))
+
 	}
 
 	// RunAsGroup: run_as_group -- , *int64
 	if v, ok := d.GetOk(prefix + "run_as_group"); ok {
-		tflog.Debug(ctx, "set: %s.%s", prefix, "run_as_group")
+		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "run_as_group"))
 		val.RunAsGroup = to.Int64P(v.(int64))
+
 	}
 
 	// RunAsNonRoot: run_as_non_root -- , *bool
 	if v, ok := d.GetOk(prefix + "run_as_non_root"); ok {
-		tflog.Debug(ctx, "set: %s.%s", prefix, "run_as_non_root")
+		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "run_as_non_root"))
 		val.RunAsNonRoot = to.BoolP(v.(bool))
+
 	}
 
 	// RunAsUser: run_as_user -- , *int64
 	if v, ok := d.GetOk(prefix + "run_as_user"); ok {
-		tflog.Debug(ctx, "set: %s.%s", prefix, "run_as_user")
+		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "run_as_user"))
 		val.RunAsUser = to.Int64P(v.(int64))
+
 	}
 
 	// SupplementalGroups: supplemental_groups -- , []int64
 
-	// HERE
+	tflog.Trace(ctx, "checking key: "+prefix+"supplemental_groups")
 	if _, ok := d.GetOk(prefix + "supplemental_groups"); ok {
-		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "supplemental_groups"))
+		tflog.Debug(ctx, "is set: "+prefix+"supplemental_groups")
 		i := 0
 		val.SupplementalGroups = []int64{}
 		for {
-			pfx := fmt.Sprintf("%s.%s.%d", prefix, "supplemental_groups", i)
+			pfx := fmt.Sprintf("%s%s.%d", prefix, "supplemental_groups", i)
 			if v, ok := d.GetOk(pfx); ok {
-				tflog.Debug(ctx, fmt.Sprintf("key is set: %s", pfx))
+				tflog.Debug(ctx, "is set: "+pfx)
 				val.SupplementalGroups = append(val.SupplementalGroups, v.(int64))
 				i++
 			} else {
-				tflog.Debug(ctx, "not set: %s", pfx)
+				tflog.Debug(ctx, "not set: "+pfx)
 				break
 			}
 		}
@@ -5661,15 +5753,15 @@ func dsRunnerConfigReadStructConfigKubernetesVolumes(ctx context.Context, prefix
 
 	// HostPaths: host_path -- , []config.KubernetesHostPath
 
-	// HERE
+	tflog.Trace(ctx, "checking key: "+prefix+"host_path")
 	if _, ok := d.GetOk(prefix + "host_path"); ok {
-		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "host_path"))
+		tflog.Debug(ctx, fmt.Sprintf("key is set: %s%s", prefix, "host_path"))
 		i := 0
 		val.HostPaths = []config.KubernetesHostPath{}
 		for {
-			pfx := fmt.Sprintf("%s.%s.%d", prefix, "host_path", i)
+			pfx := fmt.Sprintf("%s%s.%d", prefix, "host_path", i)
 			if _, ok := d.GetOk(pfx); ok {
-				tflog.Debug(ctx, "set: %s", pfx)
+				tflog.Debug(ctx, fmt.Sprintf("key is set: %s", pfx))
 				thing, err := dsRunnerConfigReadStructConfigKubernetesHostPath(ctx, pfx, d)
 				if err != nil {
 					return val, err
@@ -5677,7 +5769,7 @@ func dsRunnerConfigReadStructConfigKubernetesVolumes(ctx context.Context, prefix
 				val.HostPaths = append(val.HostPaths, thing)
 				i++
 			} else {
-				tflog.Debug(ctx, "not set: %s", pfx)
+				tflog.Debug(ctx, fmt.Sprintf("not set: %s", pfx))
 				break
 			}
 		}
@@ -5685,15 +5777,15 @@ func dsRunnerConfigReadStructConfigKubernetesVolumes(ctx context.Context, prefix
 
 	// PVCs: pvc -- , []config.KubernetesPVC
 
-	// HERE
+	tflog.Trace(ctx, "checking key: "+prefix+"pvc")
 	if _, ok := d.GetOk(prefix + "pvc"); ok {
-		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "pvc"))
+		tflog.Debug(ctx, fmt.Sprintf("key is set: %s%s", prefix, "pvc"))
 		i := 0
 		val.PVCs = []config.KubernetesPVC{}
 		for {
-			pfx := fmt.Sprintf("%s.%s.%d", prefix, "pvc", i)
+			pfx := fmt.Sprintf("%s%s.%d", prefix, "pvc", i)
 			if _, ok := d.GetOk(pfx); ok {
-				tflog.Debug(ctx, "set: %s", pfx)
+				tflog.Debug(ctx, fmt.Sprintf("key is set: %s", pfx))
 				thing, err := dsRunnerConfigReadStructConfigKubernetesPVC(ctx, pfx, d)
 				if err != nil {
 					return val, err
@@ -5701,7 +5793,7 @@ func dsRunnerConfigReadStructConfigKubernetesVolumes(ctx context.Context, prefix
 				val.PVCs = append(val.PVCs, thing)
 				i++
 			} else {
-				tflog.Debug(ctx, "not set: %s", pfx)
+				tflog.Debug(ctx, fmt.Sprintf("not set: %s", pfx))
 				break
 			}
 		}
@@ -5709,15 +5801,15 @@ func dsRunnerConfigReadStructConfigKubernetesVolumes(ctx context.Context, prefix
 
 	// ConfigMaps: config_map -- , []config.KubernetesConfigMap
 
-	// HERE
+	tflog.Trace(ctx, "checking key: "+prefix+"config_map")
 	if _, ok := d.GetOk(prefix + "config_map"); ok {
-		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "config_map"))
+		tflog.Debug(ctx, fmt.Sprintf("key is set: %s%s", prefix, "config_map"))
 		i := 0
 		val.ConfigMaps = []config.KubernetesConfigMap{}
 		for {
-			pfx := fmt.Sprintf("%s.%s.%d", prefix, "config_map", i)
+			pfx := fmt.Sprintf("%s%s.%d", prefix, "config_map", i)
 			if _, ok := d.GetOk(pfx); ok {
-				tflog.Debug(ctx, "set: %s", pfx)
+				tflog.Debug(ctx, fmt.Sprintf("key is set: %s", pfx))
 				thing, err := dsRunnerConfigReadStructConfigKubernetesConfigMap(ctx, pfx, d)
 				if err != nil {
 					return val, err
@@ -5725,7 +5817,7 @@ func dsRunnerConfigReadStructConfigKubernetesVolumes(ctx context.Context, prefix
 				val.ConfigMaps = append(val.ConfigMaps, thing)
 				i++
 			} else {
-				tflog.Debug(ctx, "not set: %s", pfx)
+				tflog.Debug(ctx, fmt.Sprintf("not set: %s", pfx))
 				break
 			}
 		}
@@ -5733,15 +5825,15 @@ func dsRunnerConfigReadStructConfigKubernetesVolumes(ctx context.Context, prefix
 
 	// Secrets: secret -- , []config.KubernetesSecret
 
-	// HERE
+	tflog.Trace(ctx, "checking key: "+prefix+"secret")
 	if _, ok := d.GetOk(prefix + "secret"); ok {
-		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "secret"))
+		tflog.Debug(ctx, fmt.Sprintf("key is set: %s%s", prefix, "secret"))
 		i := 0
 		val.Secrets = []config.KubernetesSecret{}
 		for {
-			pfx := fmt.Sprintf("%s.%s.%d", prefix, "secret", i)
+			pfx := fmt.Sprintf("%s%s.%d", prefix, "secret", i)
 			if _, ok := d.GetOk(pfx); ok {
-				tflog.Debug(ctx, "set: %s", pfx)
+				tflog.Debug(ctx, fmt.Sprintf("key is set: %s", pfx))
 				thing, err := dsRunnerConfigReadStructConfigKubernetesSecret(ctx, pfx, d)
 				if err != nil {
 					return val, err
@@ -5749,7 +5841,7 @@ func dsRunnerConfigReadStructConfigKubernetesVolumes(ctx context.Context, prefix
 				val.Secrets = append(val.Secrets, thing)
 				i++
 			} else {
-				tflog.Debug(ctx, "not set: %s", pfx)
+				tflog.Debug(ctx, fmt.Sprintf("not set: %s", pfx))
 				break
 			}
 		}
@@ -5757,15 +5849,15 @@ func dsRunnerConfigReadStructConfigKubernetesVolumes(ctx context.Context, prefix
 
 	// EmptyDirs: empty_dir -- , []config.KubernetesEmptyDir
 
-	// HERE
+	tflog.Trace(ctx, "checking key: "+prefix+"empty_dir")
 	if _, ok := d.GetOk(prefix + "empty_dir"); ok {
-		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "empty_dir"))
+		tflog.Debug(ctx, fmt.Sprintf("key is set: %s%s", prefix, "empty_dir"))
 		i := 0
 		val.EmptyDirs = []config.KubernetesEmptyDir{}
 		for {
-			pfx := fmt.Sprintf("%s.%s.%d", prefix, "empty_dir", i)
+			pfx := fmt.Sprintf("%s%s.%d", prefix, "empty_dir", i)
 			if _, ok := d.GetOk(pfx); ok {
-				tflog.Debug(ctx, "set: %s", pfx)
+				tflog.Debug(ctx, fmt.Sprintf("key is set: %s", pfx))
 				thing, err := dsRunnerConfigReadStructConfigKubernetesEmptyDir(ctx, pfx, d)
 				if err != nil {
 					return val, err
@@ -5773,7 +5865,7 @@ func dsRunnerConfigReadStructConfigKubernetesVolumes(ctx context.Context, prefix
 				val.EmptyDirs = append(val.EmptyDirs, thing)
 				i++
 			} else {
-				tflog.Debug(ctx, "not set: %s", pfx)
+				tflog.Debug(ctx, fmt.Sprintf("not set: %s", pfx))
 				break
 			}
 		}
@@ -5781,15 +5873,15 @@ func dsRunnerConfigReadStructConfigKubernetesVolumes(ctx context.Context, prefix
 
 	// CSIs: csi -- , []config.KubernetesCSI
 
-	// HERE
+	tflog.Trace(ctx, "checking key: "+prefix+"csi")
 	if _, ok := d.GetOk(prefix + "csi"); ok {
-		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "csi"))
+		tflog.Debug(ctx, fmt.Sprintf("key is set: %s%s", prefix, "csi"))
 		i := 0
 		val.CSIs = []config.KubernetesCSI{}
 		for {
-			pfx := fmt.Sprintf("%s.%s.%d", prefix, "csi", i)
+			pfx := fmt.Sprintf("%s%s.%d", prefix, "csi", i)
 			if _, ok := d.GetOk(pfx); ok {
-				tflog.Debug(ctx, "set: %s", pfx)
+				tflog.Debug(ctx, fmt.Sprintf("key is set: %s", pfx))
 				thing, err := dsRunnerConfigReadStructConfigKubernetesCSI(ctx, pfx, d)
 				if err != nil {
 					return val, err
@@ -5797,7 +5889,7 @@ func dsRunnerConfigReadStructConfigKubernetesVolumes(ctx context.Context, prefix
 				val.CSIs = append(val.CSIs, thing)
 				i++
 			} else {
-				tflog.Debug(ctx, "not set: %s", pfx)
+				tflog.Debug(ctx, fmt.Sprintf("not set: %s", pfx))
 				break
 			}
 		}
@@ -5826,15 +5918,15 @@ func dsRunnerConfigReadStructConfigLabelSelector(ctx context.Context, prefix str
 
 	// MatchExpressions: match_expressions -- , []config.NodeSelectorRequirement
 
-	// HERE
+	tflog.Trace(ctx, "checking key: "+prefix+"match_expressions")
 	if _, ok := d.GetOk(prefix + "match_expressions"); ok {
-		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "match_expressions"))
+		tflog.Debug(ctx, fmt.Sprintf("key is set: %s%s", prefix, "match_expressions"))
 		i := 0
 		val.MatchExpressions = []config.NodeSelectorRequirement{}
 		for {
-			pfx := fmt.Sprintf("%s.%s.%d", prefix, "match_expressions", i)
+			pfx := fmt.Sprintf("%s%s.%d", prefix, "match_expressions", i)
 			if _, ok := d.GetOk(pfx); ok {
-				tflog.Debug(ctx, "set: %s", pfx)
+				tflog.Debug(ctx, fmt.Sprintf("key is set: %s", pfx))
 				thing, err := dsRunnerConfigReadStructConfigNodeSelectorRequirement(ctx, pfx, d)
 				if err != nil {
 					return val, err
@@ -5842,7 +5934,7 @@ func dsRunnerConfigReadStructConfigLabelSelector(ctx context.Context, prefix str
 				val.MatchExpressions = append(val.MatchExpressions, thing)
 				i++
 			} else {
-				tflog.Debug(ctx, "not set: %s", pfx)
+				tflog.Debug(ctx, fmt.Sprintf("not set: %s", pfx))
 				break
 			}
 		}
@@ -5865,15 +5957,15 @@ func dsRunnerConfigReadStructConfigNodeSelector(ctx context.Context, prefix stri
 
 	// NodeSelectorTerms: node_selector_terms -- , []config.NodeSelectorTerm
 
-	// HERE
+	tflog.Trace(ctx, "checking key: "+prefix+"node_selector_terms")
 	if _, ok := d.GetOk(prefix + "node_selector_terms"); ok {
-		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "node_selector_terms"))
+		tflog.Debug(ctx, fmt.Sprintf("key is set: %s%s", prefix, "node_selector_terms"))
 		i := 0
 		val.NodeSelectorTerms = []config.NodeSelectorTerm{}
 		for {
-			pfx := fmt.Sprintf("%s.%s.%d", prefix, "node_selector_terms", i)
+			pfx := fmt.Sprintf("%s%s.%d", prefix, "node_selector_terms", i)
 			if _, ok := d.GetOk(pfx); ok {
-				tflog.Debug(ctx, "set: %s", pfx)
+				tflog.Debug(ctx, fmt.Sprintf("key is set: %s", pfx))
 				thing, err := dsRunnerConfigReadStructConfigNodeSelectorTerm(ctx, pfx, d)
 				if err != nil {
 					return val, err
@@ -5881,7 +5973,7 @@ func dsRunnerConfigReadStructConfigNodeSelector(ctx context.Context, prefix stri
 				val.NodeSelectorTerms = append(val.NodeSelectorTerms, thing)
 				i++
 			} else {
-				tflog.Debug(ctx, "not set: %s", pfx)
+				tflog.Debug(ctx, fmt.Sprintf("not set: %s", pfx))
 				break
 			}
 		}
@@ -5916,19 +6008,19 @@ func dsRunnerConfigReadStructConfigNodeSelectorRequirement(ctx context.Context, 
 
 	// Values: values -- , []string
 
-	// HERE
+	tflog.Trace(ctx, "checking key: "+prefix+"values")
 	if _, ok := d.GetOk(prefix + "values"); ok {
-		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "values"))
+		tflog.Debug(ctx, "is set: "+prefix+"values")
 		i := 0
 		val.Values = []string{}
 		for {
-			pfx := fmt.Sprintf("%s.%s.%d", prefix, "values", i)
+			pfx := fmt.Sprintf("%s%s.%d", prefix, "values", i)
 			if v, ok := d.GetOk(pfx); ok {
-				tflog.Debug(ctx, fmt.Sprintf("key is set: %s", pfx))
+				tflog.Debug(ctx, "is set: "+pfx)
 				val.Values = append(val.Values, v.(string))
 				i++
 			} else {
-				tflog.Debug(ctx, "not set: %s", pfx)
+				tflog.Debug(ctx, "not set: "+pfx)
 				break
 			}
 		}
@@ -5951,15 +6043,15 @@ func dsRunnerConfigReadStructConfigNodeSelectorTerm(ctx context.Context, prefix 
 
 	// MatchExpressions: match_expressions -- , []config.NodeSelectorRequirement
 
-	// HERE
+	tflog.Trace(ctx, "checking key: "+prefix+"match_expressions")
 	if _, ok := d.GetOk(prefix + "match_expressions"); ok {
-		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "match_expressions"))
+		tflog.Debug(ctx, fmt.Sprintf("key is set: %s%s", prefix, "match_expressions"))
 		i := 0
 		val.MatchExpressions = []config.NodeSelectorRequirement{}
 		for {
-			pfx := fmt.Sprintf("%s.%s.%d", prefix, "match_expressions", i)
+			pfx := fmt.Sprintf("%s%s.%d", prefix, "match_expressions", i)
 			if _, ok := d.GetOk(pfx); ok {
-				tflog.Debug(ctx, "set: %s", pfx)
+				tflog.Debug(ctx, fmt.Sprintf("key is set: %s", pfx))
 				thing, err := dsRunnerConfigReadStructConfigNodeSelectorRequirement(ctx, pfx, d)
 				if err != nil {
 					return val, err
@@ -5967,7 +6059,7 @@ func dsRunnerConfigReadStructConfigNodeSelectorTerm(ctx context.Context, prefix 
 				val.MatchExpressions = append(val.MatchExpressions, thing)
 				i++
 			} else {
-				tflog.Debug(ctx, "not set: %s", pfx)
+				tflog.Debug(ctx, fmt.Sprintf("not set: %s", pfx))
 				break
 			}
 		}
@@ -5975,15 +6067,15 @@ func dsRunnerConfigReadStructConfigNodeSelectorTerm(ctx context.Context, prefix 
 
 	// MatchFields: match_fields -- , []config.NodeSelectorRequirement
 
-	// HERE
+	tflog.Trace(ctx, "checking key: "+prefix+"match_fields")
 	if _, ok := d.GetOk(prefix + "match_fields"); ok {
-		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "match_fields"))
+		tflog.Debug(ctx, fmt.Sprintf("key is set: %s%s", prefix, "match_fields"))
 		i := 0
 		val.MatchFields = []config.NodeSelectorRequirement{}
 		for {
-			pfx := fmt.Sprintf("%s.%s.%d", prefix, "match_fields", i)
+			pfx := fmt.Sprintf("%s%s.%d", prefix, "match_fields", i)
 			if _, ok := d.GetOk(pfx); ok {
-				tflog.Debug(ctx, "set: %s", pfx)
+				tflog.Debug(ctx, fmt.Sprintf("key is set: %s", pfx))
 				thing, err := dsRunnerConfigReadStructConfigNodeSelectorRequirement(ctx, pfx, d)
 				if err != nil {
 					return val, err
@@ -5991,7 +6083,7 @@ func dsRunnerConfigReadStructConfigNodeSelectorTerm(ctx context.Context, prefix 
 				val.MatchFields = append(val.MatchFields, thing)
 				i++
 			} else {
-				tflog.Debug(ctx, "not set: %s", pfx)
+				tflog.Debug(ctx, fmt.Sprintf("not set: %s", pfx))
 				break
 			}
 		}
@@ -6038,19 +6130,19 @@ func dsRunnerConfigReadStructConfigParallelsConfig(ctx context.Context, prefix s
 
 	// AllowedImages: allowed_images -- , []string
 
-	// HERE
+	tflog.Trace(ctx, "checking key: "+prefix+"allowed_images")
 	if _, ok := d.GetOk(prefix + "allowed_images"); ok {
-		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "allowed_images"))
+		tflog.Debug(ctx, "is set: "+prefix+"allowed_images")
 		i := 0
 		val.AllowedImages = []string{}
 		for {
-			pfx := fmt.Sprintf("%s.%s.%d", prefix, "allowed_images", i)
+			pfx := fmt.Sprintf("%s%s.%d", prefix, "allowed_images", i)
 			if v, ok := d.GetOk(pfx); ok {
-				tflog.Debug(ctx, fmt.Sprintf("key is set: %s", pfx))
+				tflog.Debug(ctx, "is set: "+pfx)
 				val.AllowedImages = append(val.AllowedImages, v.(string))
 				i++
 			} else {
-				tflog.Debug(ctx, "not set: %s", pfx)
+				tflog.Debug(ctx, "not set: "+pfx)
 				break
 			}
 		}
@@ -6073,6 +6165,7 @@ func dsRunnerConfigReadStructConfigPodAffinityTerm(ctx context.Context, prefix s
 
 	// LabelSelector: label_selector -- , *config.LabelSelector
 
+	tflog.Trace(ctx, "checking key: "+prefix+"label_selector.0")
 	if _, ok := d.GetOk(prefix + "label_selector.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "label_selector"))
 		thing, err := dsRunnerConfigReadStructConfigLabelSelector(ctx, prefix+"label_selector.0", d)
@@ -6086,19 +6179,19 @@ func dsRunnerConfigReadStructConfigPodAffinityTerm(ctx context.Context, prefix s
 
 	// Namespaces: namespaces -- , []string
 
-	// HERE
+	tflog.Trace(ctx, "checking key: "+prefix+"namespaces")
 	if _, ok := d.GetOk(prefix + "namespaces"); ok {
-		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "namespaces"))
+		tflog.Debug(ctx, "is set: "+prefix+"namespaces")
 		i := 0
 		val.Namespaces = []string{}
 		for {
-			pfx := fmt.Sprintf("%s.%s.%d", prefix, "namespaces", i)
+			pfx := fmt.Sprintf("%s%s.%d", prefix, "namespaces", i)
 			if v, ok := d.GetOk(pfx); ok {
-				tflog.Debug(ctx, fmt.Sprintf("key is set: %s", pfx))
+				tflog.Debug(ctx, "is set: "+pfx)
 				val.Namespaces = append(val.Namespaces, v.(string))
 				i++
 			} else {
-				tflog.Debug(ctx, "not set: %s", pfx)
+				tflog.Debug(ctx, "not set: "+pfx)
 				break
 			}
 		}
@@ -6112,6 +6205,7 @@ func dsRunnerConfigReadStructConfigPodAffinityTerm(ctx context.Context, prefix s
 
 	// NamespaceSelector: namespace_selector -- , *config.LabelSelector
 
+	tflog.Trace(ctx, "checking key: "+prefix+"namespace_selector.0")
 	if _, ok := d.GetOk(prefix + "namespace_selector.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "namespace_selector"))
 		thing, err := dsRunnerConfigReadStructConfigLabelSelector(ctx, prefix+"namespace_selector.0", d)
@@ -6146,6 +6240,7 @@ func dsRunnerConfigReadStructConfigPreferredSchedulingTerm(ctx context.Context, 
 
 	// Preference: preference -- NodeSelectorTerm, config.NodeSelectorTerm
 
+	tflog.Trace(ctx, "checking key: "+prefix+"preference.0")
 	if _, ok := d.GetOk(prefix + "preference.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "preference"))
 		thing, err := dsRunnerConfigReadStructConfigNodeSelectorTerm(ctx, prefix+"preference.0", d)
@@ -6153,6 +6248,8 @@ func dsRunnerConfigReadStructConfigPreferredSchedulingTerm(ctx context.Context, 
 			return val, err
 		}
 		val.Preference = thing
+	} else {
+		tflog.Trace(ctx, fmt.Sprintf("not set: %s", prefix+"preference.0"))
 	}
 
 	return val, nil
@@ -6250,19 +6347,19 @@ func dsRunnerConfigReadStructConfigRunnerConfig(ctx context.Context, prefix stri
 
 	// Environment: environment -- , []string
 
-	// HERE
+	tflog.Trace(ctx, "checking key: "+prefix+"environment")
 	if _, ok := d.GetOk(prefix + "environment"); ok {
-		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "environment"))
+		tflog.Debug(ctx, "is set: "+prefix+"environment")
 		i := 0
 		val.Environment = []string{}
 		for {
-			pfx := fmt.Sprintf("%s.%s.%d", prefix, "environment", i)
+			pfx := fmt.Sprintf("%s%s.%d", prefix, "environment", i)
 			if v, ok := d.GetOk(pfx); ok {
-				tflog.Debug(ctx, fmt.Sprintf("key is set: %s", pfx))
+				tflog.Debug(ctx, "is set: "+pfx)
 				val.Environment = append(val.Environment, v.(string))
 				i++
 			} else {
-				tflog.Debug(ctx, "not set: %s", pfx)
+				tflog.Debug(ctx, "not set: "+pfx)
 				break
 			}
 		}
@@ -6300,6 +6397,7 @@ func dsRunnerConfigReadStructConfigRunnerConfig(ctx context.Context, prefix stri
 
 	// CustomBuildDir: custom_build_dir -- , *config.CustomBuildDir
 
+	tflog.Trace(ctx, "checking key: "+prefix+"custom_build_dir.0")
 	if _, ok := d.GetOk(prefix + "custom_build_dir.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "custom_build_dir"))
 		thing, err := dsRunnerConfigReadStructConfigCustomBuildDir(ctx, prefix+"custom_build_dir.0", d)
@@ -6313,6 +6411,7 @@ func dsRunnerConfigReadStructConfigRunnerConfig(ctx context.Context, prefix stri
 
 	// Referees: referees -- Config, referees.Config
 
+	tflog.Trace(ctx, "checking key: "+prefix+"referees.0")
 	if _, ok := d.GetOk(prefix + "referees.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "referees"))
 		thing, err := dsRunnerConfigReadStructRefereesConfig(ctx, prefix+"referees.0", d)
@@ -6320,10 +6419,13 @@ func dsRunnerConfigReadStructConfigRunnerConfig(ctx context.Context, prefix stri
 			return val, err
 		}
 		val.Referees = thing
+	} else {
+		tflog.Trace(ctx, fmt.Sprintf("not set: %s", prefix+"referees.0"))
 	}
 
 	// Cache: cache -- , *config.CacheConfig
 
+	tflog.Trace(ctx, "checking key: "+prefix+"cache.0")
 	if _, ok := d.GetOk(prefix + "cache.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "cache"))
 		thing, err := dsRunnerConfigReadStructConfigCacheConfig(ctx, prefix+"cache.0", d)
@@ -6343,6 +6445,7 @@ func dsRunnerConfigReadStructConfigRunnerConfig(ctx context.Context, prefix stri
 
 	// SSH: ssh -- , *ssh.Config
 
+	tflog.Trace(ctx, "checking key: "+prefix+"ssh.0")
 	if _, ok := d.GetOk(prefix + "ssh.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "ssh"))
 		thing, err := dsRunnerConfigReadStructSshConfig(ctx, prefix+"ssh.0", d)
@@ -6356,6 +6459,7 @@ func dsRunnerConfigReadStructConfigRunnerConfig(ctx context.Context, prefix stri
 
 	// Docker: docker -- , *config.DockerConfig
 
+	tflog.Trace(ctx, "checking key: "+prefix+"docker.0")
 	if _, ok := d.GetOk(prefix + "docker.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "docker"))
 		thing, err := dsRunnerConfigReadStructConfigDockerConfig(ctx, prefix+"docker.0", d)
@@ -6369,6 +6473,7 @@ func dsRunnerConfigReadStructConfigRunnerConfig(ctx context.Context, prefix stri
 
 	// Parallels: parallels -- , *config.ParallelsConfig
 
+	tflog.Trace(ctx, "checking key: "+prefix+"parallels.0")
 	if _, ok := d.GetOk(prefix + "parallels.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "parallels"))
 		thing, err := dsRunnerConfigReadStructConfigParallelsConfig(ctx, prefix+"parallels.0", d)
@@ -6382,6 +6487,7 @@ func dsRunnerConfigReadStructConfigRunnerConfig(ctx context.Context, prefix stri
 
 	// VirtualBox: virtualbox -- , *config.VirtualBoxConfig
 
+	tflog.Trace(ctx, "checking key: "+prefix+"virtualbox.0")
 	if _, ok := d.GetOk(prefix + "virtualbox.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "virtualbox"))
 		thing, err := dsRunnerConfigReadStructConfigVirtualBoxConfig(ctx, prefix+"virtualbox.0", d)
@@ -6395,6 +6501,7 @@ func dsRunnerConfigReadStructConfigRunnerConfig(ctx context.Context, prefix stri
 
 	// Machine: machine -- , *config.DockerMachine
 
+	tflog.Trace(ctx, "checking key: "+prefix+"machine.0")
 	if _, ok := d.GetOk(prefix + "machine.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "machine"))
 		thing, err := dsRunnerConfigReadStructConfigDockerMachine(ctx, prefix+"machine.0", d)
@@ -6408,6 +6515,7 @@ func dsRunnerConfigReadStructConfigRunnerConfig(ctx context.Context, prefix stri
 
 	// Kubernetes: kubernetes -- , *config.KubernetesConfig
 
+	tflog.Trace(ctx, "checking key: "+prefix+"kubernetes.0")
 	if _, ok := d.GetOk(prefix + "kubernetes.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "kubernetes"))
 		thing, err := dsRunnerConfigReadStructConfigKubernetesConfig(ctx, prefix+"kubernetes.0", d)
@@ -6421,6 +6529,7 @@ func dsRunnerConfigReadStructConfigRunnerConfig(ctx context.Context, prefix stri
 
 	// Custom: custom -- , *config.CustomConfig
 
+	tflog.Trace(ctx, "checking key: "+prefix+"custom.0")
 	if _, ok := d.GetOk(prefix + "custom.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "custom"))
 		thing, err := dsRunnerConfigReadStructConfigCustomConfig(ctx, prefix+"custom.0", d)
@@ -6518,19 +6627,19 @@ func dsRunnerConfigReadStructConfigRunnerSettings(ctx context.Context, prefix st
 
 	// Environment: environment -- , []string
 
-	// HERE
+	tflog.Trace(ctx, "checking key: "+prefix+"environment")
 	if _, ok := d.GetOk(prefix + "environment"); ok {
-		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "environment"))
+		tflog.Debug(ctx, "is set: "+prefix+"environment")
 		i := 0
 		val.Environment = []string{}
 		for {
-			pfx := fmt.Sprintf("%s.%s.%d", prefix, "environment", i)
+			pfx := fmt.Sprintf("%s%s.%d", prefix, "environment", i)
 			if v, ok := d.GetOk(pfx); ok {
-				tflog.Debug(ctx, fmt.Sprintf("key is set: %s", pfx))
+				tflog.Debug(ctx, "is set: "+pfx)
 				val.Environment = append(val.Environment, v.(string))
 				i++
 			} else {
-				tflog.Debug(ctx, "not set: %s", pfx)
+				tflog.Debug(ctx, "not set: "+pfx)
 				break
 			}
 		}
@@ -6568,6 +6677,7 @@ func dsRunnerConfigReadStructConfigRunnerSettings(ctx context.Context, prefix st
 
 	// CustomBuildDir: custom_build_dir -- , *config.CustomBuildDir
 
+	tflog.Trace(ctx, "checking key: "+prefix+"custom_build_dir.0")
 	if _, ok := d.GetOk(prefix + "custom_build_dir.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "custom_build_dir"))
 		thing, err := dsRunnerConfigReadStructConfigCustomBuildDir(ctx, prefix+"custom_build_dir.0", d)
@@ -6581,6 +6691,7 @@ func dsRunnerConfigReadStructConfigRunnerSettings(ctx context.Context, prefix st
 
 	// Referees: referees -- Config, referees.Config
 
+	tflog.Trace(ctx, "checking key: "+prefix+"referees.0")
 	if _, ok := d.GetOk(prefix + "referees.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "referees"))
 		thing, err := dsRunnerConfigReadStructRefereesConfig(ctx, prefix+"referees.0", d)
@@ -6588,10 +6699,13 @@ func dsRunnerConfigReadStructConfigRunnerSettings(ctx context.Context, prefix st
 			return val, err
 		}
 		val.Referees = thing
+	} else {
+		tflog.Trace(ctx, fmt.Sprintf("not set: %s", prefix+"referees.0"))
 	}
 
 	// Cache: cache -- , *config.CacheConfig
 
+	tflog.Trace(ctx, "checking key: "+prefix+"cache.0")
 	if _, ok := d.GetOk(prefix + "cache.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "cache"))
 		thing, err := dsRunnerConfigReadStructConfigCacheConfig(ctx, prefix+"cache.0", d)
@@ -6611,6 +6725,7 @@ func dsRunnerConfigReadStructConfigRunnerSettings(ctx context.Context, prefix st
 
 	// SSH: ssh -- , *ssh.Config
 
+	tflog.Trace(ctx, "checking key: "+prefix+"ssh.0")
 	if _, ok := d.GetOk(prefix + "ssh.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "ssh"))
 		thing, err := dsRunnerConfigReadStructSshConfig(ctx, prefix+"ssh.0", d)
@@ -6624,6 +6739,7 @@ func dsRunnerConfigReadStructConfigRunnerSettings(ctx context.Context, prefix st
 
 	// Docker: docker -- , *config.DockerConfig
 
+	tflog.Trace(ctx, "checking key: "+prefix+"docker.0")
 	if _, ok := d.GetOk(prefix + "docker.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "docker"))
 		thing, err := dsRunnerConfigReadStructConfigDockerConfig(ctx, prefix+"docker.0", d)
@@ -6637,6 +6753,7 @@ func dsRunnerConfigReadStructConfigRunnerSettings(ctx context.Context, prefix st
 
 	// Parallels: parallels -- , *config.ParallelsConfig
 
+	tflog.Trace(ctx, "checking key: "+prefix+"parallels.0")
 	if _, ok := d.GetOk(prefix + "parallels.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "parallels"))
 		thing, err := dsRunnerConfigReadStructConfigParallelsConfig(ctx, prefix+"parallels.0", d)
@@ -6650,6 +6767,7 @@ func dsRunnerConfigReadStructConfigRunnerSettings(ctx context.Context, prefix st
 
 	// VirtualBox: virtualbox -- , *config.VirtualBoxConfig
 
+	tflog.Trace(ctx, "checking key: "+prefix+"virtualbox.0")
 	if _, ok := d.GetOk(prefix + "virtualbox.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "virtualbox"))
 		thing, err := dsRunnerConfigReadStructConfigVirtualBoxConfig(ctx, prefix+"virtualbox.0", d)
@@ -6663,6 +6781,7 @@ func dsRunnerConfigReadStructConfigRunnerSettings(ctx context.Context, prefix st
 
 	// Machine: machine -- , *config.DockerMachine
 
+	tflog.Trace(ctx, "checking key: "+prefix+"machine.0")
 	if _, ok := d.GetOk(prefix + "machine.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "machine"))
 		thing, err := dsRunnerConfigReadStructConfigDockerMachine(ctx, prefix+"machine.0", d)
@@ -6676,6 +6795,7 @@ func dsRunnerConfigReadStructConfigRunnerSettings(ctx context.Context, prefix st
 
 	// Kubernetes: kubernetes -- , *config.KubernetesConfig
 
+	tflog.Trace(ctx, "checking key: "+prefix+"kubernetes.0")
 	if _, ok := d.GetOk(prefix + "kubernetes.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "kubernetes"))
 		thing, err := dsRunnerConfigReadStructConfigKubernetesConfig(ctx, prefix+"kubernetes.0", d)
@@ -6689,6 +6809,7 @@ func dsRunnerConfigReadStructConfigRunnerSettings(ctx context.Context, prefix st
 
 	// Custom: custom -- , *config.CustomConfig
 
+	tflog.Trace(ctx, "checking key: "+prefix+"custom.0")
 	if _, ok := d.GetOk(prefix + "custom.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "custom"))
 		thing, err := dsRunnerConfigReadStructConfigCustomConfig(ctx, prefix+"custom.0", d)
@@ -6729,19 +6850,19 @@ func dsRunnerConfigReadStructConfigService(ctx context.Context, prefix string, d
 
 	// Command: command -- , []string
 
-	// HERE
+	tflog.Trace(ctx, "checking key: "+prefix+"command")
 	if _, ok := d.GetOk(prefix + "command"); ok {
-		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "command"))
+		tflog.Debug(ctx, "is set: "+prefix+"command")
 		i := 0
 		val.Command = []string{}
 		for {
-			pfx := fmt.Sprintf("%s.%s.%d", prefix, "command", i)
+			pfx := fmt.Sprintf("%s%s.%d", prefix, "command", i)
 			if v, ok := d.GetOk(pfx); ok {
-				tflog.Debug(ctx, fmt.Sprintf("key is set: %s", pfx))
+				tflog.Debug(ctx, "is set: "+pfx)
 				val.Command = append(val.Command, v.(string))
 				i++
 			} else {
-				tflog.Debug(ctx, "not set: %s", pfx)
+				tflog.Debug(ctx, "not set: "+pfx)
 				break
 			}
 		}
@@ -6749,19 +6870,19 @@ func dsRunnerConfigReadStructConfigService(ctx context.Context, prefix string, d
 
 	// Entrypoint: entrypoint -- , []string
 
-	// HERE
+	tflog.Trace(ctx, "checking key: "+prefix+"entrypoint")
 	if _, ok := d.GetOk(prefix + "entrypoint"); ok {
-		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "entrypoint"))
+		tflog.Debug(ctx, "is set: "+prefix+"entrypoint")
 		i := 0
 		val.Entrypoint = []string{}
 		for {
-			pfx := fmt.Sprintf("%s.%s.%d", prefix, "entrypoint", i)
+			pfx := fmt.Sprintf("%s%s.%d", prefix, "entrypoint", i)
 			if v, ok := d.GetOk(pfx); ok {
-				tflog.Debug(ctx, fmt.Sprintf("key is set: %s", pfx))
+				tflog.Debug(ctx, "is set: "+pfx)
 				val.Entrypoint = append(val.Entrypoint, v.(string))
 				i++
 			} else {
-				tflog.Debug(ctx, "not set: %s", pfx)
+				tflog.Debug(ctx, "not set: "+pfx)
 				break
 			}
 		}
@@ -6841,19 +6962,19 @@ func dsRunnerConfigReadStructConfigVirtualBoxConfig(ctx context.Context, prefix 
 
 	// AllowedImages: allowed_images -- , []string
 
-	// HERE
+	tflog.Trace(ctx, "checking key: "+prefix+"allowed_images")
 	if _, ok := d.GetOk(prefix + "allowed_images"); ok {
-		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "allowed_images"))
+		tflog.Debug(ctx, "is set: "+prefix+"allowed_images")
 		i := 0
 		val.AllowedImages = []string{}
 		for {
-			pfx := fmt.Sprintf("%s.%s.%d", prefix, "allowed_images", i)
+			pfx := fmt.Sprintf("%s%s.%d", prefix, "allowed_images", i)
 			if v, ok := d.GetOk(pfx); ok {
-				tflog.Debug(ctx, fmt.Sprintf("key is set: %s", pfx))
+				tflog.Debug(ctx, "is set: "+pfx)
 				val.AllowedImages = append(val.AllowedImages, v.(string))
 				i++
 			} else {
-				tflog.Debug(ctx, "not set: %s", pfx)
+				tflog.Debug(ctx, "not set: "+pfx)
 				break
 			}
 		}
@@ -6882,6 +7003,7 @@ func dsRunnerConfigReadStructConfigWeightedPodAffinityTerm(ctx context.Context, 
 
 	// PodAffinityTerm: pod_affinity_term -- PodAffinityTerm, config.PodAffinityTerm
 
+	tflog.Trace(ctx, "checking key: "+prefix+"pod_affinity_term.0")
 	if _, ok := d.GetOk(prefix + "pod_affinity_term.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "pod_affinity_term"))
 		thing, err := dsRunnerConfigReadStructConfigPodAffinityTerm(ctx, prefix+"pod_affinity_term.0", d)
@@ -6889,6 +7011,8 @@ func dsRunnerConfigReadStructConfigWeightedPodAffinityTerm(ctx context.Context, 
 			return val, err
 		}
 		val.PodAffinityTerm = thing
+	} else {
+		tflog.Trace(ctx, fmt.Sprintf("not set: %s", prefix+"pod_affinity_term.0"))
 	}
 
 	return val, nil
@@ -6941,6 +7065,7 @@ func dsRunnerConfigReadStructRefereesConfig(ctx context.Context, prefix string, 
 
 	// Metrics: metrics -- , *referees.MetricsRefereeConfig
 
+	tflog.Trace(ctx, "checking key: "+prefix+"metrics.0")
 	if _, ok := d.GetOk(prefix + "metrics.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "metrics"))
 		thing, err := dsRunnerConfigReadStructRefereesMetricsRefereeConfig(ctx, prefix+"metrics.0", d)
@@ -6981,19 +7106,19 @@ func dsRunnerConfigReadStructRefereesMetricsRefereeConfig(ctx context.Context, p
 
 	// Queries: queries -- , []string
 
-	// HERE
+	tflog.Trace(ctx, "checking key: "+prefix+"queries")
 	if _, ok := d.GetOk(prefix + "queries"); ok {
-		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "queries"))
+		tflog.Debug(ctx, "is set: "+prefix+"queries")
 		i := 0
 		val.Queries = []string{}
 		for {
-			pfx := fmt.Sprintf("%s.%s.%d", prefix, "queries", i)
+			pfx := fmt.Sprintf("%s%s.%d", prefix, "queries", i)
 			if v, ok := d.GetOk(pfx); ok {
-				tflog.Debug(ctx, fmt.Sprintf("key is set: %s", pfx))
+				tflog.Debug(ctx, "is set: "+pfx)
 				val.Queries = append(val.Queries, v.(string))
 				i++
 			} else {
-				tflog.Debug(ctx, "not set: %s", pfx)
+				tflog.Debug(ctx, "not set: "+pfx)
 				break
 			}
 		}
@@ -7046,8 +7171,9 @@ func dsRunnerConfigReadStructSshConfig(ctx context.Context, prefix string, d *sc
 
 	// DisableStrictHostKeyChecking: disable_strict_host_key_checking -- , *bool
 	if v, ok := d.GetOk(prefix + "disable_strict_host_key_checking"); ok {
-		tflog.Debug(ctx, "set: %s.%s", prefix, "disable_strict_host_key_checking")
+		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "disable_strict_host_key_checking"))
 		val.DisableStrictHostKeyChecking = to.BoolP(v.(bool))
+
 	}
 
 	// KnownHostsFile: known_hosts_file -- string, string

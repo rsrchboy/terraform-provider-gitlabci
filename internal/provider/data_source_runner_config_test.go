@@ -23,6 +23,21 @@ func TestAccDataSourceRunnerConfig(t *testing.T) {
 			},
 		},
 	})
+
+	resource.UnitTest(t, resource.TestCase{
+		ProviderFactories: providerFactories,
+		Steps: []resource.TestStep{
+			{
+				Config: testAccDataSourceRunnerConfigPullPolicyValidation,
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttr(
+						"data.gitlabci_runner_config.foo", "config", testAccDataSourceRunnerConfigPullPolicyValidationOutput,
+					),
+				),
+			},
+		},
+	})
+
 }
 
 const testAccDataSourceRunnerConfig = `
@@ -75,5 +90,38 @@ log_format = "json"
     disable_entrypoint_overwrite = false
     oom_kill_disable = false
     disable_cache = false
+    shm_size = 0
+`
+
+const testAccDataSourceRunnerConfigPullPolicyValidation = `
+data "gitlabci_runner_config" "foo" {
+  runners {
+    docker {
+      pull_policy = ["never"]
+    }
+  }
+}
+`
+
+const testAccDataSourceRunnerConfigPullPolicyValidationOutput = `concurrent = 0
+check_interval = 0
+
+[session_server]
+  session_timeout = 0
+
+[[runners]]
+  name = ""
+  url = ""
+  token = ""
+  executor = ""
+  [runners.referees]
+  [runners.docker]
+    tls_verify = false
+    image = ""
+    privileged = false
+    disable_entrypoint_overwrite = false
+    oom_kill_disable = false
+    disable_cache = false
+    pull_policy = ["never"]
     shm_size = 0
 `

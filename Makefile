@@ -16,7 +16,7 @@ $(binary_name): $(sources)
 	go build .
 	rm -f .terraform.lock.hcl # ...or provider checksums mismatch
 
-test: $(binary_name)
+test:
 	go test `go list ./...`
 
 clean:
