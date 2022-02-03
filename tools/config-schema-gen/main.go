@@ -103,29 +103,6 @@ map[string]*schema.Schema{
 {{ end }}
 {{ end }}
 
-{{ define "handleSlice" -}}
-{{ $type := .Type.String }}
-{{ $nname := nodeName . }}
-	{{ $plainType := $type | trimPrefix "[]" }}
-	// HERE
-	if _, ok := d.GetOk(prefix + "{{$nname}}"); ok {
-		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "{{$nname}}"))
-		i := 0
-		val.{{.Name}} = {{ $type }}{}
-		for {
-			pfx := fmt.Sprintf("%s%s.%d", prefix, "{{$nname}}", i)
-			if v, ok := d.GetOk(pfx); ok {
-				tflog.Debug(ctx, fmt.Sprintf("key is set: %s", pfx))
-				val.{{.Name}} = append(val.{{.Name}}, v.({{$plainType}}))
-				i++
-			} else {
-				tflog.Debug(ctx, "not set: %s", pfx)
-				break
-			}
-		}
-	}
-{{ end }}
-
 {{ define "handleSlice2" -}}
 	{{ $plainType := coalesce .SingleType (.Type | trimPrefix "[]") }}
 	if _, ok := d.GetOk(prefix + "{{.Name}}"); ok {
@@ -201,11 +178,11 @@ func dsRunnerConfigReadStruct{{ .Name | title | replace "." "" }}(ctx context.Co
 {{ if eq $type "config.StringOrArray" -}}
 {{ template "handleSlice2" dict "SingleType" "string" "Name" $nname "Field" .Name "Type" $type }}
 {{ else if eq "elemSliceString" (. | nodeElemTemplate)}}
-{{ template "handleSlice" . }}
+{{ template "handleSlice2" dict "Name" $nname "Field" .Name "Type" .Type.String }}
 {{ else if eq "elemSliceBool" (. | nodeElemTemplate)}}
-{{ template "handleSlice" . }}
+{{ template "handleSlice2" dict "Name" $nname "Field" .Name "Type" .Type.String }}
 {{ else if eq "elemSliceInt" (. | nodeElemTemplate)}}
-{{ template "handleSlice" . }}
+{{ template "handleSlice2" dict "Name" $nname "Field" .Name "Type" .Type.String }}
 {{ else if .Type | isSimpleType -}}
 	if v, ok := d.GetOk(prefix + "{{$nname}}"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "{{$nname}}"))
