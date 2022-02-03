@@ -158,6 +158,24 @@ func dataSourceGitlabCIRunnerConfigReadNEW(d *schema.ResourceData, meta interfac
 	return nil
 }
 
+{{ define "simpleElem" }}
+{{- /*
+
+	.Name  struct member name
+	.Key   toml/schema key
+	.Type  ...yeah, that
+
+*/ -}}
+	if v, ok := d.GetOk(prefix + "{{.Key}}"); ok {
+		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "{{.Key}}"))
+{{- if isPtr .Type }}
+		val.{{.Name}} = to.{{ .Type | trimPrefix "*" | title }}P(v.({{.Type | trimPrefix "*" }}))
+{{ else }}
+		val.{{.Name}} = v.({{ .Type }})
+{{- end }}
+	}
+{{- end -}}
+
 {{ define "readStructFunc" }}
 
 func dsRunnerConfigReadStruct{{ .Name | title | replace "." "" }}(ctx context.Context, prefix string, d *schema.ResourceData) ({{ .Name }}, error) {
@@ -184,10 +202,7 @@ func dsRunnerConfigReadStruct{{ .Name | title | replace "." "" }}(ctx context.Co
 {{ else if eq "elemSliceInt" (. | nodeElemTemplate)}}
 {{ template "handleSlice2" dict "Name" $nname "Field" .Name "Type" .Type.String }}
 {{ else if .Type | isSimpleType -}}
-	if v, ok := d.GetOk(prefix + "{{$nname}}"); ok {
-		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "{{$nname}}"))
-		val.{{.Name}} = v.({{ .Type.String }})
-	}
+{{ template "simpleElem" dict "Name" .Name "Type" .Type.String "Key" $nname }}
 {{ else if eq "elemStruct" (. | nodeElemTemplate)}}
 	if _, ok := d.GetOk(prefix + "{{$nname}}.0"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "{{$nname}}"))
@@ -254,26 +269,6 @@ func dsRunnerConfigReadStruct{{ .Name | title | replace "." "" }}(ctx context.Co
 	} else {
 		tflog.Trace(ctx, fmt.Sprintf("not set: %s", prefix + "{{$nname}}.0"))
 	}
-{{ else if eq $type "*string" -}}
-	if v, ok := d.GetOk(prefix + "{{$nname}}"); ok {
-		tflog.Debug(ctx, "set: %s.%s", prefix, "{{$nname}}")
-		val.{{.Name}} = to.StringP(v.(string))
-	}
-{{ else if eq $type "*int" -}}
-	if v, ok := d.GetOk(prefix + "{{$nname}}"); ok {
-		tflog.Debug(ctx, "set: %s.%s", prefix, "{{$nname}}")
-		val.{{.Name}} = to.IntP(v.(int))
-	}
-{{ else if eq $type "*int64" -}}
-	if v, ok := d.GetOk(prefix + "{{$nname}}"); ok {
-		tflog.Debug(ctx, "set: %s.%s", prefix, "{{$nname}}")
-		val.{{.Name}} = to.Int64P(v.(int64))
-	}
-{{ else if eq $type "*bool" -}}
-	if v, ok := d.GetOk(prefix + "{{$nname}}"); ok {
-		tflog.Debug(ctx, "set: %s.%s", prefix, "{{$nname}}")
-		val.{{.Name}} = to.BoolP(v.(bool))
-	}
 {{ else -}}
 	// FIXME unhandled type {{ $type }}
 {{ end -}}
@@ -309,6 +304,9 @@ func init() {
 		structsCache[t.String()] = t
 	}
 	funcMap = template.FuncMap{
+
+		"isPtr": func(t string) bool { return strings.HasPrefix(t, "*") },
+
 		"nodeName": attrName,
 		"nodeDesc": func(f reflect.StructField) string {
 			return f.Tag.Get("description")
@@ -341,9 +339,12 @@ func init() {
 			switch t.String() {
 			case "string", "int", "int32", "int64", "float", "float64", "bool":
 				return true
+			case "*string", "*int", "*int32", "*int64", "*float", "*float64", "*bool":
+				return true
 			case "[]string", "[]int64":
 				return false
 			case "map[string]string", "map[string]bool":
+				// umm...
 				return true
 			default:
 				return false
