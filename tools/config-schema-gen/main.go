@@ -104,16 +104,26 @@ map[string]*schema.Schema{
 {{ end }}
 
 {{ define "handleSlice2" -}}
+{{- /*
+
+	.Name  struct member name
+	.Key   toml/schema key
+	.Type  ...yeah, that
+
+	optional:
+	.SingleType the 'int' in, e.g. 'type Foo []int'
+
+*/ -}}
 	{{ $plainType := coalesce .SingleType (.Type | trimPrefix "[]") }}
-	if _, ok := d.GetOk(prefix + "{{.Name}}"); ok {
-		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "{{.Name}}"))
+	if _, ok := d.GetOk(prefix + "{{.Key}}"); ok {
+		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "{{.Key}}"))
 		i := 0
-		val.{{.Field}} = {{ .Type }}{}
+		val.{{.Name}} = {{ .Type }}{}
 		for {
-			pfx := fmt.Sprintf("%s%s.%d", prefix, "{{.Name}}", i)
+			pfx := fmt.Sprintf("%s%s.%d", prefix, "{{.Key}}", i)
 			if v, ok := d.GetOk(pfx); ok {
 				tflog.Debug(ctx, fmt.Sprintf("key is set: %s", pfx))
-				val.{{.Field}} = append(val.{{.Field}}, v.({{$plainType}}))
+				val.{{.Name}} = append(val.{{.Name}}, v.({{$plainType}}))
 				i++
 			} else {
 				tflog.Debug(ctx, "not set: " + pfx)
@@ -194,13 +204,13 @@ func dsRunnerConfigReadStruct{{ .Name | title | replace "." "" }}(ctx context.Co
 {{ $nname := nodeName . }}
 // {{ .Name }}: {{$nname}} -- {{ .Type.Name }}, {{ .Type.String }}
 {{ if eq $type "config.StringOrArray" -}}
-{{ template "handleSlice2" dict "SingleType" "string" "Name" $nname "Field" .Name "Type" $type }}
+{{ template "handleSlice2" dict "SingleType" "string" "Key" $nname "Name" .Name "Type" $type }}
 {{ else if eq "elemSliceString" (. | nodeElemTemplate)}}
-{{ template "handleSlice2" dict "Name" $nname "Field" .Name "Type" .Type.String }}
+{{ template "handleSlice2" dict "Key" $nname "Name" .Name "Type" .Type.String }}
 {{ else if eq "elemSliceBool" (. | nodeElemTemplate)}}
-{{ template "handleSlice2" dict "Name" $nname "Field" .Name "Type" .Type.String }}
+{{ template "handleSlice2" dict "Key" $nname "Name" .Name "Type" .Type.String }}
 {{ else if eq "elemSliceInt" (. | nodeElemTemplate)}}
-{{ template "handleSlice2" dict "Name" $nname "Field" .Name "Type" .Type.String }}
+{{ template "handleSlice2" dict "Key" $nname "Name" .Name "Type" .Type.String }}
 {{ else if .Type | isSimpleType -}}
 {{ template "simpleElem" dict "Name" .Name "Type" .Type.String "Key" $nname }}
 {{ else if eq "elemStruct" (. | nodeElemTemplate)}}
