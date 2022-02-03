@@ -1,6 +1,6 @@
 GOFMT_FILES?=$$(find . -name '*.go' |grep -v vendor)
 
-sources = $(wildcard *.go gitlabci/*.go go.mod helper/**/*.go internal/**/*.go)
+sources = $(wildcard *.go go.mod internal/**/*.go) $(schema_tools) $(runner_structs_tools)
 docs = $(wildcard docs/**/*)
 doc_sources = $(wildcard templates/**/* examples/**/resource.tf examples/**/data-source.tf) \
 		examples/provider/provider.tf \
@@ -57,19 +57,27 @@ third-party: $(runner_structs_files)
 	git diff -- third_party/
 
 $(runner_structs_files): $(runner_structs_tools)
-	# go run ./tools/centrifuge/*.go
 	go run $(runner_structs_tools)
 	git diff -- third_party/
 
-gen-runner-structs:
-	# go run ./tools/centrifuge/*.go
-	go run $(runner_structs_tools)
-	git diff -- third_party/
+gen-runner-structs: $(runner_structs_files)
+	# structs files regenerated if any changes to the tooling
 
-gen-schema:
-	go run ./tools/config-schema-gen/*.go
+schema_tools = $(wildcard tools/config-schema-gen/*.go)
+schema_files = internal/provider/generated.go
 
-.PHONY: gen-schema gen-runner-structs gen
+$(schema_files): $(schema_tools)
+	go run $(schema_tools)
+	git diff -- $(schema_files)
+
+gen-schema: $(schema_files)
+	# schema files regenerated if any changes to the tooling
+
+force-regen:
+	touch $(runner_structs_tools) $(schema_tools)
+	$(MAKE) gen-schema gen-runner-structs
+
+.PHONY: gen-schema gen-runner-structs gen force-regen
 
 # convenience targets for development
 
