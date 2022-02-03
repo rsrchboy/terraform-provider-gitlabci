@@ -186,6 +186,58 @@ func dataSourceGitlabCIRunnerConfigReadNEW(d *schema.ResourceData, meta interfac
 	}
 {{- end -}}
 
+{{ define "structElemSlice" }}
+{{- /*
+
+	.Name  struct member name
+	.Key   toml/schema key
+	.Type  ...yeah, that
+
+*/ -}}
+	{{ $plainType := .Type | trimPrefix "[]" }}
+	// HEREx {{.Type}}
+	if _, ok := d.GetOk(prefix + "{{.Key}}"); ok {
+		tflog.Debug(ctx, fmt.Sprintf("key is set: %s%s", prefix, "{{.Key}}"))
+		i := 0
+		val.{{.Name}} = {{ .Type }}{}
+		for {
+			pfx := fmt.Sprintf("%s%s.%d", prefix, "{{.Key}}", i)
+			if _, ok := d.GetOk(pfx); ok {
+				tflog.Debug(ctx, fmt.Sprintf("key is set: %s", pfx))
+				thing, err := dsRunnerConfigReadStruct{{ $plainType | title | replace "." "" | replace "*" "" }}(ctx, pfx, d)
+				if err != nil {
+					return val, err
+				}
+				val.{{.Name}} = append(val.{{.Name}}, {{if isPtr $plainType}}&{{end}}thing)
+				i++
+			} else {
+				tflog.Debug(ctx, fmt.Sprintf("not set: %s", pfx))
+				break
+			}
+		}
+	}
+{{- end -}}
+
+{{ define "structElem" }}
+{{- /*
+
+	.Name  struct member name
+	.Key   toml/schema key
+	.Type  ...yeah, that
+
+*/ -}}
+	if _, ok := d.GetOk(prefix + "{{.Key}}.0"); ok {
+		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "{{.Key}}"))
+		thing, err := dsRunnerConfigReadStruct{{ .Type | title | replace "." "" | replace "*" "" }}(ctx, prefix+"{{.Key}}.0", d)
+		if err != nil {
+			return val, err
+		}
+		val.{{.Name}} = {{if isPtr .Type}}&{{end}}thing
+	} else {
+		tflog.Trace(ctx, fmt.Sprintf("not set: %s", prefix + "{{.Key}}.0"))
+	}
+{{- end -}}
+
 {{ define "readStructFunc" }}
 
 func dsRunnerConfigReadStruct{{ .Name | title | replace "." "" }}(ctx context.Context, prefix string, d *schema.ResourceData) ({{ .Name }}, error) {
@@ -210,71 +262,13 @@ func dsRunnerConfigReadStruct{{ .Name | title | replace "." "" }}(ctx context.Co
 {{ else if .Type | isSimpleType -}}
 {{ template "simpleElem" dict "Name" .Name "Type" .Type.String "Key" $nname }}
 {{ else if eq "elemStruct" (. | nodeElemTemplate)}}
-	if _, ok := d.GetOk(prefix + "{{$nname}}.0"); ok {
-		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "{{$nname}}"))
-		thing, err := dsRunnerConfigReadStruct{{ $type | title | replace "." "" | replace "*" "" }}(ctx, prefix+"{{$nname}}.0", d)
-		if err != nil {
-			return val, err
-		}
-		val.{{.Name}} = thing
-	}
+{{ template "structElem" dict "Name" .Name "Type" $type "Key" $nname }}
 {{ else if eq "elemSliceStruct" (. | nodeElemTemplate)}}
-	{{ $plainType := $type | trimPrefix "[]" }}
-	// HERE
-	if _, ok := d.GetOk(prefix + "{{$nname}}"); ok {
-		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "{{$nname}}"))
-		i := 0
-		val.{{.Name}} = {{ $type }}{}
-		for {
-			pfx := fmt.Sprintf("%s.%s.%d", prefix, "{{$nname}}", i)
-			if _, ok := d.GetOk(pfx); ok {
-				tflog.Debug(ctx, "set: %s", pfx)
-				thing, err := dsRunnerConfigReadStruct{{ $plainType | title | replace "." "" | replace "*" "" }}(ctx, pfx, d)
-				if err != nil {
-					return val, err
-				}
-				val.{{.Name}} = append(val.{{.Name}}, thing)
-				i++
-			} else {
-				tflog.Debug(ctx, "not set: %s", pfx)
-				break
-			}
-		}
-	}
+{{ template "structElemSlice" dict "Name" .Name "Type" $type "Key" $nname }}
 {{ else if eq "elemSlicePtrStruct" (. | nodeElemTemplate)}}
-	{{ $plainType := $type | trimPrefix "[]" }}
-	// HERE
-	if _, ok := d.GetOk(prefix + "{{$nname}}"); ok {
-		tflog.Debug(ctx, fmt.Sprintf("key is set: %s%s", prefix, "{{$nname}}"))
-		i := 0
-		val.{{.Name}} = {{ $type }}{}
-		for {
-			pfx := fmt.Sprintf("%s%s.%d", prefix, "{{$nname}}", i)
-			if _, ok := d.GetOk(pfx); ok {
-				tflog.Debug(ctx, fmt.Sprintf("key is set: %s", pfx))
-				thing, err := dsRunnerConfigReadStruct{{ $plainType | title | replace "." "" | replace "*" "" }}(ctx, pfx, d)
-				if err != nil {
-					return val, err
-				}
-				val.{{.Name}} = append(val.{{.Name}}, &thing)
-				i++
-			} else {
-				tflog.Debug(ctx, fmt.Sprintf("not set: %s", pfx))
-				break
-			}
-		}
-	}
+{{ template "structElemSlice" dict "Name" .Name "Type" $type "Key" $nname }}
 {{ else if eq "elemPtrStruct" (. | nodeElemTemplate)}}
-	if _, ok := d.GetOk(prefix + "{{$nname}}.0"); ok {
-		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "{{$nname}}"))
-		thing, err := dsRunnerConfigReadStruct{{ .Type.String | title | replace "." "" | replace "*" "" }}(ctx, prefix+"{{$nname}}.0", d)
-		if err != nil {
-			return val, err
-		}
-		val.{{.Name}} = &thing
-	} else {
-		tflog.Trace(ctx, fmt.Sprintf("not set: %s", prefix + "{{$nname}}.0"))
-	}
+{{ template "structElem" dict "Name" .Name "Type" $type "Key" $nname }}
 {{ else -}}
 	// FIXME unhandled type {{ $type }}
 {{ end -}}
