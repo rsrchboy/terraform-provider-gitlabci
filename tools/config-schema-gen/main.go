@@ -205,11 +205,7 @@ func dsRunnerConfigReadStruct{{ .Name | title | replace "." "" }}(ctx context.Co
 // {{ .Name }}: {{$nname}} -- {{ .Type.Name }}, {{ .Type.String }}
 {{ if eq $type "config.StringOrArray" -}}
 {{ template "handleSlice2" dict "SingleType" "string" "Key" $nname "Name" .Name "Type" $type }}
-{{ else if eq "elemSliceString" (. | nodeElemTemplate)}}
-{{ template "handleSlice2" dict "Key" $nname "Name" .Name "Type" .Type.String }}
-{{ else if eq "elemSliceBool" (. | nodeElemTemplate)}}
-{{ template "handleSlice2" dict "Key" $nname "Name" .Name "Type" .Type.String }}
-{{ else if eq "elemSliceInt" (. | nodeElemTemplate)}}
+{{ else if .Type | isSimpleSlice }}
 {{ template "handleSlice2" dict "Key" $nname "Name" .Name "Type" .Type.String }}
 {{ else if .Type | isSimpleType -}}
 {{ template "simpleElem" dict "Name" .Name "Type" .Type.String "Key" $nname }}
@@ -355,6 +351,14 @@ func init() {
 				return false
 			case "map[string]string", "map[string]bool":
 				// umm...
+				return true
+			default:
+				return false
+			}
+		},
+		"isSimpleSlice": func(t reflect.Type) bool {
+			switch t.String() {
+			case "[]string", "[]int", "[]int32", "[]int64", "[]float", "[]float64", "[]bool":
 				return true
 			default:
 				return false
