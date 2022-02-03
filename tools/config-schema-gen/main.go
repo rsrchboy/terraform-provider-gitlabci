@@ -27,7 +27,6 @@ import (
 const tmplString = `
 
 {{define "schemaSchema" }}
-	Computed:    false,
 	Optional:    true,
 	Description: "{{. | nodeDesc | replace "\"" "\\\"" }}",
 {{ $tpl := nodeElemTemplate . }}
