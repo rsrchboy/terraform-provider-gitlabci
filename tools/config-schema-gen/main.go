@@ -360,10 +360,15 @@ func init() {
 			switch t.String() {
 			case "[]string", "[]int", "[]int32", "[]int64", "[]float", "[]float64", "[]bool":
 				return true
+			// case "*string", "*int", "*int32", "*int64", "*float", "*float64", "*bool":
+			// 	return true
+			// case "config.StringOrArray":
+			// 	return true
 			default:
 				return false
 			}
 		},
+		// case "[]string", "*[]string", "[]*string":
 	}
 	tmpl = template.Must(
 		template.
@@ -400,8 +405,6 @@ func main() {
 		fmt.Printf("failed to format imports: %s\b", err)
 		return
 	}
-
-	fmt.Println(string(process))
 
 	// TODO this is begging for a flag
 	err = os.WriteFile(outFile, process, 0o644)
