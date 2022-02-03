@@ -17,208 +17,208 @@ import (
 
 var configDataSourceRawSchema = map[string]*schema.Schema{
 	"listen_address": {
-		Optional:    true,
-		Description: "",
-		Type:        schema.TypeString,
+		// TODO a description would be nice!
+		Optional: true,
+		Type:     schema.TypeString,
 	},
 	"session_server": {
-		Optional:    true,
-		Description: "",
-		Type:        schema.TypeList,
-		MinItems:    0,
-		MaxItems:    1,
+		// TODO a description would be nice!
+		Optional: true,
+		Type:     schema.TypeList,
+		MinItems: 0,
+		MaxItems: 1,
 		Elem: &schema.Resource{
 			Schema: map[string]*schema.Schema{
 				"listen_address": {
-					Optional:    true,
 					Description: "Address that the runner will communicate directly with",
+					Optional:    true,
 					Type:        schema.TypeString,
 				},
 				"advertise_address": {
-					Optional:    true,
 					Description: "Address the runner will expose to the world to connect to the session server",
+					Optional:    true,
 					Type:        schema.TypeString,
 				},
 				"session_timeout": {
-					Optional:    true,
 					Description: "How long a terminal session can be active after a build completes, in seconds",
+					Optional:    true,
 					Type:        schema.TypeInt,
 				},
 			},
 		},
 	},
 	"concurrent": {
-		Optional:    true,
-		Description: "",
-		Type:        schema.TypeInt,
+		// TODO a description would be nice!
+		Optional: true,
+		Type:     schema.TypeInt,
 	},
 	"check_interval": {
-		Optional:    true,
 		Description: "Define active checking interval of jobs",
+		Optional:    true,
 		Type:        schema.TypeInt,
 	},
 	"log_level": {
-		Optional:    true,
 		Description: "Define log level (one of: panic, fatal, error, warning, info, debug)",
+		Optional:    true,
 		Type:        schema.TypeString,
 	},
 	"log_format": {
-		Optional:    true,
 		Description: "Define log format (one of: runner, text, json)",
+		Optional:    true,
 		Type:        schema.TypeString,
 	},
 	"user": {
-		Optional:    true,
-		Description: "",
-		Type:        schema.TypeString,
+		// TODO a description would be nice!
+		Optional: true,
+		Type:     schema.TypeString,
 	},
 	"runners": {
-		Optional:    true,
-		Description: "",
-		Type:        schema.TypeList,
+		// TODO a description would be nice!
+		Optional: true,
+		Type:     schema.TypeList,
 		Elem: &schema.Resource{
 			Schema: map[string]*schema.Schema{
 				"name": {
-					Optional:    true,
 					Description: "Runner name",
+					Optional:    true,
 					Type:        schema.TypeString,
 				},
 				"limit": {
-					Optional:    true,
 					Description: "Maximum number of builds processed by this runner",
+					Optional:    true,
 					Type:        schema.TypeInt,
 				},
 				"output_limit": {
-					Optional:    true,
 					Description: "Maximum build trace size in kilobytes",
+					Optional:    true,
 					Type:        schema.TypeInt,
 				},
 				"request_concurrency": {
-					Optional:    true,
 					Description: "Maximum concurrency for job requests",
+					Optional:    true,
 					Type:        schema.TypeInt,
 				},
 				"url": {
-					Optional:    true,
 					Description: "Runner URL",
+					Optional:    true,
 					Type:        schema.TypeString,
 				},
 				"token": {
-					Optional:    true,
 					Description: "Runner token",
+					Optional:    true,
 					Type:        schema.TypeString,
 				},
 				"tls_ca_file": {
-					Optional:    true,
 					Description: "File containing the certificates to verify the peer when using HTTPS",
+					Optional:    true,
 					Type:        schema.TypeString,
 				},
 				"tls_cert_file": {
-					Optional:    true,
 					Description: "File containing certificate for TLS client auth when using HTTPS",
+					Optional:    true,
 					Type:        schema.TypeString,
 				},
 				"tls_key_file": {
-					Optional:    true,
 					Description: "File containing private key for TLS client auth when using HTTPS",
+					Optional:    true,
 					Type:        schema.TypeString,
 				},
 				"executor": {
-					Optional:    true,
 					Description: "Select executor, eg. shell, docker, etc.",
+					Optional:    true,
 					Type:        schema.TypeString,
 				},
 				"builds_dir": {
-					Optional:    true,
 					Description: "Directory where builds are stored",
+					Optional:    true,
 					Type:        schema.TypeString,
 				},
 				"cache_dir": {
-					Optional:    true,
 					Description: "Directory where build cache is stored",
+					Optional:    true,
 					Type:        schema.TypeString,
 				},
 				"clone_url": {
-					Optional:    true,
 					Description: "Overwrite the default URL used to clone or fetch the git ref",
+					Optional:    true,
 					Type:        schema.TypeString,
 				},
 				"environment": {
-					Optional:    true,
 					Description: "Custom environment variables injected to build environment",
+					Optional:    true,
 					Type:        schema.TypeList,
 					Elem:        &schema.Schema{Type: schema.TypeString},
 				},
 				"pre_clone_script": {
-					Optional:    true,
 					Description: "Runner-specific command script executed before code is pulled",
+					Optional:    true,
 					Type:        schema.TypeString,
 				},
 				"pre_build_script": {
-					Optional:    true,
 					Description: "Runner-specific command script executed after code is pulled, just before build executes",
+					Optional:    true,
 					Type:        schema.TypeString,
 				},
 				"post_build_script": {
-					Optional:    true,
 					Description: "Runner-specific command script executed after code is pulled and just after build executes",
+					Optional:    true,
 					Type:        schema.TypeString,
 				},
 				"debug_trace_disabled": {
-					Optional:    true,
 					Description: "When set to true Runner will disable the possibility of using the CI_DEBUG_TRACE feature",
+					Optional:    true,
 					Type:        schema.TypeBool,
 				},
 				"shell": {
-					Optional:    true,
 					Description: "Select bash, cmd, pwsh or powershell",
+					Optional:    true,
 					Type:        schema.TypeString,
 				},
 				"custom_build_dir": {
-					Optional:    true,
-					Description: "",
-					Type:        schema.TypeList,
-					MinItems:    0,
-					MaxItems:    1,
+					// TODO a description would be nice!
+					Optional: true,
+					Type:     schema.TypeList,
+					MinItems: 0,
+					MaxItems: 1,
 					Elem: &schema.Resource{
 						Schema: map[string]*schema.Schema{
 							"enabled": {
-								Optional:    true,
 								Description: "Enable job specific build directories",
+								Optional:    true,
 								Type:        schema.TypeBool,
 							},
 						},
 					},
 				},
 				"referees": {
-					Optional:    true,
-					Description: "",
-					Type:        schema.TypeList,
-					MinItems:    0,
-					MaxItems:    1,
+					// TODO a description would be nice!
+					Optional: true,
+					Type:     schema.TypeList,
+					MinItems: 0,
+					MaxItems: 1,
 					Elem: &schema.Resource{
 						Schema: map[string]*schema.Schema{
 							"metrics": {
-								Optional:    true,
-								Description: "",
-								Type:        schema.TypeList,
-								MinItems:    0,
-								MaxItems:    1,
+								// TODO a description would be nice!
+								Optional: true,
+								Type:     schema.TypeList,
+								MinItems: 0,
+								MaxItems: 1,
 								Elem: &schema.Resource{
 									Schema: map[string]*schema.Schema{
 										"prometheus_address": {
-											Optional:    true,
 											Description: "A host:port to a prometheus metrics server",
+											Optional:    true,
 											Type:        schema.TypeString,
 										},
 										"query_interval": {
-											Optional:    true,
 											Description: "Query interval (in seconds)",
+											Optional:    true,
 											Type:        schema.TypeInt,
 										},
 										"queries": {
-											Optional:    true,
 											Description: "A list of metrics to query (in PromQL)",
+											Optional:    true,
 											Type:        schema.TypeList,
 											Elem:        &schema.Schema{Type: schema.TypeString},
 										},
@@ -229,131 +229,131 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 					},
 				},
 				"cache": {
-					Optional:    true,
-					Description: "",
-					Type:        schema.TypeList,
-					MinItems:    0,
-					MaxItems:    1,
+					// TODO a description would be nice!
+					Optional: true,
+					Type:     schema.TypeList,
+					MinItems: 0,
+					MaxItems: 1,
 					Elem: &schema.Resource{
 						Schema: map[string]*schema.Schema{
 							"type": {
-								Optional:    true,
 								Description: "Select caching method",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"path": {
-								Optional:    true,
 								Description: "Name of the path to prepend to the cache URL",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"shared": {
-								Optional:    true,
 								Description: "Enable cache sharing between runners.",
+								Optional:    true,
 								Type:        schema.TypeBool,
 							},
 							"s3": {
-								Optional:    true,
-								Description: "",
-								Type:        schema.TypeList,
-								MinItems:    0,
-								MaxItems:    1,
+								// TODO a description would be nice!
+								Optional: true,
+								Type:     schema.TypeList,
+								MinItems: 0,
+								MaxItems: 1,
 								Elem: &schema.Resource{
 									Schema: map[string]*schema.Schema{
 										"server_address": {
-											Optional:    true,
 											Description: "A host:port to the used S3-compatible server",
+											Optional:    true,
 											Type:        schema.TypeString,
 										},
 										"access_key": {
-											Optional:    true,
 											Description: "S3 Access Key",
+											Optional:    true,
 											Type:        schema.TypeString,
 										},
 										"secret_key": {
-											Optional:    true,
 											Description: "S3 Secret Key",
+											Optional:    true,
 											Type:        schema.TypeString,
 										},
 										"bucket_name": {
-											Optional:    true,
 											Description: "Name of the bucket where cache will be stored",
+											Optional:    true,
 											Type:        schema.TypeString,
 										},
 										"bucket_location": {
-											Optional:    true,
 											Description: "Name of S3 region",
+											Optional:    true,
 											Type:        schema.TypeString,
 										},
 										"insecure": {
-											Optional:    true,
 											Description: "Use insecure mode (without https)",
+											Optional:    true,
 											Type:        schema.TypeBool,
 										},
 										"authentication_type": {
-											Optional:    true,
 											Description: "IAM or credentials",
+											Optional:    true,
 											Type:        schema.TypeString,
 										},
 									},
 								},
 							},
 							"gcs": {
-								Optional:    true,
-								Description: "",
-								Type:        schema.TypeList,
-								MinItems:    0,
-								MaxItems:    1,
+								// TODO a description would be nice!
+								Optional: true,
+								Type:     schema.TypeList,
+								MinItems: 0,
+								MaxItems: 1,
 								Elem: &schema.Resource{
 									Schema: map[string]*schema.Schema{
 										"access_id": {
-											Optional:    true,
 											Description: "ID of GCP Service Account used to access the storage",
+											Optional:    true,
 											Type:        schema.TypeString,
 										},
 										"private_key": {
-											Optional:    true,
 											Description: "Private key used to sign GCS requests",
+											Optional:    true,
 											Type:        schema.TypeString,
 										},
 										"credentials_file": {
-											Optional:    true,
 											Description: "File with GCP credentials, containing AccessID and PrivateKey",
+											Optional:    true,
 											Type:        schema.TypeString,
 										},
 										"bucket_name": {
-											Optional:    true,
 											Description: "Name of the bucket where cache will be stored",
+											Optional:    true,
 											Type:        schema.TypeString,
 										},
 									},
 								},
 							},
 							"azure": {
-								Optional:    true,
-								Description: "",
-								Type:        schema.TypeList,
-								MinItems:    0,
-								MaxItems:    1,
+								// TODO a description would be nice!
+								Optional: true,
+								Type:     schema.TypeList,
+								MinItems: 0,
+								MaxItems: 1,
 								Elem: &schema.Resource{
 									Schema: map[string]*schema.Schema{
 										"account_name": {
-											Optional:    true,
 											Description: "Account name for Azure Blob Storage",
+											Optional:    true,
 											Type:        schema.TypeString,
 										},
 										"account_key": {
-											Optional:    true,
 											Description: "Access key for Azure Blob Storage",
+											Optional:    true,
 											Type:        schema.TypeString,
 										},
 										"container_name": {
-											Optional:    true,
 											Description: "Name of the Azure container where cache will be stored",
+											Optional:    true,
 											Type:        schema.TypeString,
 										},
 										"storage_domain": {
-											Optional:    true,
 											Description: "Domain name of the Azure storage (e.g. blob.core.windows.net)",
+											Optional:    true,
 											Type:        schema.TypeString,
 										},
 									},
@@ -363,260 +363,260 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 					},
 				},
 				"feature_flags": {
-					Optional:    true,
 					Description: "Enable/Disable feature flags https://docs.gitlab.com/runner/configuration/feature-flags.html",
+					Optional:    true,
 					Type:        schema.TypeMap,
 					Elem:        &schema.Schema{Type: schema.TypeBool},
 				},
 				"ssh": {
-					Optional:    true,
-					Description: "",
-					Type:        schema.TypeList,
-					MinItems:    0,
-					MaxItems:    1,
+					// TODO a description would be nice!
+					Optional: true,
+					Type:     schema.TypeList,
+					MinItems: 0,
+					MaxItems: 1,
 					Elem: &schema.Resource{
 						Schema: map[string]*schema.Schema{
 							"user": {
-								Optional:    true,
 								Description: "User name",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"password": {
-								Optional:    true,
 								Description: "User password",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"host": {
-								Optional:    true,
 								Description: "Remote host",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"port": {
-								Optional:    true,
 								Description: "Remote host port",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"identity_file": {
-								Optional:    true,
 								Description: "Identity file to be used",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"disable_strict_host_key_checking": {
-								Optional:    true,
 								Description: "Disable SSH strict host key checking",
+								Optional:    true,
 								Type:        schema.TypeBool,
 							},
 							"known_hosts_file": {
-								Optional:    true,
 								Description: "Location of known_hosts file. Defaults to ~/.ssh/known_hosts",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 						},
 					},
 				},
 				"docker": {
-					Optional:    true,
-					Description: "",
-					Type:        schema.TypeList,
-					MinItems:    0,
-					MaxItems:    1,
+					// TODO a description would be nice!
+					Optional: true,
+					Type:     schema.TypeList,
+					MinItems: 0,
+					MaxItems: 1,
 					Elem: &schema.Resource{
 						Schema: map[string]*schema.Schema{
 							"host": {
-								Optional:    true,
 								Description: "Docker daemon address",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"tls_cert_path": {
-								Optional:    true,
 								Description: "Certificate path",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"tls_verify": {
-								Optional:    true,
 								Description: "Use TLS and verify the remote",
+								Optional:    true,
 								Type:        schema.TypeBool,
 							},
 							"hostname": {
-								Optional:    true,
 								Description: "Custom container hostname",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"image": {
-								Optional:    true,
 								Description: "Docker image to be used",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"runtime": {
-								Optional:    true,
 								Description: "Docker runtime to be used",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"memory": {
-								Optional:    true,
 								Description: "Memory limit (format: <number>[<unit>]). Unit can be one of b, k, m, or g. Minimum is 4M.",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"memory_swap": {
-								Optional:    true,
 								Description: "Total memory limit (memory + swap, format: <number>[<unit>]). Unit can be one of b, k, m, or g.",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"memory_reservation": {
-								Optional:    true,
 								Description: "Memory soft limit (format: <number>[<unit>]). Unit can be one of b, k, m, or g.",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"cpuset_cpus": {
-								Optional:    true,
 								Description: "String value containing the cgroups CpusetCpus to use",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"cpus": {
-								Optional:    true,
 								Description: "Number of CPUs",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"cpu_shares": {
-								Optional:    true,
 								Description: "Number of CPU shares",
+								Optional:    true,
 								Type:        schema.TypeInt,
 							},
 							"dns": {
-								Optional:    true,
 								Description: "A list of DNS servers for the container to use",
+								Optional:    true,
 								Type:        schema.TypeList,
 								Elem:        &schema.Schema{Type: schema.TypeString},
 							},
 							"dns_search": {
-								Optional:    true,
 								Description: "A list of DNS search domains",
+								Optional:    true,
 								Type:        schema.TypeList,
 								Elem:        &schema.Schema{Type: schema.TypeString},
 							},
 							"privileged": {
-								Optional:    true,
 								Description: "Give extended privileges to container",
+								Optional:    true,
 								Type:        schema.TypeBool,
 							},
 							"disable_entrypoint_overwrite": {
-								Optional:    true,
 								Description: "Disable the possibility for a container to overwrite the default image entrypoint",
+								Optional:    true,
 								Type:        schema.TypeBool,
 							},
 							"userns_mode": {
-								Optional:    true,
 								Description: "User namespace to use",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"cap_add": {
-								Optional:    true,
 								Description: "Add Linux capabilities",
+								Optional:    true,
 								Type:        schema.TypeList,
 								Elem:        &schema.Schema{Type: schema.TypeString},
 							},
 							"cap_drop": {
-								Optional:    true,
 								Description: "Drop Linux capabilities",
+								Optional:    true,
 								Type:        schema.TypeList,
 								Elem:        &schema.Schema{Type: schema.TypeString},
 							},
 							"oom_kill_disable": {
-								Optional:    true,
 								Description: "Do not kill processes in a container if an out-of-memory (OOM) error occurs",
+								Optional:    true,
 								Type:        schema.TypeBool,
 							},
 							"oom_score_adjust": {
-								Optional:    true,
 								Description: "Adjust OOM score",
+								Optional:    true,
 								Type:        schema.TypeInt,
 							},
 							"security_opt": {
-								Optional:    true,
 								Description: "Security Options",
+								Optional:    true,
 								Type:        schema.TypeList,
 								Elem:        &schema.Schema{Type: schema.TypeString},
 							},
 							"devices": {
-								Optional:    true,
 								Description: "Add a host device to the container",
+								Optional:    true,
 								Type:        schema.TypeList,
 								Elem:        &schema.Schema{Type: schema.TypeString},
 							},
 							"gpus": {
-								Optional:    true,
 								Description: "Request GPUs to be used by Docker",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"disable_cache": {
-								Optional:    true,
 								Description: "Disable all container caching",
+								Optional:    true,
 								Type:        schema.TypeBool,
 							},
 							"volumes": {
-								Optional:    true,
 								Description: "Bind-mount a volume and create it if it doesn't exist prior to mounting. Can be specified multiple times once per mountpoint, e.g. --docker-volumes 'test0:/test0' --docker-volumes 'test1:/test1'",
+								Optional:    true,
 								Type:        schema.TypeList,
 								Elem:        &schema.Schema{Type: schema.TypeString},
 							},
 							"volume_driver": {
-								Optional:    true,
 								Description: "Volume driver to be used",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"cache_dir": {
-								Optional:    true,
 								Description: "Directory where to store caches",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"extra_hosts": {
-								Optional:    true,
 								Description: "Add a custom host-to-IP mapping",
+								Optional:    true,
 								Type:        schema.TypeList,
 								Elem:        &schema.Schema{Type: schema.TypeString},
 							},
 							"volumes_from": {
-								Optional:    true,
 								Description: "A list of volumes to inherit from another container",
+								Optional:    true,
 								Type:        schema.TypeList,
 								Elem:        &schema.Schema{Type: schema.TypeString},
 							},
 							"network_mode": {
-								Optional:    true,
 								Description: "Add container to a custom network",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"links": {
-								Optional:    true,
 								Description: "Add link to another container",
+								Optional:    true,
 								Type:        schema.TypeList,
 								Elem:        &schema.Schema{Type: schema.TypeString},
 							},
 							"services": {
-								Optional:    true,
 								Description: "Add service that is started with container",
+								Optional:    true,
 								Type:        schema.TypeList,
 								Elem: &schema.Resource{
 									Schema: map[string]*schema.Schema{
 										"name": {
-											Optional:    true,
 											Description: "The image path for the service",
+											Optional:    true,
 											Type:        schema.TypeString,
 										},
 										"alias": {
-											Optional:    true,
 											Description: "The alias of the service",
+											Optional:    true,
 											Type:        schema.TypeString,
 										},
 										"command": {
-											Optional:    true,
 											Description: "Command or script that should be used as the container’s command. Syntax is similar to https://docs.docker.com/engine/reference/builder/#cmd",
+											Optional:    true,
 											Type:        schema.TypeList,
 											Elem:        &schema.Schema{Type: schema.TypeString},
 										},
 										"entrypoint": {
-											Optional:    true,
 											Description: "Command or script that should be executed as the container’s entrypoint. syntax is similar to https://docs.docker.com/engine/reference/builder/#entrypoint",
+											Optional:    true,
 											Type:        schema.TypeList,
 											Elem:        &schema.Schema{Type: schema.TypeString},
 										},
@@ -624,95 +624,95 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 								},
 							},
 							"wait_for_services_timeout": {
-								Optional:    true,
 								Description: "How long to wait for service startup",
+								Optional:    true,
 								Type:        schema.TypeInt,
 							},
 							"allowed_images": {
-								Optional:    true,
 								Description: "Image allowlist",
+								Optional:    true,
 								Type:        schema.TypeList,
 								Elem:        &schema.Schema{Type: schema.TypeString},
 							},
 							"allowed_services": {
-								Optional:    true,
 								Description: "Service allowlist",
+								Optional:    true,
 								Type:        schema.TypeList,
 								Elem:        &schema.Schema{Type: schema.TypeString},
 							},
 							"pull_policy": {
-								Optional:    true,
 								Description: "Image pull policy: never, if-not-present, always",
+								Optional:    true,
 								Type:        schema.TypeList,
 								Elem:        &schema.Schema{Type: schema.TypeString},
 							},
 							"shm_size": {
-								Optional:    true,
 								Description: "Shared memory size for docker images (in bytes)",
+								Optional:    true,
 								Type:        schema.TypeInt,
 							},
 							"tmpfs": {
-								Optional:    true,
 								Description: "A toml table/json object with the format key=values. When set this will mount the specified path in the key as a tmpfs volume in the main container, using the options specified as key. For the supported options, see the documentation for the unix 'mount' command",
+								Optional:    true,
 								Type:        schema.TypeMap,
 								Elem:        &schema.Schema{Type: schema.TypeString},
 							},
 							"services_tmpfs": {
-								Optional:    true,
 								Description: "A toml table/json object with the format key=values. When set this will mount the specified path in the key as a tmpfs volume in all the service containers, using the options specified as key. For the supported options, see the documentation for the unix 'mount' command",
+								Optional:    true,
 								Type:        schema.TypeMap,
 								Elem:        &schema.Schema{Type: schema.TypeString},
 							},
 							"sysctls": {
-								Optional:    true,
 								Description: "Sysctl options, a toml table/json object of key=value. Value is expected to be a string.",
+								Optional:    true,
 								Type:        schema.TypeMap,
 								Elem:        &schema.Schema{Type: schema.TypeString},
 							},
 							"helper_image": {
-								Optional:    true,
 								Description: "[ADVANCED] Override the default helper image used to clone repos and upload artifacts",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"helper_image_flavor": {
-								Optional:    true,
 								Description: "Set helper image flavor (alpine, ubuntu), defaults to alpine",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 						},
 					},
 				},
 				"parallels": {
-					Optional:    true,
-					Description: "",
-					Type:        schema.TypeList,
-					MinItems:    0,
-					MaxItems:    1,
+					// TODO a description would be nice!
+					Optional: true,
+					Type:     schema.TypeList,
+					MinItems: 0,
+					MaxItems: 1,
 					Elem: &schema.Resource{
 						Schema: map[string]*schema.Schema{
 							"base_name": {
-								Optional:    true,
 								Description: "VM name to be used",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"template_name": {
-								Optional:    true,
 								Description: "VM template to be created",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"disable_snapshots": {
-								Optional:    true,
 								Description: "Disable snapshoting to speedup VM creation",
+								Optional:    true,
 								Type:        schema.TypeBool,
 							},
 							"time_server": {
-								Optional:    true,
 								Description: "Timeserver to sync the guests time from. Defaults to time.apple.com",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"allowed_images": {
-								Optional:    true,
 								Description: "Image (base_name) allowlist",
+								Optional:    true,
 								Type:        schema.TypeList,
 								Elem:        &schema.Schema{Type: schema.TypeString},
 							},
@@ -720,36 +720,36 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 					},
 				},
 				"virtualbox": {
-					Optional:    true,
-					Description: "",
-					Type:        schema.TypeList,
-					MinItems:    0,
-					MaxItems:    1,
+					// TODO a description would be nice!
+					Optional: true,
+					Type:     schema.TypeList,
+					MinItems: 0,
+					MaxItems: 1,
 					Elem: &schema.Resource{
 						Schema: map[string]*schema.Schema{
 							"base_name": {
-								Optional:    true,
 								Description: "VM name to be used",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"base_snapshot": {
-								Optional:    true,
 								Description: "Name or UUID of a specific VM snapshot to clone",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"base_folder": {
-								Optional:    true,
 								Description: "Folder in which to save the new VM. If empty, uses VirtualBox default",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"disable_snapshots": {
-								Optional:    true,
 								Description: "Disable snapshoting to speedup VM creation",
+								Optional:    true,
 								Type:        schema.TypeBool,
 							},
 							"allowed_images": {
-								Optional:    true,
 								Description: "Image allowlist",
+								Optional:    true,
 								Type:        schema.TypeList,
 								Elem:        &schema.Schema{Type: schema.TypeString},
 							},
@@ -757,115 +757,115 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 					},
 				},
 				"machine": {
-					Optional:    true,
-					Description: "",
-					Type:        schema.TypeList,
-					MinItems:    0,
-					MaxItems:    1,
+					// TODO a description would be nice!
+					Optional: true,
+					Type:     schema.TypeList,
+					MinItems: 0,
+					MaxItems: 1,
 					Elem: &schema.Resource{
 						Schema: map[string]*schema.Schema{
 							"max_growth_rate": {
-								Optional:    true,
 								Description: "Maximum machines being provisioned concurrently, set to 0 for unlimited",
+								Optional:    true,
 								Type:        schema.TypeInt,
 							},
 							"idle_count": {
-								Optional:    true,
 								Description: "Maximum idle machines",
+								Optional:    true,
 								Type:        schema.TypeInt,
 							},
 							"idle_scale_factor": {
-								Optional:    true,
 								Description: "(Experimental) Defines what factor of in-use machines should be used as current idle value, but never more then defined IdleCount. 0.0 means use IdleCount as a static number (defaults to 0.0). Must be defined as float number.",
+								Optional:    true,
 								Type:        schema.TypeFloat,
 							},
 							"idle_count_min": {
-								Optional:    true,
 								Description: "Minimal number of idle machines when IdleScaleFactor is in use. Defaults to 1.",
+								Optional:    true,
 								Type:        schema.TypeInt,
 							},
 							"idle_time": {
-								Optional:    true,
 								Description: "Minimum time after node can be destroyed",
+								Optional:    true,
 								Type:        schema.TypeInt,
 							},
 							"max_builds": {
-								Optional:    true,
 								Description: "Maximum number of builds processed by machine",
+								Optional:    true,
 								Type:        schema.TypeInt,
 							},
 							"machine_driver": {
-								Optional:    true,
 								Description: "The driver to use when creating machine",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"machine_name": {
-								Optional:    true,
 								Description: "The template for machine name (needs to include %s)",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"machine_options": {
-								Optional:    true,
 								Description: "Additional machine creation options",
+								Optional:    true,
 								Type:        schema.TypeList,
 								Elem:        &schema.Schema{Type: schema.TypeString},
 							},
 							"off_peak_periods": {
-								Optional:    true,
 								Description: "Time periods when the scheduler is in the OffPeak mode. DEPRECATED",
+								Optional:    true,
 								Type:        schema.TypeList,
 								Elem:        &schema.Schema{Type: schema.TypeString},
 							},
 							"off_peak_timezone": {
-								Optional:    true,
 								Description: "Timezone for the OffPeak periods (defaults to Local). DEPRECATED",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"off_peak_idle_count": {
-								Optional:    true,
 								Description: "Maximum idle machines when the scheduler is in the OffPeak mode. DEPRECATED",
+								Optional:    true,
 								Type:        schema.TypeInt,
 							},
 							"off_peak_idle_time": {
-								Optional:    true,
 								Description: "Minimum time after machine can be destroyed when the scheduler is in the OffPeak mode. DEPRECATED",
+								Optional:    true,
 								Type:        schema.TypeInt,
 							},
 							"autoscaling": {
-								Optional:    true,
 								Description: "Ordered list of configurations for autoscaling periods (last match wins)",
+								Optional:    true,
 								Type:        schema.TypeList,
 								Elem: &schema.Resource{
 									Schema: map[string]*schema.Schema{
 										"periods": {
-											Optional:    true,
 											Description: "List of crontab expressions for this autoscaling configuration",
+											Optional:    true,
 											Type:        schema.TypeList,
 											Elem:        &schema.Schema{Type: schema.TypeString},
 										},
 										"timezone": {
-											Optional:    true,
 											Description: "Timezone for the periods (defaults to Local)",
+											Optional:    true,
 											Type:        schema.TypeString,
 										},
 										"idle_count": {
-											Optional:    true,
 											Description: "Maximum idle machines when this configuration is active",
+											Optional:    true,
 											Type:        schema.TypeInt,
 										},
 										"idle_scale_factor": {
-											Optional:    true,
 											Description: "(Experimental) Defines what factor of in-use machines should be used as current idle value, but never more then defined IdleCount. 0.0 means use IdleCount as a static number (defaults to 0.0). Must be defined as float number.",
+											Optional:    true,
 											Type:        schema.TypeFloat,
 										},
 										"idle_count_min": {
-											Optional:    true,
 											Description: "Minimal number of idle machines when IdleScaleFactor is in use. Defaults to 1.",
+											Optional:    true,
 											Type:        schema.TypeInt,
 										},
 										"idle_time": {
-											Optional:    true,
 											Description: "Minimum time after which and idle machine can be destroyed when this configuration is active",
+											Optional:    true,
 											Type:        schema.TypeInt,
 										},
 									},
@@ -875,354 +875,354 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 					},
 				},
 				"kubernetes": {
-					Optional:    true,
-					Description: "",
-					Type:        schema.TypeList,
-					MinItems:    0,
-					MaxItems:    1,
+					// TODO a description would be nice!
+					Optional: true,
+					Type:     schema.TypeList,
+					MinItems: 0,
+					MaxItems: 1,
 					Elem: &schema.Resource{
 						Schema: map[string]*schema.Schema{
 							"host": {
-								Optional:    true,
 								Description: "Optional Kubernetes master host URL (auto-discovery attempted if not specified)",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"cert_file": {
-								Optional:    true,
 								Description: "Optional Kubernetes master auth certificate",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"key_file": {
-								Optional:    true,
 								Description: "Optional Kubernetes master auth private key",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"ca_file": {
-								Optional:    true,
 								Description: "Optional Kubernetes master auth ca certificate",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"bearer_token_overwrite_allowed": {
-								Optional:    true,
 								Description: "Bool to authorize builds to specify their own bearer token for creation.",
+								Optional:    true,
 								Type:        schema.TypeBool,
 							},
 							"bearer_token": {
-								Optional:    true,
 								Description: "Optional Kubernetes service account token used to start build pods.",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"image": {
-								Optional:    true,
 								Description: "Default docker image to use for builds when none is specified",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"namespace": {
-								Optional:    true,
 								Description: "Namespace to run Kubernetes jobs in",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"namespace_overwrite_allowed": {
-								Optional:    true,
 								Description: "Regex to validate 'KUBERNETES_NAMESPACE_OVERWRITE' value",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"privileged": {
-								Optional:    true,
 								Description: "Run all containers with the privileged flag enabled",
+								Optional:    true,
 								Type:        schema.TypeBool,
 							},
 							"allow_privilege_escalation": {
-								Optional:    true,
 								Description: "Run all containers with the security context allowPrivilegeEscalation flag enabled. When empty, it does not define the allowPrivilegeEscalation flag in the container SecurityContext and allows Kubernetes to use the default privilege escalation behavior.",
+								Optional:    true,
 								Type:        schema.TypeBool,
 							},
 							"cpu_limit": {
-								Optional:    true,
 								Description: "The CPU allocation given to build containers",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"cpu_limit_overwrite_max_allowed": {
-								Optional:    true,
 								Description: "If set, the max amount the cpu limit can be set to. Used with the KUBERNETES_CPU_LIMIT variable in the build.",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"cpu_request": {
-								Optional:    true,
 								Description: "The CPU allocation requested for build containers",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"cpu_request_overwrite_max_allowed": {
-								Optional:    true,
 								Description: "If set, the max amount the cpu request can be set to. Used with the KUBERNETES_CPU_REQUEST variable in the build.",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"memory_limit": {
-								Optional:    true,
 								Description: "The amount of memory allocated to build containers",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"memory_limit_overwrite_max_allowed": {
-								Optional:    true,
 								Description: "If set, the max amount the memory limit can be set to. Used with the KUBERNETES_MEMORY_LIMIT variable in the build.",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"memory_request": {
-								Optional:    true,
 								Description: "The amount of memory requested from build containers",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"memory_request_overwrite_max_allowed": {
-								Optional:    true,
 								Description: "If set, the max amount the memory request can be set to. Used with the KUBERNETES_MEMORY_REQUEST variable in the build.",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"ephemeral_storage_limit": {
-								Optional:    true,
 								Description: "The amount of ephemeral storage allocated to build containers",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"ephemeral_storage_limit_overwrite_max_allowed": {
-								Optional:    true,
 								Description: "If set, the max amount the ephemeral limit can be set to. Used with the KUBERNETES_EPHEMERAL_STORAGE_LIMIT variable in the build.",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"ephemeral_storage_request": {
-								Optional:    true,
 								Description: "The amount of ephemeral storage requested from build containers",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"ephemeral_storage_request_overwrite_max_allowed": {
-								Optional:    true,
 								Description: "If set, the max amount the ephemeral storage request can be set to. Used with the KUBERNETES_EPHEMERAL_STORAGE_REQUEST variable in the build.",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"service_cpu_limit": {
-								Optional:    true,
 								Description: "The CPU allocation given to build service containers",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"service_cpu_limit_overwrite_max_allowed": {
-								Optional:    true,
 								Description: "If set, the max amount the service cpu limit can be set to. Used with the KUBERNETES_SERVICE_CPU_LIMIT variable in the build.",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"service_cpu_request": {
-								Optional:    true,
 								Description: "The CPU allocation requested for build service containers",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"service_cpu_request_overwrite_max_allowed": {
-								Optional:    true,
 								Description: "If set, the max amount the service cpu request can be set to. Used with the KUBERNETES_SERVICE_CPU_REQUEST variable in the build.",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"service_memory_limit": {
-								Optional:    true,
 								Description: "The amount of memory allocated to build service containers",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"service_memory_limit_overwrite_max_allowed": {
-								Optional:    true,
 								Description: "If set, the max amount the service memory limit can be set to. Used with the KUBERNETES_SERVICE_MEMORY_LIMIT variable in the build.",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"service_memory_request": {
-								Optional:    true,
 								Description: "The amount of memory requested for build service containers",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"service_memory_request_overwrite_max_allowed": {
-								Optional:    true,
 								Description: "If set, the max amount the service memory request can be set to. Used with the KUBERNETES_SERVICE_MEMORY_REQUEST variable in the build.",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"service_ephemeral_storage_limit": {
-								Optional:    true,
 								Description: "The amount of ephemeral storage allocated to build service containers",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"service_ephemeral_storage_limit_overwrite_max_allowed": {
-								Optional:    true,
 								Description: "If set, the max amount the service ephemeral storage limit can be set to. Used with the KUBERNETES_SERVICE_EPHEMERAL_STORAGE_LIMIT variable in the build.",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"service_ephemeral_storage_request": {
-								Optional:    true,
 								Description: "The amount of ephemeral storage requested for build service containers",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"service_ephemeral_storage_request_overwrite_max_allowed": {
-								Optional:    true,
 								Description: "If set, the max amount the service ephemeral storage request can be set to. Used with the KUBERNETES_SERVICE_EPHEMERAL_STORAGE_REQUEST variable in the build.",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"helper_cpu_limit": {
-								Optional:    true,
 								Description: "The CPU allocation given to build helper containers",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"helper_cpu_limit_overwrite_max_allowed": {
-								Optional:    true,
 								Description: "If set, the max amount the helper cpu limit can be set to. Used with the KUBERNETES_HELPER_CPU_LIMIT variable in the build.",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"helper_cpu_request": {
-								Optional:    true,
 								Description: "The CPU allocation requested for build helper containers",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"helper_cpu_request_overwrite_max_allowed": {
-								Optional:    true,
 								Description: "If set, the max amount the helper cpu request can be set to. Used with the KUBERNETES_HELPER_CPU_REQUEST variable in the build.",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"helper_memory_limit": {
-								Optional:    true,
 								Description: "The amount of memory allocated to build helper containers",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"helper_memory_limit_overwrite_max_allowed": {
-								Optional:    true,
 								Description: "If set, the max amount the helper memory limit can be set to. Used with the KUBERNETES_HELPER_MEMORY_LIMIT variable in the build.",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"helper_memory_request": {
-								Optional:    true,
 								Description: "The amount of memory requested for build helper containers",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"helper_memory_request_overwrite_max_allowed": {
-								Optional:    true,
 								Description: "If set, the max amount the helper memory request can be set to. Used with the KUBERNETES_HELPER_MEMORY_REQUEST variable in the build.",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"helper_ephemeral_storage_limit": {
-								Optional:    true,
 								Description: "The amount of ephemeral storage allocated to build helper containers",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"helper_ephemeral_storage_limit_overwrite_max_allowed": {
-								Optional:    true,
 								Description: "If set, the max amount the helper ephemeral storage limit can be set to. Used with the KUBERNETES_HELPER_EPHEMERAL_STORAGE_LIMIT variable in the build.",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"helper_ephemeral_storage_request": {
-								Optional:    true,
 								Description: "The amount of ephemeral storage requested for build helper containers",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"helper_ephemeral_storage_request_overwrite_max_allowed": {
-								Optional:    true,
 								Description: "If set, the max amount the helper ephemeral storage request can be set to. Used with the KUBERNETES_HELPER_EPHEMERAL_STORAGE_REQUEST variable in the build.",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"allowed_images": {
-								Optional:    true,
 								Description: "Image allowlist",
+								Optional:    true,
 								Type:        schema.TypeList,
 								Elem:        &schema.Schema{Type: schema.TypeString},
 							},
 							"allowed_services": {
-								Optional:    true,
 								Description: "Service allowlist",
+								Optional:    true,
 								Type:        schema.TypeList,
 								Elem:        &schema.Schema{Type: schema.TypeString},
 							},
 							"pull_policy": {
-								Optional:    true,
 								Description: "Policy for if/when to pull a container image (never, if-not-present, always). The cluster default will be used if not set",
+								Optional:    true,
 								Type:        schema.TypeList,
 								Elem:        &schema.Schema{Type: schema.TypeString},
 							},
 							"node_selector": {
-								Optional:    true,
 								Description: "A toml table/json object of key:value. Value is expected to be a string. When set this will create pods on k8s nodes that match all the key:value pairs. Only one selector is supported through environment variable configuration.",
+								Optional:    true,
 								Type:        schema.TypeMap,
 								Elem:        &schema.Schema{Type: schema.TypeString},
 							},
 							"node_tolerations": {
-								Optional:    true,
 								Description: "A toml table/json object of key=value:effect. Value and effect are expected to be strings. When set, pods will tolerate the given taints. Only one toleration is supported through environment variable configuration.",
+								Optional:    true,
 								Type:        schema.TypeMap,
 								Elem:        &schema.Schema{Type: schema.TypeString},
 							},
 							"affinity": {
-								Optional:    true,
 								Description: "Kubernetes Affinity setting that is used to select the node that spawns a pod",
+								Optional:    true,
 								Type:        schema.TypeList,
 								MinItems:    0,
 								MaxItems:    1,
 								Elem: &schema.Resource{
 									Schema: map[string]*schema.Schema{
 										"node_affinity": {
-											Optional:    true,
 											Description: "Node affinity is conceptually similar to nodeSelector -- it allows you to constrain which nodes your pod is eligible to be scheduled on, based on labels on the node.",
+											Optional:    true,
 											Type:        schema.TypeList,
 											MinItems:    0,
 											MaxItems:    1,
 											Elem: &schema.Resource{
 												Schema: map[string]*schema.Schema{
 													"required_during_scheduling_ignored_during_execution": {
-														Optional:    true,
-														Description: "",
-														Type:        schema.TypeList,
-														MinItems:    0,
-														MaxItems:    1,
+														// TODO a description would be nice!
+														Optional: true,
+														Type:     schema.TypeList,
+														MinItems: 0,
+														MaxItems: 1,
 														Elem: &schema.Resource{
 															Schema: map[string]*schema.Schema{
 																"node_selector_terms": {
-																	Optional:    true,
-																	Description: "",
-																	Type:        schema.TypeList,
+																	// TODO a description would be nice!
+																	Optional: true,
+																	Type:     schema.TypeList,
 																	Elem: &schema.Resource{
 																		Schema: map[string]*schema.Schema{
 																			"match_expressions": {
-																				Optional:    true,
-																				Description: "",
-																				Type:        schema.TypeList,
+																				// TODO a description would be nice!
+																				Optional: true,
+																				Type:     schema.TypeList,
 																				Elem: &schema.Resource{
 																					Schema: map[string]*schema.Schema{
 																						"key": {
-																							Optional:    true,
-																							Description: "",
-																							Type:        schema.TypeString,
+																							// TODO a description would be nice!
+																							Optional: true,
+																							Type:     schema.TypeString,
 																						},
 																						"operator": {
-																							Optional:    true,
-																							Description: "",
-																							Type:        schema.TypeString,
+																							// TODO a description would be nice!
+																							Optional: true,
+																							Type:     schema.TypeString,
 																						},
 																						"values": {
-																							Optional:    true,
-																							Description: "",
-																							Type:        schema.TypeList,
-																							Elem:        &schema.Schema{Type: schema.TypeString},
+																							// TODO a description would be nice!
+																							Optional: true,
+																							Type:     schema.TypeList,
+																							Elem:     &schema.Schema{Type: schema.TypeString},
 																						},
 																					},
 																				},
 																			},
 																			"match_fields": {
-																				Optional:    true,
-																				Description: "",
-																				Type:        schema.TypeList,
+																				// TODO a description would be nice!
+																				Optional: true,
+																				Type:     schema.TypeList,
 																				Elem: &schema.Resource{
 																					Schema: map[string]*schema.Schema{
 																						"key": {
-																							Optional:    true,
-																							Description: "",
-																							Type:        schema.TypeString,
+																							// TODO a description would be nice!
+																							Optional: true,
+																							Type:     schema.TypeString,
 																						},
 																						"operator": {
-																							Optional:    true,
-																							Description: "",
-																							Type:        schema.TypeString,
+																							// TODO a description would be nice!
+																							Optional: true,
+																							Type:     schema.TypeString,
 																						},
 																						"values": {
-																							Optional:    true,
-																							Description: "",
-																							Type:        schema.TypeList,
-																							Elem:        &schema.Schema{Type: schema.TypeString},
+																							// TODO a description would be nice!
+																							Optional: true,
+																							Type:     schema.TypeList,
+																							Elem:     &schema.Schema{Type: schema.TypeString},
 																						},
 																					},
 																				},
@@ -1234,70 +1234,70 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 														},
 													},
 													"preferred_during_scheduling_ignored_during_execution": {
-														Optional:    true,
-														Description: "",
-														Type:        schema.TypeList,
+														// TODO a description would be nice!
+														Optional: true,
+														Type:     schema.TypeList,
 														Elem: &schema.Resource{
 															Schema: map[string]*schema.Schema{
 																"weight": {
-																	Optional:    true,
-																	Description: "",
-																	Type:        schema.TypeInt,
+																	// TODO a description would be nice!
+																	Optional: true,
+																	Type:     schema.TypeInt,
 																},
 																"preference": {
-																	Optional:    true,
-																	Description: "",
-																	Type:        schema.TypeList,
-																	MinItems:    0,
-																	MaxItems:    1,
+																	// TODO a description would be nice!
+																	Optional: true,
+																	Type:     schema.TypeList,
+																	MinItems: 0,
+																	MaxItems: 1,
 																	Elem: &schema.Resource{
 																		Schema: map[string]*schema.Schema{
 																			"match_expressions": {
-																				Optional:    true,
-																				Description: "",
-																				Type:        schema.TypeList,
+																				// TODO a description would be nice!
+																				Optional: true,
+																				Type:     schema.TypeList,
 																				Elem: &schema.Resource{
 																					Schema: map[string]*schema.Schema{
 																						"key": {
-																							Optional:    true,
-																							Description: "",
-																							Type:        schema.TypeString,
+																							// TODO a description would be nice!
+																							Optional: true,
+																							Type:     schema.TypeString,
 																						},
 																						"operator": {
-																							Optional:    true,
-																							Description: "",
-																							Type:        schema.TypeString,
+																							// TODO a description would be nice!
+																							Optional: true,
+																							Type:     schema.TypeString,
 																						},
 																						"values": {
-																							Optional:    true,
-																							Description: "",
-																							Type:        schema.TypeList,
-																							Elem:        &schema.Schema{Type: schema.TypeString},
+																							// TODO a description would be nice!
+																							Optional: true,
+																							Type:     schema.TypeList,
+																							Elem:     &schema.Schema{Type: schema.TypeString},
 																						},
 																					},
 																				},
 																			},
 																			"match_fields": {
-																				Optional:    true,
-																				Description: "",
-																				Type:        schema.TypeList,
+																				// TODO a description would be nice!
+																				Optional: true,
+																				Type:     schema.TypeList,
 																				Elem: &schema.Resource{
 																					Schema: map[string]*schema.Schema{
 																						"key": {
-																							Optional:    true,
-																							Description: "",
-																							Type:        schema.TypeString,
+																							// TODO a description would be nice!
+																							Optional: true,
+																							Type:     schema.TypeString,
 																						},
 																						"operator": {
-																							Optional:    true,
-																							Description: "",
-																							Type:        schema.TypeString,
+																							// TODO a description would be nice!
+																							Optional: true,
+																							Type:     schema.TypeString,
 																						},
 																						"values": {
-																							Optional:    true,
-																							Description: "",
-																							Type:        schema.TypeList,
-																							Elem:        &schema.Schema{Type: schema.TypeString},
+																							// TODO a description would be nice!
+																							Optional: true,
+																							Type:     schema.TypeList,
+																							Elem:     &schema.Schema{Type: schema.TypeString},
 																						},
 																					},
 																				},
@@ -1312,54 +1312,54 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 											},
 										},
 										"pod_affinity": {
-											Optional:    true,
 											Description: "Pod affinity allows to constrain which nodes your pod is eligible to be scheduled on based on the labels on other pods.",
+											Optional:    true,
 											Type:        schema.TypeList,
 											MinItems:    0,
 											MaxItems:    1,
 											Elem: &schema.Resource{
 												Schema: map[string]*schema.Schema{
 													"required_during_scheduling_ignored_during_execution": {
-														Optional:    true,
-														Description: "",
-														Type:        schema.TypeList,
+														// TODO a description would be nice!
+														Optional: true,
+														Type:     schema.TypeList,
 														Elem: &schema.Resource{
 															Schema: map[string]*schema.Schema{
 																"label_selector": {
-																	Optional:    true,
-																	Description: "",
-																	Type:        schema.TypeList,
-																	MinItems:    0,
-																	MaxItems:    1,
+																	// TODO a description would be nice!
+																	Optional: true,
+																	Type:     schema.TypeList,
+																	MinItems: 0,
+																	MaxItems: 1,
 																	Elem: &schema.Resource{
 																		Schema: map[string]*schema.Schema{
 																			"match_labels": {
-																				Optional:    true,
-																				Description: "",
-																				Type:        schema.TypeMap,
-																				Elem:        &schema.Schema{Type: schema.TypeString},
+																				// TODO a description would be nice!
+																				Optional: true,
+																				Type:     schema.TypeMap,
+																				Elem:     &schema.Schema{Type: schema.TypeString},
 																			},
 																			"match_expressions": {
-																				Optional:    true,
-																				Description: "",
-																				Type:        schema.TypeList,
+																				// TODO a description would be nice!
+																				Optional: true,
+																				Type:     schema.TypeList,
 																				Elem: &schema.Resource{
 																					Schema: map[string]*schema.Schema{
 																						"key": {
-																							Optional:    true,
-																							Description: "",
-																							Type:        schema.TypeString,
+																							// TODO a description would be nice!
+																							Optional: true,
+																							Type:     schema.TypeString,
 																						},
 																						"operator": {
-																							Optional:    true,
-																							Description: "",
-																							Type:        schema.TypeString,
+																							// TODO a description would be nice!
+																							Optional: true,
+																							Type:     schema.TypeString,
 																						},
 																						"values": {
-																							Optional:    true,
-																							Description: "",
-																							Type:        schema.TypeList,
-																							Elem:        &schema.Schema{Type: schema.TypeString},
+																							// TODO a description would be nice!
+																							Optional: true,
+																							Type:     schema.TypeList,
+																							Elem:     &schema.Schema{Type: schema.TypeString},
 																						},
 																					},
 																				},
@@ -1368,51 +1368,51 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 																	},
 																},
 																"namespaces": {
-																	Optional:    true,
-																	Description: "",
-																	Type:        schema.TypeList,
-																	Elem:        &schema.Schema{Type: schema.TypeString},
+																	// TODO a description would be nice!
+																	Optional: true,
+																	Type:     schema.TypeList,
+																	Elem:     &schema.Schema{Type: schema.TypeString},
 																},
 																"topology_key": {
-																	Optional:    true,
-																	Description: "",
-																	Type:        schema.TypeString,
+																	// TODO a description would be nice!
+																	Optional: true,
+																	Type:     schema.TypeString,
 																},
 																"namespace_selector": {
-																	Optional:    true,
-																	Description: "",
-																	Type:        schema.TypeList,
-																	MinItems:    0,
-																	MaxItems:    1,
+																	// TODO a description would be nice!
+																	Optional: true,
+																	Type:     schema.TypeList,
+																	MinItems: 0,
+																	MaxItems: 1,
 																	Elem: &schema.Resource{
 																		Schema: map[string]*schema.Schema{
 																			"match_labels": {
-																				Optional:    true,
-																				Description: "",
-																				Type:        schema.TypeMap,
-																				Elem:        &schema.Schema{Type: schema.TypeString},
+																				// TODO a description would be nice!
+																				Optional: true,
+																				Type:     schema.TypeMap,
+																				Elem:     &schema.Schema{Type: schema.TypeString},
 																			},
 																			"match_expressions": {
-																				Optional:    true,
-																				Description: "",
-																				Type:        schema.TypeList,
+																				// TODO a description would be nice!
+																				Optional: true,
+																				Type:     schema.TypeList,
 																				Elem: &schema.Resource{
 																					Schema: map[string]*schema.Schema{
 																						"key": {
-																							Optional:    true,
-																							Description: "",
-																							Type:        schema.TypeString,
+																							// TODO a description would be nice!
+																							Optional: true,
+																							Type:     schema.TypeString,
 																						},
 																						"operator": {
-																							Optional:    true,
-																							Description: "",
-																							Type:        schema.TypeString,
+																							// TODO a description would be nice!
+																							Optional: true,
+																							Type:     schema.TypeString,
 																						},
 																						"values": {
-																							Optional:    true,
-																							Description: "",
-																							Type:        schema.TypeList,
-																							Elem:        &schema.Schema{Type: schema.TypeString},
+																							// TODO a description would be nice!
+																							Optional: true,
+																							Type:     schema.TypeList,
+																							Elem:     &schema.Schema{Type: schema.TypeString},
 																						},
 																					},
 																				},
@@ -1424,59 +1424,59 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 														},
 													},
 													"preferred_during_scheduling_ignored_during_execution": {
-														Optional:    true,
-														Description: "",
-														Type:        schema.TypeList,
+														// TODO a description would be nice!
+														Optional: true,
+														Type:     schema.TypeList,
 														Elem: &schema.Resource{
 															Schema: map[string]*schema.Schema{
 																"weight": {
-																	Optional:    true,
-																	Description: "",
-																	Type:        schema.TypeInt,
+																	// TODO a description would be nice!
+																	Optional: true,
+																	Type:     schema.TypeInt,
 																},
 																"pod_affinity_term": {
-																	Optional:    true,
-																	Description: "",
-																	Type:        schema.TypeList,
-																	MinItems:    0,
-																	MaxItems:    1,
+																	// TODO a description would be nice!
+																	Optional: true,
+																	Type:     schema.TypeList,
+																	MinItems: 0,
+																	MaxItems: 1,
 																	Elem: &schema.Resource{
 																		Schema: map[string]*schema.Schema{
 																			"label_selector": {
-																				Optional:    true,
-																				Description: "",
-																				Type:        schema.TypeList,
-																				MinItems:    0,
-																				MaxItems:    1,
+																				// TODO a description would be nice!
+																				Optional: true,
+																				Type:     schema.TypeList,
+																				MinItems: 0,
+																				MaxItems: 1,
 																				Elem: &schema.Resource{
 																					Schema: map[string]*schema.Schema{
 																						"match_labels": {
-																							Optional:    true,
-																							Description: "",
-																							Type:        schema.TypeMap,
-																							Elem:        &schema.Schema{Type: schema.TypeString},
+																							// TODO a description would be nice!
+																							Optional: true,
+																							Type:     schema.TypeMap,
+																							Elem:     &schema.Schema{Type: schema.TypeString},
 																						},
 																						"match_expressions": {
-																							Optional:    true,
-																							Description: "",
-																							Type:        schema.TypeList,
+																							// TODO a description would be nice!
+																							Optional: true,
+																							Type:     schema.TypeList,
 																							Elem: &schema.Resource{
 																								Schema: map[string]*schema.Schema{
 																									"key": {
-																										Optional:    true,
-																										Description: "",
-																										Type:        schema.TypeString,
+																										// TODO a description would be nice!
+																										Optional: true,
+																										Type:     schema.TypeString,
 																									},
 																									"operator": {
-																										Optional:    true,
-																										Description: "",
-																										Type:        schema.TypeString,
+																										// TODO a description would be nice!
+																										Optional: true,
+																										Type:     schema.TypeString,
 																									},
 																									"values": {
-																										Optional:    true,
-																										Description: "",
-																										Type:        schema.TypeList,
-																										Elem:        &schema.Schema{Type: schema.TypeString},
+																										// TODO a description would be nice!
+																										Optional: true,
+																										Type:     schema.TypeList,
+																										Elem:     &schema.Schema{Type: schema.TypeString},
 																									},
 																								},
 																							},
@@ -1485,51 +1485,51 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 																				},
 																			},
 																			"namespaces": {
-																				Optional:    true,
-																				Description: "",
-																				Type:        schema.TypeList,
-																				Elem:        &schema.Schema{Type: schema.TypeString},
+																				// TODO a description would be nice!
+																				Optional: true,
+																				Type:     schema.TypeList,
+																				Elem:     &schema.Schema{Type: schema.TypeString},
 																			},
 																			"topology_key": {
-																				Optional:    true,
-																				Description: "",
-																				Type:        schema.TypeString,
+																				// TODO a description would be nice!
+																				Optional: true,
+																				Type:     schema.TypeString,
 																			},
 																			"namespace_selector": {
-																				Optional:    true,
-																				Description: "",
-																				Type:        schema.TypeList,
-																				MinItems:    0,
-																				MaxItems:    1,
+																				// TODO a description would be nice!
+																				Optional: true,
+																				Type:     schema.TypeList,
+																				MinItems: 0,
+																				MaxItems: 1,
 																				Elem: &schema.Resource{
 																					Schema: map[string]*schema.Schema{
 																						"match_labels": {
-																							Optional:    true,
-																							Description: "",
-																							Type:        schema.TypeMap,
-																							Elem:        &schema.Schema{Type: schema.TypeString},
+																							// TODO a description would be nice!
+																							Optional: true,
+																							Type:     schema.TypeMap,
+																							Elem:     &schema.Schema{Type: schema.TypeString},
 																						},
 																						"match_expressions": {
-																							Optional:    true,
-																							Description: "",
-																							Type:        schema.TypeList,
+																							// TODO a description would be nice!
+																							Optional: true,
+																							Type:     schema.TypeList,
 																							Elem: &schema.Resource{
 																								Schema: map[string]*schema.Schema{
 																									"key": {
-																										Optional:    true,
-																										Description: "",
-																										Type:        schema.TypeString,
+																										// TODO a description would be nice!
+																										Optional: true,
+																										Type:     schema.TypeString,
 																									},
 																									"operator": {
-																										Optional:    true,
-																										Description: "",
-																										Type:        schema.TypeString,
+																										// TODO a description would be nice!
+																										Optional: true,
+																										Type:     schema.TypeString,
 																									},
 																									"values": {
-																										Optional:    true,
-																										Description: "",
-																										Type:        schema.TypeList,
-																										Elem:        &schema.Schema{Type: schema.TypeString},
+																										// TODO a description would be nice!
+																										Optional: true,
+																										Type:     schema.TypeList,
+																										Elem:     &schema.Schema{Type: schema.TypeString},
 																									},
 																								},
 																							},
@@ -1547,54 +1547,54 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 											},
 										},
 										"pod_anti_affinity": {
-											Optional:    true,
 											Description: "Pod anti-affinity allows to constrain which nodes your pod is eligible to be scheduled on based on the labels on other pods.",
+											Optional:    true,
 											Type:        schema.TypeList,
 											MinItems:    0,
 											MaxItems:    1,
 											Elem: &schema.Resource{
 												Schema: map[string]*schema.Schema{
 													"required_during_scheduling_ignored_during_execution": {
-														Optional:    true,
-														Description: "",
-														Type:        schema.TypeList,
+														// TODO a description would be nice!
+														Optional: true,
+														Type:     schema.TypeList,
 														Elem: &schema.Resource{
 															Schema: map[string]*schema.Schema{
 																"label_selector": {
-																	Optional:    true,
-																	Description: "",
-																	Type:        schema.TypeList,
-																	MinItems:    0,
-																	MaxItems:    1,
+																	// TODO a description would be nice!
+																	Optional: true,
+																	Type:     schema.TypeList,
+																	MinItems: 0,
+																	MaxItems: 1,
 																	Elem: &schema.Resource{
 																		Schema: map[string]*schema.Schema{
 																			"match_labels": {
-																				Optional:    true,
-																				Description: "",
-																				Type:        schema.TypeMap,
-																				Elem:        &schema.Schema{Type: schema.TypeString},
+																				// TODO a description would be nice!
+																				Optional: true,
+																				Type:     schema.TypeMap,
+																				Elem:     &schema.Schema{Type: schema.TypeString},
 																			},
 																			"match_expressions": {
-																				Optional:    true,
-																				Description: "",
-																				Type:        schema.TypeList,
+																				// TODO a description would be nice!
+																				Optional: true,
+																				Type:     schema.TypeList,
 																				Elem: &schema.Resource{
 																					Schema: map[string]*schema.Schema{
 																						"key": {
-																							Optional:    true,
-																							Description: "",
-																							Type:        schema.TypeString,
+																							// TODO a description would be nice!
+																							Optional: true,
+																							Type:     schema.TypeString,
 																						},
 																						"operator": {
-																							Optional:    true,
-																							Description: "",
-																							Type:        schema.TypeString,
+																							// TODO a description would be nice!
+																							Optional: true,
+																							Type:     schema.TypeString,
 																						},
 																						"values": {
-																							Optional:    true,
-																							Description: "",
-																							Type:        schema.TypeList,
-																							Elem:        &schema.Schema{Type: schema.TypeString},
+																							// TODO a description would be nice!
+																							Optional: true,
+																							Type:     schema.TypeList,
+																							Elem:     &schema.Schema{Type: schema.TypeString},
 																						},
 																					},
 																				},
@@ -1603,51 +1603,51 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 																	},
 																},
 																"namespaces": {
-																	Optional:    true,
-																	Description: "",
-																	Type:        schema.TypeList,
-																	Elem:        &schema.Schema{Type: schema.TypeString},
+																	// TODO a description would be nice!
+																	Optional: true,
+																	Type:     schema.TypeList,
+																	Elem:     &schema.Schema{Type: schema.TypeString},
 																},
 																"topology_key": {
-																	Optional:    true,
-																	Description: "",
-																	Type:        schema.TypeString,
+																	// TODO a description would be nice!
+																	Optional: true,
+																	Type:     schema.TypeString,
 																},
 																"namespace_selector": {
-																	Optional:    true,
-																	Description: "",
-																	Type:        schema.TypeList,
-																	MinItems:    0,
-																	MaxItems:    1,
+																	// TODO a description would be nice!
+																	Optional: true,
+																	Type:     schema.TypeList,
+																	MinItems: 0,
+																	MaxItems: 1,
 																	Elem: &schema.Resource{
 																		Schema: map[string]*schema.Schema{
 																			"match_labels": {
-																				Optional:    true,
-																				Description: "",
-																				Type:        schema.TypeMap,
-																				Elem:        &schema.Schema{Type: schema.TypeString},
+																				// TODO a description would be nice!
+																				Optional: true,
+																				Type:     schema.TypeMap,
+																				Elem:     &schema.Schema{Type: schema.TypeString},
 																			},
 																			"match_expressions": {
-																				Optional:    true,
-																				Description: "",
-																				Type:        schema.TypeList,
+																				// TODO a description would be nice!
+																				Optional: true,
+																				Type:     schema.TypeList,
 																				Elem: &schema.Resource{
 																					Schema: map[string]*schema.Schema{
 																						"key": {
-																							Optional:    true,
-																							Description: "",
-																							Type:        schema.TypeString,
+																							// TODO a description would be nice!
+																							Optional: true,
+																							Type:     schema.TypeString,
 																						},
 																						"operator": {
-																							Optional:    true,
-																							Description: "",
-																							Type:        schema.TypeString,
+																							// TODO a description would be nice!
+																							Optional: true,
+																							Type:     schema.TypeString,
 																						},
 																						"values": {
-																							Optional:    true,
-																							Description: "",
-																							Type:        schema.TypeList,
-																							Elem:        &schema.Schema{Type: schema.TypeString},
+																							// TODO a description would be nice!
+																							Optional: true,
+																							Type:     schema.TypeList,
+																							Elem:     &schema.Schema{Type: schema.TypeString},
 																						},
 																					},
 																				},
@@ -1659,59 +1659,59 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 														},
 													},
 													"preferred_during_scheduling_ignored_during_execution": {
-														Optional:    true,
-														Description: "",
-														Type:        schema.TypeList,
+														// TODO a description would be nice!
+														Optional: true,
+														Type:     schema.TypeList,
 														Elem: &schema.Resource{
 															Schema: map[string]*schema.Schema{
 																"weight": {
-																	Optional:    true,
-																	Description: "",
-																	Type:        schema.TypeInt,
+																	// TODO a description would be nice!
+																	Optional: true,
+																	Type:     schema.TypeInt,
 																},
 																"pod_affinity_term": {
-																	Optional:    true,
-																	Description: "",
-																	Type:        schema.TypeList,
-																	MinItems:    0,
-																	MaxItems:    1,
+																	// TODO a description would be nice!
+																	Optional: true,
+																	Type:     schema.TypeList,
+																	MinItems: 0,
+																	MaxItems: 1,
 																	Elem: &schema.Resource{
 																		Schema: map[string]*schema.Schema{
 																			"label_selector": {
-																				Optional:    true,
-																				Description: "",
-																				Type:        schema.TypeList,
-																				MinItems:    0,
-																				MaxItems:    1,
+																				// TODO a description would be nice!
+																				Optional: true,
+																				Type:     schema.TypeList,
+																				MinItems: 0,
+																				MaxItems: 1,
 																				Elem: &schema.Resource{
 																					Schema: map[string]*schema.Schema{
 																						"match_labels": {
-																							Optional:    true,
-																							Description: "",
-																							Type:        schema.TypeMap,
-																							Elem:        &schema.Schema{Type: schema.TypeString},
+																							// TODO a description would be nice!
+																							Optional: true,
+																							Type:     schema.TypeMap,
+																							Elem:     &schema.Schema{Type: schema.TypeString},
 																						},
 																						"match_expressions": {
-																							Optional:    true,
-																							Description: "",
-																							Type:        schema.TypeList,
+																							// TODO a description would be nice!
+																							Optional: true,
+																							Type:     schema.TypeList,
 																							Elem: &schema.Resource{
 																								Schema: map[string]*schema.Schema{
 																									"key": {
-																										Optional:    true,
-																										Description: "",
-																										Type:        schema.TypeString,
+																										// TODO a description would be nice!
+																										Optional: true,
+																										Type:     schema.TypeString,
 																									},
 																									"operator": {
-																										Optional:    true,
-																										Description: "",
-																										Type:        schema.TypeString,
+																										// TODO a description would be nice!
+																										Optional: true,
+																										Type:     schema.TypeString,
 																									},
 																									"values": {
-																										Optional:    true,
-																										Description: "",
-																										Type:        schema.TypeList,
-																										Elem:        &schema.Schema{Type: schema.TypeString},
+																										// TODO a description would be nice!
+																										Optional: true,
+																										Type:     schema.TypeList,
+																										Elem:     &schema.Schema{Type: schema.TypeString},
 																									},
 																								},
 																							},
@@ -1720,51 +1720,51 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 																				},
 																			},
 																			"namespaces": {
-																				Optional:    true,
-																				Description: "",
-																				Type:        schema.TypeList,
-																				Elem:        &schema.Schema{Type: schema.TypeString},
+																				// TODO a description would be nice!
+																				Optional: true,
+																				Type:     schema.TypeList,
+																				Elem:     &schema.Schema{Type: schema.TypeString},
 																			},
 																			"topology_key": {
-																				Optional:    true,
-																				Description: "",
-																				Type:        schema.TypeString,
+																				// TODO a description would be nice!
+																				Optional: true,
+																				Type:     schema.TypeString,
 																			},
 																			"namespace_selector": {
-																				Optional:    true,
-																				Description: "",
-																				Type:        schema.TypeList,
-																				MinItems:    0,
-																				MaxItems:    1,
+																				// TODO a description would be nice!
+																				Optional: true,
+																				Type:     schema.TypeList,
+																				MinItems: 0,
+																				MaxItems: 1,
 																				Elem: &schema.Resource{
 																					Schema: map[string]*schema.Schema{
 																						"match_labels": {
-																							Optional:    true,
-																							Description: "",
-																							Type:        schema.TypeMap,
-																							Elem:        &schema.Schema{Type: schema.TypeString},
+																							// TODO a description would be nice!
+																							Optional: true,
+																							Type:     schema.TypeMap,
+																							Elem:     &schema.Schema{Type: schema.TypeString},
 																						},
 																						"match_expressions": {
-																							Optional:    true,
-																							Description: "",
-																							Type:        schema.TypeList,
+																							// TODO a description would be nice!
+																							Optional: true,
+																							Type:     schema.TypeList,
 																							Elem: &schema.Resource{
 																								Schema: map[string]*schema.Schema{
 																									"key": {
-																										Optional:    true,
-																										Description: "",
-																										Type:        schema.TypeString,
+																										// TODO a description would be nice!
+																										Optional: true,
+																										Type:     schema.TypeString,
 																									},
 																									"operator": {
-																										Optional:    true,
-																										Description: "",
-																										Type:        schema.TypeString,
+																										// TODO a description would be nice!
+																										Optional: true,
+																										Type:     schema.TypeString,
 																									},
 																									"values": {
-																										Optional:    true,
-																										Description: "",
-																										Type:        schema.TypeList,
-																										Elem:        &schema.Schema{Type: schema.TypeString},
+																										// TODO a description would be nice!
+																										Optional: true,
+																										Type:     schema.TypeList,
+																										Elem:     &schema.Schema{Type: schema.TypeString},
 																									},
 																								},
 																							},
@@ -1785,104 +1785,104 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 								},
 							},
 							"image_pull_secrets": {
-								Optional:    true,
 								Description: "A list of image pull secrets that are used for pulling docker image",
+								Optional:    true,
 								Type:        schema.TypeList,
 								Elem:        &schema.Schema{Type: schema.TypeString},
 							},
 							"helper_image": {
-								Optional:    true,
 								Description: "[ADVANCED] Override the default helper image used to clone repos and upload artifacts",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"helper_image_flavor": {
-								Optional:    true,
 								Description: "Set helper image flavor (alpine, ubuntu), defaults to alpine",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"termination_grace_period_seconds": {
-								Optional:    true,
 								Description: "Duration after the processes running in the pod are sent a termination signal and the time when the processes are forcibly halted with a kill signal.DEPRECATED: use KUBERNETES_POD_TERMINATION_GRACE_PERIOD_SECONDS and KUBERNETES_CLEANUP_GRACE_PERIOD_SECONDS instead.",
+								Optional:    true,
 								Type:        schema.TypeInt,
 							},
 							"pod_termination_grace_period_seconds": {
-								Optional:    true,
 								Description: "Pod-level setting which determines the duration in seconds which the pod has to terminate gracefully. After this, the processes are forcibly halted with a kill signal. Ignored if KUBERNETES_TERMINATIONGRACEPERIODSECONDS is specified.",
+								Optional:    true,
 								Type:        schema.TypeInt,
 							},
 							"cleanup_grace_period_seconds": {
-								Optional:    true,
 								Description: "When cleaning up a pod on completion of a job, the duration in seconds which the pod has to terminate gracefully. After this, the processes are forcibly halted with a kill signal. Ignored if KUBERNETES_TERMINATIONGRACEPERIODSECONDS is specified.",
+								Optional:    true,
 								Type:        schema.TypeInt,
 							},
 							"poll_interval": {
-								Optional:    true,
 								Description: "How frequently, in seconds, the runner will poll the Kubernetes pod it has just created to check its status",
+								Optional:    true,
 								Type:        schema.TypeInt,
 							},
 							"poll_timeout": {
-								Optional:    true,
 								Description: "The total amount of time, in seconds, that needs to pass before the runner will timeout attempting to connect to the pod it has just created (useful for queueing more builds that the cluster can handle at a time)",
+								Optional:    true,
 								Type:        schema.TypeInt,
 							},
 							"pod_labels": {
-								Optional:    true,
 								Description: "A toml table/json object of key-value. Value is expected to be a string. When set, this will create pods with the given pod labels. Environment variables will be substituted for values here.",
+								Optional:    true,
 								Type:        schema.TypeMap,
 								Elem:        &schema.Schema{Type: schema.TypeString},
 							},
 							"service_account": {
-								Optional:    true,
 								Description: "Executor pods will use this Service Account to talk to kubernetes API",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"service_account_overwrite_allowed": {
-								Optional:    true,
 								Description: "Regex to validate 'KUBERNETES_SERVICE_ACCOUNT' value",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"pod_annotations": {
-								Optional:    true,
 								Description: "A toml table/json object of key-value. Value is expected to be a string. When set, this will create pods with the given annotations. Can be overwritten in build with KUBERNETES_POD_ANNOTATION_* variables",
+								Optional:    true,
 								Type:        schema.TypeMap,
 								Elem:        &schema.Schema{Type: schema.TypeString},
 							},
 							"pod_annotations_overwrite_allowed": {
-								Optional:    true,
 								Description: "Regex to validate 'KUBERNETES_POD_ANNOTATIONS_*' values",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"pod_security_context": {
-								Optional:    true,
 								Description: "A security context attached to each build pod",
+								Optional:    true,
 								Type:        schema.TypeList,
 								MinItems:    0,
 								MaxItems:    1,
 								Elem: &schema.Resource{
 									Schema: map[string]*schema.Schema{
 										"fs_group": {
-											Optional:    true,
 											Description: "A special supplemental group that applies to all containers in a pod",
+											Optional:    true,
 											Type:        schema.TypeInt,
 										},
 										"run_as_group": {
-											Optional:    true,
 											Description: "The GID to run the entrypoint of the container process",
+											Optional:    true,
 											Type:        schema.TypeInt,
 										},
 										"run_as_non_root": {
-											Optional:    true,
 											Description: "Indicates that the container must run as a non-root user",
+											Optional:    true,
 											Type:        schema.TypeBool,
 										},
 										"run_as_user": {
-											Optional:    true,
 											Description: "The UID to run the entrypoint of the container process",
+											Optional:    true,
 											Type:        schema.TypeInt,
 										},
 										"supplemental_groups": {
-											Optional:    true,
 											Description: "A list of groups applied to the first process run in each container, in addition to the container's primary GID",
+											Optional:    true,
 											Type:        schema.TypeList,
 											Elem:        &schema.Schema{Type: schema.TypeInt},
 										},
@@ -1890,30 +1890,30 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 								},
 							},
 							"build_container_security_context": {
-								Optional:    true,
 								Description: "A security context attached to the build container inside the build pod",
+								Optional:    true,
 								Type:        schema.TypeList,
 								MinItems:    0,
 								MaxItems:    1,
 								Elem: &schema.Resource{
 									Schema: map[string]*schema.Schema{
 										"capabilities": {
-											Optional:    true,
 											Description: "The capabilities to add/drop when running the container",
+											Optional:    true,
 											Type:        schema.TypeList,
 											MinItems:    0,
 											MaxItems:    1,
 											Elem: &schema.Resource{
 												Schema: map[string]*schema.Schema{
 													"add": {
-														Optional:    true,
 														Description: "List of capabilities to add to the build container",
+														Optional:    true,
 														Type:        schema.TypeList,
 														Elem:        &schema.Schema{Type: schema.TypeString},
 													},
 													"drop": {
-														Optional:    true,
 														Description: "List of capabilities to drop from the build container",
+														Optional:    true,
 														Type:        schema.TypeList,
 														Elem:        &schema.Schema{Type: schema.TypeString},
 													},
@@ -1921,63 +1921,63 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 											},
 										},
 										"privileged": {
-											Optional:    true,
 											Description: "Run container in privileged mode",
+											Optional:    true,
 											Type:        schema.TypeBool,
 										},
 										"run_as_user": {
-											Optional:    true,
 											Description: "The UID to run the entrypoint of the container process",
+											Optional:    true,
 											Type:        schema.TypeInt,
 										},
 										"run_as_group": {
-											Optional:    true,
 											Description: "The GID to run the entrypoint of the container process",
+											Optional:    true,
 											Type:        schema.TypeInt,
 										},
 										"run_as_non_root": {
-											Optional:    true,
 											Description: "Indicates that the container must run as a non-root user",
+											Optional:    true,
 											Type:        schema.TypeBool,
 										},
 										"read_only_root_filesystem": {
-											Optional:    true,
 											Description: " Whether this container has a read-only root filesystem.",
+											Optional:    true,
 											Type:        schema.TypeBool,
 										},
 										"allow_privilege_escalation": {
-											Optional:    true,
 											Description: "AllowPrivilegeEscalation controls whether a process can gain more privileges than its parent process",
+											Optional:    true,
 											Type:        schema.TypeBool,
 										},
 									},
 								},
 							},
 							"helper_container_security_context": {
-								Optional:    true,
 								Description: "A security context attached to the helper container inside the build pod",
+								Optional:    true,
 								Type:        schema.TypeList,
 								MinItems:    0,
 								MaxItems:    1,
 								Elem: &schema.Resource{
 									Schema: map[string]*schema.Schema{
 										"capabilities": {
-											Optional:    true,
 											Description: "The capabilities to add/drop when running the container",
+											Optional:    true,
 											Type:        schema.TypeList,
 											MinItems:    0,
 											MaxItems:    1,
 											Elem: &schema.Resource{
 												Schema: map[string]*schema.Schema{
 													"add": {
-														Optional:    true,
 														Description: "List of capabilities to add to the build container",
+														Optional:    true,
 														Type:        schema.TypeList,
 														Elem:        &schema.Schema{Type: schema.TypeString},
 													},
 													"drop": {
-														Optional:    true,
 														Description: "List of capabilities to drop from the build container",
+														Optional:    true,
 														Type:        schema.TypeList,
 														Elem:        &schema.Schema{Type: schema.TypeString},
 													},
@@ -1985,63 +1985,63 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 											},
 										},
 										"privileged": {
-											Optional:    true,
 											Description: "Run container in privileged mode",
+											Optional:    true,
 											Type:        schema.TypeBool,
 										},
 										"run_as_user": {
-											Optional:    true,
 											Description: "The UID to run the entrypoint of the container process",
+											Optional:    true,
 											Type:        schema.TypeInt,
 										},
 										"run_as_group": {
-											Optional:    true,
 											Description: "The GID to run the entrypoint of the container process",
+											Optional:    true,
 											Type:        schema.TypeInt,
 										},
 										"run_as_non_root": {
-											Optional:    true,
 											Description: "Indicates that the container must run as a non-root user",
+											Optional:    true,
 											Type:        schema.TypeBool,
 										},
 										"read_only_root_filesystem": {
-											Optional:    true,
 											Description: " Whether this container has a read-only root filesystem.",
+											Optional:    true,
 											Type:        schema.TypeBool,
 										},
 										"allow_privilege_escalation": {
-											Optional:    true,
 											Description: "AllowPrivilegeEscalation controls whether a process can gain more privileges than its parent process",
+											Optional:    true,
 											Type:        schema.TypeBool,
 										},
 									},
 								},
 							},
 							"service_container_security_context": {
-								Optional:    true,
 								Description: "A security context attached to the service containers inside the build pod",
+								Optional:    true,
 								Type:        schema.TypeList,
 								MinItems:    0,
 								MaxItems:    1,
 								Elem: &schema.Resource{
 									Schema: map[string]*schema.Schema{
 										"capabilities": {
-											Optional:    true,
 											Description: "The capabilities to add/drop when running the container",
+											Optional:    true,
 											Type:        schema.TypeList,
 											MinItems:    0,
 											MaxItems:    1,
 											Elem: &schema.Resource{
 												Schema: map[string]*schema.Schema{
 													"add": {
-														Optional:    true,
 														Description: "List of capabilities to add to the build container",
+														Optional:    true,
 														Type:        schema.TypeList,
 														Elem:        &schema.Schema{Type: schema.TypeString},
 													},
 													"drop": {
-														Optional:    true,
 														Description: "List of capabilities to drop from the build container",
+														Optional:    true,
 														Type:        schema.TypeList,
 														Elem:        &schema.Schema{Type: schema.TypeString},
 													},
@@ -2049,138 +2049,138 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 											},
 										},
 										"privileged": {
-											Optional:    true,
 											Description: "Run container in privileged mode",
+											Optional:    true,
 											Type:        schema.TypeBool,
 										},
 										"run_as_user": {
-											Optional:    true,
 											Description: "The UID to run the entrypoint of the container process",
+											Optional:    true,
 											Type:        schema.TypeInt,
 										},
 										"run_as_group": {
-											Optional:    true,
 											Description: "The GID to run the entrypoint of the container process",
+											Optional:    true,
 											Type:        schema.TypeInt,
 										},
 										"run_as_non_root": {
-											Optional:    true,
 											Description: "Indicates that the container must run as a non-root user",
+											Optional:    true,
 											Type:        schema.TypeBool,
 										},
 										"read_only_root_filesystem": {
-											Optional:    true,
 											Description: " Whether this container has a read-only root filesystem.",
+											Optional:    true,
 											Type:        schema.TypeBool,
 										},
 										"allow_privilege_escalation": {
-											Optional:    true,
 											Description: "AllowPrivilegeEscalation controls whether a process can gain more privileges than its parent process",
+											Optional:    true,
 											Type:        schema.TypeBool,
 										},
 									},
 								},
 							},
 							"volumes": {
-								Optional:    true,
-								Description: "",
-								Type:        schema.TypeList,
-								MinItems:    0,
-								MaxItems:    1,
+								// TODO a description would be nice!
+								Optional: true,
+								Type:     schema.TypeList,
+								MinItems: 0,
+								MaxItems: 1,
 								Elem: &schema.Resource{
 									Schema: map[string]*schema.Schema{
 										"host_path": {
-											Optional:    true,
 											Description: "The host paths which will be mounted",
+											Optional:    true,
 											Type:        schema.TypeList,
 											Elem: &schema.Resource{
 												Schema: map[string]*schema.Schema{
 													"name": {
-														Optional:    true,
 														Description: "The name of the volume",
+														Optional:    true,
 														Type:        schema.TypeString,
 													},
 													"mount_path": {
-														Optional:    true,
 														Description: "Path where volume should be mounted inside of container",
+														Optional:    true,
 														Type:        schema.TypeString,
 													},
 													"sub_path": {
-														Optional:    true,
 														Description: "The sub-path of the volume to mount (defaults to volume root)",
+														Optional:    true,
 														Type:        schema.TypeString,
 													},
 													"read_only": {
-														Optional:    true,
 														Description: "If this volume should be mounted read only",
+														Optional:    true,
 														Type:        schema.TypeBool,
 													},
 													"host_path": {
-														Optional:    true,
 														Description: "Path from the host that should be mounted as a volume",
+														Optional:    true,
 														Type:        schema.TypeString,
 													},
 												},
 											},
 										},
 										"pvc": {
-											Optional:    true,
 											Description: "The persistent volume claims that will be mounted",
+											Optional:    true,
 											Type:        schema.TypeList,
 											Elem: &schema.Resource{
 												Schema: map[string]*schema.Schema{
 													"name": {
-														Optional:    true,
 														Description: "The name of the volume and PVC to use",
+														Optional:    true,
 														Type:        schema.TypeString,
 													},
 													"mount_path": {
-														Optional:    true,
 														Description: "Path where volume should be mounted inside of container",
+														Optional:    true,
 														Type:        schema.TypeString,
 													},
 													"sub_path": {
-														Optional:    true,
 														Description: "The sub-path of the volume to mount (defaults to volume root)",
+														Optional:    true,
 														Type:        schema.TypeString,
 													},
 													"read_only": {
-														Optional:    true,
 														Description: "If this volume should be mounted read only",
+														Optional:    true,
 														Type:        schema.TypeBool,
 													},
 												},
 											},
 										},
 										"config_map": {
-											Optional:    true,
 											Description: "The config maps which will be mounted as volumes",
+											Optional:    true,
 											Type:        schema.TypeList,
 											Elem: &schema.Resource{
 												Schema: map[string]*schema.Schema{
 													"name": {
-														Optional:    true,
 														Description: "The name of the volume and ConfigMap to use",
+														Optional:    true,
 														Type:        schema.TypeString,
 													},
 													"mount_path": {
-														Optional:    true,
 														Description: "Path where volume should be mounted inside of container",
+														Optional:    true,
 														Type:        schema.TypeString,
 													},
 													"sub_path": {
-														Optional:    true,
 														Description: "The sub-path of the volume to mount (defaults to volume root)",
+														Optional:    true,
 														Type:        schema.TypeString,
 													},
 													"read_only": {
-														Optional:    true,
 														Description: "If this volume should be mounted read only",
+														Optional:    true,
 														Type:        schema.TypeBool,
 													},
 													"items": {
-														Optional:    true,
 														Description: "Key-to-path mapping for keys from the config map that should be used.",
+														Optional:    true,
 														Type:        schema.TypeMap,
 														Elem:        &schema.Schema{Type: schema.TypeString},
 													},
@@ -2188,34 +2188,34 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 											},
 										},
 										"secret": {
-											Optional:    true,
 											Description: "The secret maps which will be mounted",
+											Optional:    true,
 											Type:        schema.TypeList,
 											Elem: &schema.Resource{
 												Schema: map[string]*schema.Schema{
 													"name": {
-														Optional:    true,
 														Description: "The name of the volume and Secret to use",
+														Optional:    true,
 														Type:        schema.TypeString,
 													},
 													"mount_path": {
-														Optional:    true,
 														Description: "Path where volume should be mounted inside of container",
+														Optional:    true,
 														Type:        schema.TypeString,
 													},
 													"sub_path": {
-														Optional:    true,
 														Description: "The sub-path of the volume to mount (defaults to volume root)",
+														Optional:    true,
 														Type:        schema.TypeString,
 													},
 													"read_only": {
-														Optional:    true,
 														Description: "If this volume should be mounted read only",
+														Optional:    true,
 														Type:        schema.TypeBool,
 													},
 													"items": {
-														Optional:    true,
 														Description: "Key-to-path mapping for keys from the secret that should be used.",
+														Optional:    true,
 														Type:        schema.TypeMap,
 														Elem:        &schema.Schema{Type: schema.TypeString},
 													},
@@ -2223,73 +2223,73 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 											},
 										},
 										"empty_dir": {
-											Optional:    true,
 											Description: "The empty dirs which will be mounted",
+											Optional:    true,
 											Type:        schema.TypeList,
 											Elem: &schema.Resource{
 												Schema: map[string]*schema.Schema{
 													"name": {
-														Optional:    true,
 														Description: "The name of the volume and EmptyDir to use",
+														Optional:    true,
 														Type:        schema.TypeString,
 													},
 													"mount_path": {
-														Optional:    true,
 														Description: "Path where volume should be mounted inside of container",
+														Optional:    true,
 														Type:        schema.TypeString,
 													},
 													"sub_path": {
-														Optional:    true,
 														Description: "The sub-path of the volume to mount (defaults to volume root)",
+														Optional:    true,
 														Type:        schema.TypeString,
 													},
 													"medium": {
-														Optional:    true,
 														Description: "Set to 'Memory' to have a tmpfs",
+														Optional:    true,
 														Type:        schema.TypeString,
 													},
 												},
 											},
 										},
 										"csi": {
-											Optional:    true,
 											Description: "The CSI volumes which will be mounted",
+											Optional:    true,
 											Type:        schema.TypeList,
 											Elem: &schema.Resource{
 												Schema: map[string]*schema.Schema{
 													"name": {
-														Optional:    true,
 														Description: "The name of the CSI volume and volumeMount to use",
+														Optional:    true,
 														Type:        schema.TypeString,
 													},
 													"mount_path": {
-														Optional:    true,
 														Description: "Path where volume should be mounted inside of container",
+														Optional:    true,
 														Type:        schema.TypeString,
 													},
 													"sub_path": {
-														Optional:    true,
 														Description: "The sub-path of the volume to mount (defaults to volume root)",
+														Optional:    true,
 														Type:        schema.TypeString,
 													},
 													"driver": {
-														Optional:    true,
 														Description: "A string value that specifies the name of the volume driver to use.",
+														Optional:    true,
 														Type:        schema.TypeString,
 													},
 													"fs_type": {
-														Optional:    true,
 														Description: "Filesystem type to mount. If not provided, the empty value is passed to the associated CSI driver which will determine the default filesystem to apply.",
+														Optional:    true,
 														Type:        schema.TypeString,
 													},
 													"read_only": {
-														Optional:    true,
 														Description: "If this volume should be mounted read only",
+														Optional:    true,
 														Type:        schema.TypeBool,
 													},
 													"volume_attributes": {
-														Optional:    true,
 														Description: "Key-value pair mapping for attributes of the CSI volume.",
+														Optional:    true,
 														Type:        schema.TypeMap,
 														Elem:        &schema.Schema{Type: schema.TypeString},
 													},
@@ -2300,19 +2300,19 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 								},
 							},
 							"host_aliases": {
-								Optional:    true,
 								Description: "Add a custom host-to-IP mapping",
+								Optional:    true,
 								Type:        schema.TypeList,
 								Elem: &schema.Resource{
 									Schema: map[string]*schema.Schema{
 										"ip": {
-											Optional:    true,
 											Description: "The IP address you want to attach hosts to",
+											Optional:    true,
 											Type:        schema.TypeString,
 										},
 										"hostnames": {
-											Optional:    true,
 											Description: "A list of hostnames that will be attached to the IP",
+											Optional:    true,
 											Type:        schema.TypeList,
 											Elem:        &schema.Schema{Type: schema.TypeString},
 										},
@@ -2320,30 +2320,30 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 								},
 							},
 							"services": {
-								Optional:    true,
 								Description: "Add service that is started with container",
+								Optional:    true,
 								Type:        schema.TypeList,
 								Elem: &schema.Resource{
 									Schema: map[string]*schema.Schema{
 										"name": {
-											Optional:    true,
 											Description: "The image path for the service",
+											Optional:    true,
 											Type:        schema.TypeString,
 										},
 										"alias": {
-											Optional:    true,
 											Description: "The alias of the service",
+											Optional:    true,
 											Type:        schema.TypeString,
 										},
 										"command": {
-											Optional:    true,
 											Description: "Command or script that should be used as the container’s command. Syntax is similar to https://docs.docker.com/engine/reference/builder/#cmd",
+											Optional:    true,
 											Type:        schema.TypeList,
 											Elem:        &schema.Schema{Type: schema.TypeString},
 										},
 										"entrypoint": {
-											Optional:    true,
 											Description: "Command or script that should be executed as the container’s entrypoint. syntax is similar to https://docs.docker.com/engine/reference/builder/#entrypoint",
+											Optional:    true,
 											Type:        schema.TypeList,
 											Elem:        &schema.Schema{Type: schema.TypeString},
 										},
@@ -2351,58 +2351,58 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 								},
 							},
 							"cap_add": {
-								Optional:    true,
 								Description: "Add Linux capabilities",
+								Optional:    true,
 								Type:        schema.TypeList,
 								Elem:        &schema.Schema{Type: schema.TypeString},
 							},
 							"cap_drop": {
-								Optional:    true,
 								Description: "Drop Linux capabilities",
+								Optional:    true,
 								Type:        schema.TypeList,
 								Elem:        &schema.Schema{Type: schema.TypeString},
 							},
 							"dns_policy": {
-								Optional:    true,
 								Description: "How Kubernetes should try to resolve DNS from the created pods. If unset, Kubernetes will use the default 'ClusterFirst'. Valid values are: none, default, cluster-first, cluster-first-with-host-net",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"dns_config": {
-								Optional:    true,
 								Description: "Pod DNS config",
+								Optional:    true,
 								Type:        schema.TypeList,
 								MinItems:    0,
 								MaxItems:    1,
 								Elem: &schema.Resource{
 									Schema: map[string]*schema.Schema{
 										"nameservers": {
-											Optional:    true,
 											Description: "A list of IP addresses that will be used as DNS servers for the Pod.",
+											Optional:    true,
 											Type:        schema.TypeList,
 											Elem:        &schema.Schema{Type: schema.TypeString},
 										},
 										"options": {
-											Optional:    true,
 											Description: "An optional list of objects where each object may have a name property (required) and a value property (optional).",
+											Optional:    true,
 											Type:        schema.TypeList,
 											Elem: &schema.Resource{
 												Schema: map[string]*schema.Schema{
 													"name": {
-														Optional:    true,
-														Description: "",
-														Type:        schema.TypeString,
+														// TODO a description would be nice!
+														Optional: true,
+														Type:     schema.TypeString,
 													},
 													"value": {
-														Optional:    true,
-														Description: "",
-														Type:        schema.TypeString,
+														// TODO a description would be nice!
+														Optional: true,
+														Type:     schema.TypeString,
 													},
 												},
 											},
 										},
 										"searches": {
-											Optional:    true,
 											Description: "A list of DNS search domains for hostname lookup in the Pod.",
+											Optional:    true,
 											Type:        schema.TypeList,
 											Elem:        &schema.Schema{Type: schema.TypeString},
 										},
@@ -2410,32 +2410,32 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 								},
 							},
 							"container_lifecycle": {
-								Optional:    true,
 								Description: "Actions that the management system should take in response to container lifecycle events",
+								Optional:    true,
 								Type:        schema.TypeList,
 								MinItems:    0,
 								MaxItems:    1,
 								Elem: &schema.Resource{
 									Schema: map[string]*schema.Schema{
 										"post_start": {
-											Optional:    true,
 											Description: "PostStart is called immediately after a container is created. If the handler fails, the container is terminated and restarted according to its restart policy. Other management of the container blocks until the hook completes",
+											Optional:    true,
 											Type:        schema.TypeList,
 											MinItems:    0,
 											MaxItems:    1,
 											Elem: &schema.Resource{
 												Schema: map[string]*schema.Schema{
 													"exec": {
-														Optional:    true,
 														Description: "Exec specifies the action to take",
+														Optional:    true,
 														Type:        schema.TypeList,
 														MinItems:    0,
 														MaxItems:    1,
 														Elem: &schema.Resource{
 															Schema: map[string]*schema.Schema{
 																"command": {
-																	Optional:    true,
 																	Description: "Command is the command line to execute inside the container, the working directory for the command  is root ('/') in the container's filesystem. The command is simply exec'd, it is not run inside a shell, so traditional shell instructions ('|', etc) won't work. To use a shell, you need to explicitly call out to that shell. Exit status of 0 is treated as live/healthy and non-zero is unhealthy",
+																	Optional:    true,
 																	Type:        schema.TypeList,
 																	Elem:        &schema.Schema{Type: schema.TypeString},
 																},
@@ -2443,71 +2443,71 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 														},
 													},
 													"http_get": {
-														Optional:    true,
 														Description: "HTTPGet specifies the http request to perform.",
+														Optional:    true,
 														Type:        schema.TypeList,
 														MinItems:    0,
 														MaxItems:    1,
 														Elem: &schema.Resource{
 															Schema: map[string]*schema.Schema{
 																"host": {
-																	Optional:    true,
 																	Description: "Host name to connect to, defaults to the pod IP. You probably want to set \"Host\" in httpHeaders instead",
+																	Optional:    true,
 																	Type:        schema.TypeString,
 																},
 																"http_headers": {
-																	Optional:    true,
 																	Description: "Custom headers to set in the request. HTTP allows repeated headers",
+																	Optional:    true,
 																	Type:        schema.TypeList,
 																	Elem: &schema.Resource{
 																		Schema: map[string]*schema.Schema{
 																			"name": {
-																				Optional:    true,
 																				Description: "The header field name",
+																				Optional:    true,
 																				Type:        schema.TypeString,
 																			},
 																			"value": {
-																				Optional:    true,
 																				Description: "The header field value",
+																				Optional:    true,
 																				Type:        schema.TypeString,
 																			},
 																		},
 																	},
 																},
 																"path": {
-																	Optional:    true,
 																	Description: "Path to access on the HTTP server",
+																	Optional:    true,
 																	Type:        schema.TypeString,
 																},
 																"port": {
-																	Optional:    true,
 																	Description: "Number of the port to access on the container. Number must be in the range 1 to 65535",
+																	Optional:    true,
 																	Type:        schema.TypeInt,
 																},
 																"scheme": {
-																	Optional:    true,
 																	Description: "Scheme to use for connecting to the host. Defaults to HTTP",
+																	Optional:    true,
 																	Type:        schema.TypeString,
 																},
 															},
 														},
 													},
 													"tcp_socket": {
-														Optional:    true,
 														Description: "TCPSocket specifies an action involving a TCP port",
+														Optional:    true,
 														Type:        schema.TypeList,
 														MinItems:    0,
 														MaxItems:    1,
 														Elem: &schema.Resource{
 															Schema: map[string]*schema.Schema{
 																"host": {
-																	Optional:    true,
 																	Description: "Host name to connect to, defaults to the pod IP. You probably want to set \"Host\" in httpHeaders instead",
+																	Optional:    true,
 																	Type:        schema.TypeString,
 																},
 																"port": {
-																	Optional:    true,
 																	Description: "Number of the port to access on the container. Number must be in the range 1 to 65535",
+																	Optional:    true,
 																	Type:        schema.TypeInt,
 																},
 															},
@@ -2517,24 +2517,24 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 											},
 										},
 										"pre_stop": {
-											Optional:    true,
 											Description: "PreStop is called immediately before a container is terminated due to an API request or management event such as liveness/startup probe failure, preemption, resource contention, etc. The handler is not called if the container crashes or exits. The reason for termination is passed to the handler. The Pod's termination grace period countdown begins before the PreStop hooked is executed. Regardless of the outcome of the handler, the container will eventually terminate within the Pod's termination grace period. Other management of the container blocks until the hook completes or until the termination grace period is reached",
+											Optional:    true,
 											Type:        schema.TypeList,
 											MinItems:    0,
 											MaxItems:    1,
 											Elem: &schema.Resource{
 												Schema: map[string]*schema.Schema{
 													"exec": {
-														Optional:    true,
 														Description: "Exec specifies the action to take",
+														Optional:    true,
 														Type:        schema.TypeList,
 														MinItems:    0,
 														MaxItems:    1,
 														Elem: &schema.Resource{
 															Schema: map[string]*schema.Schema{
 																"command": {
-																	Optional:    true,
 																	Description: "Command is the command line to execute inside the container, the working directory for the command  is root ('/') in the container's filesystem. The command is simply exec'd, it is not run inside a shell, so traditional shell instructions ('|', etc) won't work. To use a shell, you need to explicitly call out to that shell. Exit status of 0 is treated as live/healthy and non-zero is unhealthy",
+																	Optional:    true,
 																	Type:        schema.TypeList,
 																	Elem:        &schema.Schema{Type: schema.TypeString},
 																},
@@ -2542,71 +2542,71 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 														},
 													},
 													"http_get": {
-														Optional:    true,
 														Description: "HTTPGet specifies the http request to perform.",
+														Optional:    true,
 														Type:        schema.TypeList,
 														MinItems:    0,
 														MaxItems:    1,
 														Elem: &schema.Resource{
 															Schema: map[string]*schema.Schema{
 																"host": {
-																	Optional:    true,
 																	Description: "Host name to connect to, defaults to the pod IP. You probably want to set \"Host\" in httpHeaders instead",
+																	Optional:    true,
 																	Type:        schema.TypeString,
 																},
 																"http_headers": {
-																	Optional:    true,
 																	Description: "Custom headers to set in the request. HTTP allows repeated headers",
+																	Optional:    true,
 																	Type:        schema.TypeList,
 																	Elem: &schema.Resource{
 																		Schema: map[string]*schema.Schema{
 																			"name": {
-																				Optional:    true,
 																				Description: "The header field name",
+																				Optional:    true,
 																				Type:        schema.TypeString,
 																			},
 																			"value": {
-																				Optional:    true,
 																				Description: "The header field value",
+																				Optional:    true,
 																				Type:        schema.TypeString,
 																			},
 																		},
 																	},
 																},
 																"path": {
-																	Optional:    true,
 																	Description: "Path to access on the HTTP server",
+																	Optional:    true,
 																	Type:        schema.TypeString,
 																},
 																"port": {
-																	Optional:    true,
 																	Description: "Number of the port to access on the container. Number must be in the range 1 to 65535",
+																	Optional:    true,
 																	Type:        schema.TypeInt,
 																},
 																"scheme": {
-																	Optional:    true,
 																	Description: "Scheme to use for connecting to the host. Defaults to HTTP",
+																	Optional:    true,
 																	Type:        schema.TypeString,
 																},
 															},
 														},
 													},
 													"tcp_socket": {
-														Optional:    true,
 														Description: "TCPSocket specifies an action involving a TCP port",
+														Optional:    true,
 														Type:        schema.TypeList,
 														MinItems:    0,
 														MaxItems:    1,
 														Elem: &schema.Resource{
 															Schema: map[string]*schema.Schema{
 																"host": {
-																	Optional:    true,
 																	Description: "Host name to connect to, defaults to the pod IP. You probably want to set \"Host\" in httpHeaders instead",
+																	Optional:    true,
 																	Type:        schema.TypeString,
 																},
 																"port": {
-																	Optional:    true,
 																	Description: "Number of the port to access on the container. Number must be in the range 1 to 65535",
+																	Optional:    true,
 																	Type:        schema.TypeInt,
 																},
 															},
@@ -2622,80 +2622,80 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 					},
 				},
 				"custom": {
-					Optional:    true,
-					Description: "",
-					Type:        schema.TypeList,
-					MinItems:    0,
-					MaxItems:    1,
+					// TODO a description would be nice!
+					Optional: true,
+					Type:     schema.TypeList,
+					MinItems: 0,
+					MaxItems: 1,
 					Elem: &schema.Resource{
 						Schema: map[string]*schema.Schema{
 							"config_exec": {
-								Optional:    true,
 								Description: "Executable that allows to inject configuration values to the executor",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"config_args": {
-								Optional:    true,
 								Description: "Arguments for the config executable",
+								Optional:    true,
 								Type:        schema.TypeList,
 								Elem:        &schema.Schema{Type: schema.TypeString},
 							},
 							"config_exec_timeout": {
-								Optional:    true,
 								Description: "Timeout for the config executable (in seconds)",
+								Optional:    true,
 								Type:        schema.TypeInt,
 							},
 							"prepare_exec": {
-								Optional:    true,
 								Description: "Executable that prepares executor",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"prepare_args": {
-								Optional:    true,
 								Description: "Arguments for the prepare executable",
+								Optional:    true,
 								Type:        schema.TypeList,
 								Elem:        &schema.Schema{Type: schema.TypeString},
 							},
 							"prepare_exec_timeout": {
-								Optional:    true,
 								Description: "Timeout for the prepare executable (in seconds)",
+								Optional:    true,
 								Type:        schema.TypeInt,
 							},
 							"run_exec": {
-								Optional:    true,
 								Description: "Executable that runs the job script in executor",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"run_args": {
-								Optional:    true,
 								Description: "Arguments for the run executable",
+								Optional:    true,
 								Type:        schema.TypeList,
 								Elem:        &schema.Schema{Type: schema.TypeString},
 							},
 							"cleanup_exec": {
-								Optional:    true,
 								Description: "Executable that cleanups after executor run",
+								Optional:    true,
 								Type:        schema.TypeString,
 							},
 							"cleanup_args": {
-								Optional:    true,
 								Description: "Arguments for the cleanup executable",
+								Optional:    true,
 								Type:        schema.TypeList,
 								Elem:        &schema.Schema{Type: schema.TypeString},
 							},
 							"cleanup_exec_timeout": {
-								Optional:    true,
 								Description: "Timeout for the cleanup executable (in seconds)",
+								Optional:    true,
 								Type:        schema.TypeInt,
 							},
 							"graceful_kill_timeout": {
-								Optional:    true,
 								Description: "Graceful timeout for scripts execution after SIGTERM is sent to the process (in seconds). This limits the time given for scripts to perform the cleanup before exiting",
+								Optional:    true,
 								Type:        schema.TypeInt,
 							},
 							"force_kill_timeout": {
-								Optional:    true,
 								Description: "Force timeout for scripts execution (in seconds). Counted from the force kill call; if process will be not terminated, Runner will abandon process termination and log an error",
+								Optional:    true,
 								Type:        schema.TypeInt,
 							},
 						},
@@ -2705,9 +2705,9 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 		},
 	},
 	"sentry_dsn": {
-		Optional:    true,
-		Description: "",
-		Type:        schema.TypeString,
+		// TODO a description would be nice!
+		Optional: true,
+		Type:     schema.TypeString,
 	},
 }
 
