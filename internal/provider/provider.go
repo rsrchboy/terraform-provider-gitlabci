@@ -11,6 +11,11 @@ import (
 	"github.com/parnurzeal/gorequest"
 )
 
+func init() {
+	// ensure our descriptions are interpreted correctly
+	schema.DescriptionKind = schema.StringMarkdown
+}
+
 // NewProvider creates a new Provider
 func NewProvider(version, commit string) func() *schema.Provider {
 	return func() *schema.Provider {
