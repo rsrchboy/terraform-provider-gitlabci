@@ -69,7 +69,9 @@ output "token" {
 - **description** (String) Runner description
 - **id** (String) The ID of this resource.
 - **locked** (Boolean) Lock runner to project
+- **maintenance_note** (String) Free-form maintenance notes for the runner (255 characters max)
 - **maximum_timeout** (Number) Maximum timeout for jobs
+- **name** (String) Runner 'name'
 - **run_untagged** (Boolean) Take and run untagged jobs?
 - **tags** (Set of String) List of tags for the runner
 

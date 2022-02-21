@@ -7,6 +7,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"strconv"
+	"strings"
 
 	// we're embedding stuff, and the linter _really_ wants us to justify it
 	_ "embed"
@@ -15,6 +16,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
+	"gitlab.com/rsrchboy/terraform-provider-gitlabci/third_party/gitlab/runner/config"
 )
 
 //go:embed resource_runner_token.md
@@ -97,6 +99,19 @@ func resourceGitlabRunner() *schema.Resource {
 				Default:     true,
 				Description: "Take and run untagged jobs?",
 			},
+			"maintenance_note": {
+				Type:         schema.TypeString,
+				Optional:     true,
+				ForceNew:     true,
+				Description:  "Free-form maintenance notes for the runner (255 characters max)",
+				ValidateFunc: validation.StringLenBetween(0, 255),
+			},
+			"name": {
+				Type:        schema.TypeString,
+				Optional:    true,
+				ForceNew:    true,
+				Description: "Runner 'name'",
+			},
 		},
 	}
 }
@@ -104,51 +119,52 @@ func resourceGitlabRunner() *schema.Resource {
 func resourceGitlabRunnerCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	api := meta.(apiClient)
 
-	tflog.Trace(ctx, "create gitlab runner token")
+	tflog.Debug(ctx, "create gitlab runner token")
 
-	type RegisterOptions struct {
-		Token          string   `json:"token"`
-		Description    string   `json:"description,omitempty"`
-		Active         bool     `json:"active"`
-		Locked         bool     `json:"locked"`
-		RunUntagged    bool     `json:"run_untagged"`
-		TagList        []string `json:"tag_list,omitempty"`
-		AccessLevel    string   `json:"access_level,omitempty"`
-		MaximumTimeout int      `json:"maximum_timeout,omitempty"`
-		// info hash
-	}
-
+	// config.RegisterRunnerResponse omits the ID field :\
 	type registrationResponse struct {
-		ID    int    `json:"id"`
-		Token string `json:"token"`
+		config.RegisterRunnerResponse
+		ID int `json:"id"`
 	}
 
-	registrationToken := d.Get("registration_token").(string)
-
-	query := RegisterOptions{
-		Token:          registrationToken,
-		Description:    d.Get("description").(string),
-		RunUntagged:    d.Get("run_untagged").(bool),
-		Active:         d.Get("active").(bool),
-		Locked:         d.Get("locked").(bool),
-		MaximumTimeout: d.Get("maximum_timeout").(int),
+	query := config.RegisterRunnerRequest{
+		Token: d.Get("registration_token").(string),
+		RegisterRunnerParameters: config.RegisterRunnerParameters{
+			Description:     d.Get("description").(string),
+			RunUntagged:     d.Get("run_untagged").(bool),
+			Active:          d.Get("active").(bool),
+			Locked:          d.Get("locked").(bool),
+			AccessLevel:     d.Get("access_level").(string),
+			MaximumTimeout:  d.Get("maximum_timeout").(int),
+			MaintenanceNote: d.Get("maintenance_note").(string),
+		},
+		Info: config.VersionInfo{
+			Name:    d.Get("name").(string),
+			Version: api.userAgent, // overwritten when the runner connects
+			// Revision: "a revision",
+		},
 	}
 
 	if v, ok := d.GetOk("tags"); ok {
-		query.TagList = *(stringSetToStringSlice(v.(*schema.Set)))
+		query.Tags = strings.Join(*stringSetToStringSlice(v.(*schema.Set)), ",")
 	}
 
 	url := api.baseURL + "/runners"
 
-	j, _ := json.Marshal(query)
-	tflog.Trace(ctx, "create gitlab runner query: %s", j)
+	j, err := json.Marshal(query)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	tflog.Trace(ctx, fmt.Sprintf("create gitlab runner query: %s", j))
 
 	req := api.newAgent().Post(url).Send(query)
 
 	// TODO other registration options...
 
 	var runnerDetails registrationResponse
-	resp, _, errs := req.EndStruct(&runnerDetails)
+	resp, raw, errs := req.EndStruct(&runnerDetails)
+
+	tflog.Trace(ctx, fmt.Sprintf("create gitlab runner token response: %s", raw))
 
 	for _, err := range errs {
 		// FIXME
@@ -163,22 +179,21 @@ func resourceGitlabRunnerCreate(ctx context.Context, d *schema.ResourceData, met
 	d.Set("token", runnerDetails.Token)
 	d.Set("runner_id", runnerDetails.ID)
 
+	tflog.Debug(ctx, fmt.Sprintf("create gitlab runner token successful for runner #%d", runnerDetails.ID))
 	return nil
 }
 
 func resourceGitlabRunnerRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	api := meta.(apiClient)
 
-	tflog.Debug(ctx, "validating runner token")
+	tflog.Debug(ctx, fmt.Sprintf("validating runner token for runner #%s", d.Id()))
 
 	runnerID, err := strconv.Atoi(d.Id())
 	if err != nil {
 		return diag.FromErr(err)
 	}
 
-	// FIXME probably ought to VerifyRegisteredRunner() here first
-
-	tflog.Trace(ctx, "read gitlab runner %d", runnerID)
+	tflog.Trace(ctx, fmt.Sprintf("read gitlab runner %d", runnerID))
 
 	url := api.baseURL + "/runners/verify"
 	query := "token=" + d.Get("token").(string)
@@ -206,7 +221,7 @@ func resourceGitlabRunnerDelete(ctx context.Context, d *schema.ResourceData, met
 		return diag.FromErr(err)
 	}
 
-	tflog.Trace(ctx, "Delete gitlab runner %d", id)
+	tflog.Debug(ctx, fmt.Sprintf("Delete gitlab runner %d", id))
 
 	url := api.baseURL + "/runners"
 	query := "token=" + d.Get("token").(string)
@@ -220,7 +235,7 @@ func resourceGitlabRunnerDelete(ctx context.Context, d *schema.ResourceData, met
 
 	if resp.StatusCode == 204 {
 		// all good!
-		return diag.FromErr(err)
+		return nil
 	}
 
 	return diag.Errorf("bad response (%d): %s", resp.StatusCode, resp.Status)
