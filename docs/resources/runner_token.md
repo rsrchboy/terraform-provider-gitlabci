@@ -3,9 +3,9 @@
 page_title: "gitlabci_runner_token Resource - terraform-provider-gitlabci"
 subcategory: ""
 description: |-
-  The gitlabci_runner resource allows the trivial creation of a runner
-  token using a runner registration token, without requiring authentication to
-  the GitLab instance itself.  It does this by using the runner registration
+  The gitlabci_runner resource allows the trivial creation of a runner token
+  using a runner registration token, without requiring authentication to the
+  GitLab instance itself.  It does this by using the runner registration
   token https://docs.gitlab.com/runner/register/ of the
   project/group/instance, rather than the authentication credentials of any
   specific user.
@@ -17,9 +17,9 @@ description: |-
 
 # gitlabci_runner_token (Resource)
 
-The `gitlabci_runner` resource allows the trivial creation of a runner
-token using a runner registration token, without requiring authentication to
-the GitLab instance itself.  It does this by using the [runner registration
+The `gitlabci_runner` resource allows the trivial creation of a runner token
+using a runner registration token, without requiring authentication to the
+GitLab instance itself.  It does this by using the [runner registration
 token](https://docs.gitlab.com/runner/register/) of the
 project/group/instance, rather than the authentication credentials of any
 specific user.
