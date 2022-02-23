@@ -37,6 +37,6 @@ resource "gitlabci_runner_token" "foo" {
 
 func testRunnerTokenAccPreCheck(t *testing.T, token string) {
 	if token == "" {
-		t.Skip("$RUNNER_REGISTRATION_TOKEN not set; skipping registration tests")
+		t.Fatal("$RUNNER_REGISTRATION_TOKEN not set; skipping registration tests")
 	}
 }
