@@ -27,12 +27,12 @@ func resourceGitlabRunner() *schema.Resource {
 		CreateContext: resourceGitlabRunnerCreate,
 		ReadContext:   resourceGitlabRunnerRead,
 		DeleteContext: resourceGitlabRunnerDelete,
+		UpdateContext: resourceGitlabRunnerUpdate,
 		Description:   resourceGitlabRunnerDescription,
 
 		Schema: map[string]*schema.Schema{
 			"registration_token": {
 				Type:        schema.TypeString,
-				ForceNew:    true,
 				Required:    true,
 				Sensitive:   true,
 				StateFunc:   hashSum,
@@ -239,4 +239,15 @@ func resourceGitlabRunnerDelete(ctx context.Context, d *schema.ResourceData, met
 	}
 
 	return diag.Errorf("bad response (%d): %s", resp.StatusCode, resp.Status)
+}
+
+func resourceGitlabRunnerUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+
+	tflog.Debug(ctx, fmt.Sprintf("Update gitlab runner token %s", d.Id()))
+
+	// GNDN -- the only thing we can update/change here without forcing a new
+	// resource is the registration token -- and we're not taking any action
+	// off of that.
+
+	return nil
 }
