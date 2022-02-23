@@ -11,6 +11,7 @@ require (
 	github.com/hashicorp/terraform-plugin-sdk v1.17.2
 	github.com/hashicorp/terraform-plugin-sdk/v2 v2.10.1
 	github.com/imdario/mergo v0.3.12
+	github.com/joho/godotenv v1.4.0
 	github.com/parnurzeal/gorequest v0.2.16
 	github.com/spf13/pflag v1.0.5
 	github.com/stoewer/go-strcase v1.2.0

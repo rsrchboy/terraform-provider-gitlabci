@@ -17,7 +17,7 @@ $(binary_name): $(sources)
 	rm -f .terraform.lock.hcl # ...or provider checksums mismatch
 
 test:
-	go test `go list ./...`
+	TF_ACC=1 go test -v `go list ./internal/...`
 
 clean:
 	rm -f $(binary_name) predefined_variables.md vars-data .terraform.lock.hcl
