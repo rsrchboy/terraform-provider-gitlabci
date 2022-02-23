@@ -47,3 +47,4 @@ terraform.d
 
 # CI related; needs to be ignored for goreleaser to not explode
 .gocache/
+.env

@@ -10,7 +10,12 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/joho/godotenv"
 )
+
+func init() {
+	godotenv.Load("../../.env")
+}
 
 // providerFactories are used to instantiate a provider during acceptance
 // testing.  The factory function will be invoked for every Terraform CLI
