@@ -112,6 +112,13 @@ func resourceGitlabRunner() *schema.Resource {
 				ForceNew:    true,
 				Description: "Runner 'name'",
 			},
+
+			"triggers": {
+				Description: "A map of arbitrary strings that, when changed, will force the resource to be recreated.  Useful if, e.g., you want to recreate the runner token when the registration token changes.",
+				Type:        schema.TypeMap,
+				Optional:    true,
+				ForceNew:    true,
+			},
 		},
 	}
 }
