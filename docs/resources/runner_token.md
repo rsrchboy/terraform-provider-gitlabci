@@ -74,6 +74,7 @@ output "token" {
 - **name** (String) Runner 'name'
 - **run_untagged** (Boolean) Take and run untagged jobs?
 - **tags** (Set of String) List of tags for the runner
+- **triggers** (Map of String) A map of arbitrary strings that, when changed, will force the resource to be recreated.  Useful if, e.g., you want to recreate the runner token when the registration token changes.
 
 ### Read-Only
 
