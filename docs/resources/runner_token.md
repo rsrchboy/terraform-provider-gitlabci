@@ -60,25 +60,25 @@ output "token" {
 
 ### Required
 
-- **registration_token** (String, Sensitive) Runner registration token (shared, group, or project)
+- **registration_token** (String, Sensitive) Runner registration token; see [Registering Runners](https://docs.gitlab.com/runner/register) for more information.
 
 ### Optional
 
-- **access_level** (String) Run against all refs, or protected only
-- **active** (Boolean) Create the runner active, or paused?
-- **description** (String) Runner description
+- **access_level** (String) Run against all refs, or protected only. Legal values are 'not_protected' or 'ref_protected'. *Changing this attribute forces the recreation of the resource.*
+- **active** (Boolean) Create the runner active, or paused? *Changing this attribute forces the recreation of the resource.*
+- **description** (String) Runner description; trivially visible from the UI. *Changing this attribute forces the recreation of the resource.*
 - **id** (String) The ID of this resource.
-- **locked** (Boolean) Lock runner to project
-- **maintenance_note** (String) Free-form maintenance notes for the runner (255 characters max)
-- **maximum_timeout** (Number) Maximum timeout for jobs
-- **name** (String) Runner 'name'
-- **run_untagged** (Boolean) Take and run untagged jobs?
-- **tags** (Set of String) List of tags for the runner
-- **triggers** (Map of String) A map of arbitrary strings that, when changed, will force the resource to be recreated.  Useful if, e.g., you want to recreate the runner token when the registration token changes.
+- **locked** (Boolean) Lock runner to project. *Changing this attribute forces the recreation of the resource.*
+- **maintenance_note** (String) Free-form maintenance notes for the runner (255 characters max). *Changing this attribute forces the recreation of the resource.*
+- **maximum_timeout** (Number) Maximum timeout for jobs. *Changing this attribute forces the recreation of the resource.*
+- **name** (String) Runner 'name'.  Not highly visible in the UI; you probably want 'description'. *Changing this attribute forces the recreation of the resource.*
+- **run_untagged** (Boolean) Take and run untagged jobs? *Changing this attribute forces the recreation of the resource.*
+- **tags** (Set of String) List of tags for the runner. *Changing this attribute forces the recreation of the resource.*
+- **triggers** (Map of String) A map of arbitrary strings that, when changed, will force the runner to be re-registered (and a new token issued). *Changing this attribute forces the recreation of the resource.*
 
 ### Read-Only
 
-- **runner_id** (Number) Runner ID
-- **token** (String, Sensitive) Generated (registered) runner token
+- **runner_id** (Number) ID of the registered runner.
+- **token** (String, Sensitive) Generated runner token issued at runner registration.
 
 

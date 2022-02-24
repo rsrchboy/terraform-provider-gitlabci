@@ -22,8 +22,10 @@ import (
 //go:embed resource_runner_token.md
 var resourceGitlabRunnerDescription string
 
+const fnDesc = " *Changing this attribute forces the recreation of the resource.*"
+
 func resourceGitlabRunner() *schema.Resource {
-	return &schema.Resource{
+	s := &schema.Resource{
 		CreateContext: resourceGitlabRunnerCreate,
 		ReadContext:   resourceGitlabRunnerRead,
 		DeleteContext: resourceGitlabRunnerDelete,
@@ -36,39 +38,39 @@ func resourceGitlabRunner() *schema.Resource {
 				Required:    true,
 				Sensitive:   true,
 				StateFunc:   hashSum,
-				Description: "Runner registration token (shared, group, or project)",
+				Description: "Runner registration token; see [Registering Runners](https://docs.gitlab.com/runner/register) for more information.",
 			},
 			"token": {
 				Type:        schema.TypeString,
 				Computed:    true,
 				Sensitive:   true,
-				Description: "Generated (registered) runner token",
+				Description: "Generated runner token issued at runner registration.",
 			},
 			"runner_id": {
 				Type:        schema.TypeInt,
 				Computed:    true,
-				Description: "Runner ID",
+				Description: "ID of the registered runner.",
 			},
 			"access_level": {
 				Type:         schema.TypeString,
 				ForceNew:     true,
 				Optional:     true,
 				ValidateFunc: validation.StringInSlice([]string{"not_protected", "ref_protected"}, true),
-				Description:  "Run against all refs, or protected only",
+				Description:  "Run against all refs, or protected only. Legal values are 'not_protected' or 'ref_protected'.",
 			},
 			"locked": {
 				Type:        schema.TypeBool,
 				ForceNew:    true,
 				Optional:    true,
 				Default:     true,
-				Description: "Lock runner to project",
+				Description: "Lock runner to project.",
 			},
 			"maximum_timeout": {
 				Type:         schema.TypeInt,
 				ForceNew:     true,
 				Optional:     true,
 				ValidateFunc: validation.IntAtLeast(10 * 60),
-				Description:  "Maximum timeout for jobs",
+				Description:  "Maximum timeout for jobs.",
 			},
 			"tags": {
 				Type:        schema.TypeSet,
@@ -76,14 +78,14 @@ func resourceGitlabRunner() *schema.Resource {
 				ForceNew:    true,
 				Elem:        &schema.Schema{Type: schema.TypeString},
 				Set:         schema.HashString,
-				Description: "List of tags for the runner",
+				Description: "List of tags for the runner.",
 			},
 			"description": {
 				Type:        schema.TypeString,
 				Optional:    true,
 				ForceNew:    true,
 				Default:     "",
-				Description: "Runner description",
+				Description: "Runner description; trivially visible from the UI.",
 			},
 			"active": {
 				Type:        schema.TypeBool,
@@ -103,24 +105,32 @@ func resourceGitlabRunner() *schema.Resource {
 				Type:         schema.TypeString,
 				Optional:     true,
 				ForceNew:     true,
-				Description:  "Free-form maintenance notes for the runner (255 characters max)",
+				Description:  "Free-form maintenance notes for the runner (255 characters max).",
 				ValidateFunc: validation.StringLenBetween(0, 255),
 			},
 			"name": {
 				Type:        schema.TypeString,
 				Optional:    true,
 				ForceNew:    true,
-				Description: "Runner 'name'",
+				Description: "Runner 'name'.  Not highly visible in the UI; you probably want 'description'.",
 			},
 
 			"triggers": {
-				Description: "A map of arbitrary strings that, when changed, will force the resource to be recreated.  Useful if, e.g., you want to recreate the runner token when the registration token changes.",
+				Description: "A map of arbitrary strings that, when changed, will force the runner to be re-registered (and a new token issued).",
 				Type:        schema.TypeMap,
 				Optional:    true,
 				ForceNew:    true,
 			},
 		},
 	}
+
+	for _, a := range s.Schema {
+		if a.ForceNew {
+			a.Description += fnDesc
+		}
+	}
+
+	return s
 }
 
 func resourceGitlabRunnerCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
