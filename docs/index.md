@@ -49,4 +49,4 @@ provider "gitlabci" {
 
 ### Optional
 
-- **base_url** (String) The GitLab base API URL
+- `base_url` (String) The GitLab base API URL
