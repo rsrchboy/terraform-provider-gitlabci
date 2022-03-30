@@ -154,13 +154,18 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 					Optional:    true,
 					Type:        schema.TypeString,
 				},
+				"post_clone_script": {
+					Description: "Runner-specific command script executed just after code is pulled",
+					Optional:    true,
+					Type:        schema.TypeString,
+				},
 				"pre_build_script": {
-					Description: "Runner-specific command script executed after code is pulled, just before build executes",
+					Description: "Runner-specific command script executed just before build executes",
 					Optional:    true,
 					Type:        schema.TypeString,
 				},
 				"post_build_script": {
-					Description: "Runner-specific command script executed after code is pulled and just after build executes",
+					Description: "Runner-specific command script executed just after build executes",
 					Optional:    true,
 					Type:        schema.TypeString,
 				},
@@ -931,6 +936,11 @@ var configDataSourceRawSchema = map[string]*schema.Schema{
 								Description: "Run all containers with the privileged flag enabled",
 								Optional:    true,
 								Type:        schema.TypeBool,
+							},
+							"runtime_class_name": {
+								Description: "A Runtime Class to use for all created pods, errors if the feature is unsupported by the cluster",
+								Optional:    true,
+								Type:        schema.TypeString,
 							},
 							"allow_privilege_escalation": {
 								Description: "Run all containers with the security context allowPrivilegeEscalation flag enabled. When empty, it does not define the allowPrivilegeEscalation flag in the container SecurityContext and allows Kubernetes to use the default privilege escalation behavior.",
@@ -4162,6 +4172,13 @@ func dsRunnerConfigReadStructConfigKubernetesConfig(ctx context.Context, prefix 
 
 	}
 
+	// RuntimeClassName: runtime_class_name -- , *string
+	if v, ok := d.GetOk(prefix + "runtime_class_name"); ok {
+		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "runtime_class_name"))
+		val.RuntimeClassName = to.StringP(v.(string))
+
+	}
+
 	// AllowPrivilegeEscalation: allow_privilege_escalation -- , *bool
 	if v, ok := d.GetOk(prefix + "allow_privilege_escalation"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "allow_privilege_escalation"))
@@ -6371,6 +6388,12 @@ func dsRunnerConfigReadStructConfigRunnerConfig(ctx context.Context, prefix stri
 		val.PreCloneScript = v.(string)
 	}
 
+	// PostCloneScript: post_clone_script -- string, string
+	if v, ok := d.GetOk(prefix + "post_clone_script"); ok {
+		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "post_clone_script"))
+		val.PostCloneScript = v.(string)
+	}
+
 	// PreBuildScript: pre_build_script -- string, string
 	if v, ok := d.GetOk(prefix + "pre_build_script"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "pre_build_script"))
@@ -6649,6 +6672,12 @@ func dsRunnerConfigReadStructConfigRunnerSettings(ctx context.Context, prefix st
 	if v, ok := d.GetOk(prefix + "pre_clone_script"); ok {
 		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "pre_clone_script"))
 		val.PreCloneScript = v.(string)
+	}
+
+	// PostCloneScript: post_clone_script -- string, string
+	if v, ok := d.GetOk(prefix + "post_clone_script"); ok {
+		tflog.Debug(ctx, fmt.Sprintf("set: %s%s", prefix, "post_clone_script"))
+		val.PostCloneScript = v.(string)
 	}
 
 	// PreBuildScript: pre_build_script -- string, string
