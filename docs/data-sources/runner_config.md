@@ -100,8 +100,9 @@ Optional:
 - `name` (String) Runner name
 - `output_limit` (Number) Maximum build trace size in kilobytes
 - `parallels` (Block List, Max: 1) (see [below for nested schema](#nestedblock--runners--parallels))
-- `post_build_script` (String) Runner-specific command script executed after code is pulled and just after build executes
-- `pre_build_script` (String) Runner-specific command script executed after code is pulled, just before build executes
+- `post_build_script` (String) Runner-specific command script executed just after build executes
+- `post_clone_script` (String) Runner-specific command script executed just after code is pulled
+- `pre_build_script` (String) Runner-specific command script executed just before build executes
 - `pre_clone_script` (String) Runner-specific command script executed before code is pulled
 - `referees` (Block List, Max: 1) (see [below for nested schema](#nestedblock--runners--referees))
 - `request_concurrency` (Number) Maximum concurrency for job requests
@@ -320,6 +321,7 @@ Optional:
 - `poll_timeout` (Number) The total amount of time, in seconds, that needs to pass before the runner will timeout attempting to connect to the pod it has just created (useful for queueing more builds that the cluster can handle at a time)
 - `privileged` (Boolean) Run all containers with the privileged flag enabled
 - `pull_policy` (List of String) Policy for if/when to pull a container image (never, if-not-present, always). The cluster default will be used if not set
+- `runtime_class_name` (String) A Runtime Class to use for all created pods, errors if the feature is unsupported by the cluster
 - `service_account` (String) Executor pods will use this Service Account to talk to kubernetes API
 - `service_account_overwrite_allowed` (String) Regex to validate 'KUBERNETES_SERVICE_ACCOUNT' value
 - `service_container_security_context` (Block List, Max: 1) A security context attached to the service containers inside the build pod (see [below for nested schema](#nestedblock--runners--kubernetes--service_container_security_context))
