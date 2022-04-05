@@ -3,7 +3,7 @@ module gitlab.com/rsrchboy/terraform-provider-gitlabci
 go 1.17
 
 require (
-	github.com/BurntSushi/toml v1.0.0
+	github.com/BurntSushi/toml v1.1.0
 	github.com/Masterminds/sprig/v3 v3.2.2
 	github.com/giantswarm/to v0.4.0
 	github.com/hashicorp/terraform-plugin-docs v0.7.0
