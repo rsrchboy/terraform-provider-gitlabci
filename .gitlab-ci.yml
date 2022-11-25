@@ -28,7 +28,7 @@ stages:
 
 test:
   stage: test
-  image: golang:1.17
+  image: golang:1.19
   variables:
     GOPATH: $CI_PROJECT_DIR/.gocache
   before_script:
