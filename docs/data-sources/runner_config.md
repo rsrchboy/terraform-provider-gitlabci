@@ -351,41 +351,31 @@ Optional:
 - `pod_anti_affinity` (Block List, Max: 1) Pod anti-affinity allows to constrain which nodes your pod is eligible to be scheduled on based on the labels on other pods. (see [below for nested schema](#nestedblock--runners--kubernetes--affinity--pod_anti_affinity))
 
 <a id="nestedblock--runners--kubernetes--affinity--node_affinity"></a>
-### Nested Schema for `runners.kubernetes.affinity.pod_anti_affinity`
+### Nested Schema for `runners.kubernetes.affinity.node_affinity`
 
 Optional:
 
-- `preferred_during_scheduling_ignored_during_execution` (Block List) (see [below for nested schema](#nestedblock--runners--kubernetes--affinity--pod_anti_affinity--preferred_during_scheduling_ignored_during_execution))
-- `required_during_scheduling_ignored_during_execution` (Block List, Max: 1) (see [below for nested schema](#nestedblock--runners--kubernetes--affinity--pod_anti_affinity--required_during_scheduling_ignored_during_execution))
+- `preferred_during_scheduling_ignored_during_execution` (Block List) (see [below for nested schema](#nestedblock--runners--kubernetes--affinity--node_affinity--preferred_during_scheduling_ignored_during_execution))
+- `required_during_scheduling_ignored_during_execution` (Block List, Max: 1) (see [below for nested schema](#nestedblock--runners--kubernetes--affinity--node_affinity--required_during_scheduling_ignored_during_execution))
 
-<a id="nestedblock--runners--kubernetes--affinity--pod_anti_affinity--preferred_during_scheduling_ignored_during_execution"></a>
-### Nested Schema for `runners.kubernetes.affinity.pod_anti_affinity.preferred_during_scheduling_ignored_during_execution`
+<a id="nestedblock--runners--kubernetes--affinity--node_affinity--preferred_during_scheduling_ignored_during_execution"></a>
+### Nested Schema for `runners.kubernetes.affinity.node_affinity.preferred_during_scheduling_ignored_during_execution`
 
 Optional:
 
-- `preference` (Block List, Max: 1) (see [below for nested schema](#nestedblock--runners--kubernetes--affinity--pod_anti_affinity--preferred_during_scheduling_ignored_during_execution--preference))
+- `preference` (Block List, Max: 1) (see [below for nested schema](#nestedblock--runners--kubernetes--affinity--node_affinity--preferred_during_scheduling_ignored_during_execution--preference))
 - `weight` (Number)
 
-<a id="nestedblock--runners--kubernetes--affinity--pod_anti_affinity--preferred_during_scheduling_ignored_during_execution--preference"></a>
-### Nested Schema for `runners.kubernetes.affinity.pod_anti_affinity.preferred_during_scheduling_ignored_during_execution.weight`
+<a id="nestedblock--runners--kubernetes--affinity--node_affinity--preferred_during_scheduling_ignored_during_execution--preference"></a>
+### Nested Schema for `runners.kubernetes.affinity.node_affinity.preferred_during_scheduling_ignored_during_execution.preference`
 
 Optional:
 
-- `match_expressions` (Block List) (see [below for nested schema](#nestedblock--runners--kubernetes--affinity--pod_anti_affinity--preferred_during_scheduling_ignored_during_execution--weight--match_expressions))
-- `match_fields` (Block List) (see [below for nested schema](#nestedblock--runners--kubernetes--affinity--pod_anti_affinity--preferred_during_scheduling_ignored_during_execution--weight--match_fields))
+- `match_expressions` (Block List) (see [below for nested schema](#nestedblock--runners--kubernetes--affinity--node_affinity--preferred_during_scheduling_ignored_during_execution--preference--match_expressions))
+- `match_fields` (Block List) (see [below for nested schema](#nestedblock--runners--kubernetes--affinity--node_affinity--preferred_during_scheduling_ignored_during_execution--preference--match_fields))
 
-<a id="nestedblock--runners--kubernetes--affinity--pod_anti_affinity--preferred_during_scheduling_ignored_during_execution--weight--match_expressions"></a>
-### Nested Schema for `runners.kubernetes.affinity.pod_anti_affinity.preferred_during_scheduling_ignored_during_execution.weight.match_fields`
-
-Optional:
-
-- `key` (String)
-- `operator` (String)
-- `values` (List of String)
-
-
-<a id="nestedblock--runners--kubernetes--affinity--pod_anti_affinity--preferred_during_scheduling_ignored_during_execution--weight--match_fields"></a>
-### Nested Schema for `runners.kubernetes.affinity.pod_anti_affinity.preferred_during_scheduling_ignored_during_execution.weight.match_fields`
+<a id="nestedblock--runners--kubernetes--affinity--node_affinity--preferred_during_scheduling_ignored_during_execution--preference--match_expressions"></a>
+### Nested Schema for `runners.kubernetes.affinity.node_affinity.preferred_during_scheduling_ignored_during_execution.preference.match_expressions`
 
 Optional:
 
@@ -394,25 +384,8 @@ Optional:
 - `values` (List of String)
 
 
-
-
-<a id="nestedblock--runners--kubernetes--affinity--pod_anti_affinity--required_during_scheduling_ignored_during_execution"></a>
-### Nested Schema for `runners.kubernetes.affinity.pod_anti_affinity.required_during_scheduling_ignored_during_execution`
-
-Optional:
-
-- `node_selector_terms` (Block List) (see [below for nested schema](#nestedblock--runners--kubernetes--affinity--pod_anti_affinity--required_during_scheduling_ignored_during_execution--node_selector_terms))
-
-<a id="nestedblock--runners--kubernetes--affinity--pod_anti_affinity--required_during_scheduling_ignored_during_execution--node_selector_terms"></a>
-### Nested Schema for `runners.kubernetes.affinity.pod_anti_affinity.required_during_scheduling_ignored_during_execution.node_selector_terms`
-
-Optional:
-
-- `match_expressions` (Block List) (see [below for nested schema](#nestedblock--runners--kubernetes--affinity--pod_anti_affinity--required_during_scheduling_ignored_during_execution--node_selector_terms--match_expressions))
-- `match_fields` (Block List) (see [below for nested schema](#nestedblock--runners--kubernetes--affinity--pod_anti_affinity--required_during_scheduling_ignored_during_execution--node_selector_terms--match_fields))
-
-<a id="nestedblock--runners--kubernetes--affinity--pod_anti_affinity--required_during_scheduling_ignored_during_execution--node_selector_terms--match_expressions"></a>
-### Nested Schema for `runners.kubernetes.affinity.pod_anti_affinity.required_during_scheduling_ignored_during_execution.node_selector_terms.match_fields`
+<a id="nestedblock--runners--kubernetes--affinity--node_affinity--preferred_during_scheduling_ignored_during_execution--preference--match_fields"></a>
+### Nested Schema for `runners.kubernetes.affinity.node_affinity.preferred_during_scheduling_ignored_during_execution.preference.match_fields`
 
 Optional:
 
@@ -421,8 +394,35 @@ Optional:
 - `values` (List of String)
 
 
-<a id="nestedblock--runners--kubernetes--affinity--pod_anti_affinity--required_during_scheduling_ignored_during_execution--node_selector_terms--match_fields"></a>
-### Nested Schema for `runners.kubernetes.affinity.pod_anti_affinity.required_during_scheduling_ignored_during_execution.node_selector_terms.match_fields`
+
+
+<a id="nestedblock--runners--kubernetes--affinity--node_affinity--required_during_scheduling_ignored_during_execution"></a>
+### Nested Schema for `runners.kubernetes.affinity.node_affinity.required_during_scheduling_ignored_during_execution`
+
+Optional:
+
+- `node_selector_terms` (Block List) (see [below for nested schema](#nestedblock--runners--kubernetes--affinity--node_affinity--required_during_scheduling_ignored_during_execution--node_selector_terms))
+
+<a id="nestedblock--runners--kubernetes--affinity--node_affinity--required_during_scheduling_ignored_during_execution--node_selector_terms"></a>
+### Nested Schema for `runners.kubernetes.affinity.node_affinity.required_during_scheduling_ignored_during_execution.node_selector_terms`
+
+Optional:
+
+- `match_expressions` (Block List) (see [below for nested schema](#nestedblock--runners--kubernetes--affinity--node_affinity--required_during_scheduling_ignored_during_execution--node_selector_terms--match_expressions))
+- `match_fields` (Block List) (see [below for nested schema](#nestedblock--runners--kubernetes--affinity--node_affinity--required_during_scheduling_ignored_during_execution--node_selector_terms--match_fields))
+
+<a id="nestedblock--runners--kubernetes--affinity--node_affinity--required_during_scheduling_ignored_during_execution--node_selector_terms--match_expressions"></a>
+### Nested Schema for `runners.kubernetes.affinity.node_affinity.required_during_scheduling_ignored_during_execution.node_selector_terms.match_expressions`
+
+Optional:
+
+- `key` (String)
+- `operator` (String)
+- `values` (List of String)
+
+
+<a id="nestedblock--runners--kubernetes--affinity--node_affinity--required_during_scheduling_ignored_during_execution--node_selector_terms--match_fields"></a>
+### Nested Schema for `runners.kubernetes.affinity.node_affinity.required_during_scheduling_ignored_during_execution.node_selector_terms.match_fields`
 
 Optional:
 
@@ -435,41 +435,41 @@ Optional:
 
 
 <a id="nestedblock--runners--kubernetes--affinity--pod_affinity"></a>
-### Nested Schema for `runners.kubernetes.affinity.pod_anti_affinity`
+### Nested Schema for `runners.kubernetes.affinity.pod_affinity`
 
 Optional:
 
-- `preferred_during_scheduling_ignored_during_execution` (Block List) (see [below for nested schema](#nestedblock--runners--kubernetes--affinity--pod_anti_affinity--preferred_during_scheduling_ignored_during_execution))
-- `required_during_scheduling_ignored_during_execution` (Block List) (see [below for nested schema](#nestedblock--runners--kubernetes--affinity--pod_anti_affinity--required_during_scheduling_ignored_during_execution))
+- `preferred_during_scheduling_ignored_during_execution` (Block List) (see [below for nested schema](#nestedblock--runners--kubernetes--affinity--pod_affinity--preferred_during_scheduling_ignored_during_execution))
+- `required_during_scheduling_ignored_during_execution` (Block List) (see [below for nested schema](#nestedblock--runners--kubernetes--affinity--pod_affinity--required_during_scheduling_ignored_during_execution))
 
-<a id="nestedblock--runners--kubernetes--affinity--pod_anti_affinity--preferred_during_scheduling_ignored_during_execution"></a>
-### Nested Schema for `runners.kubernetes.affinity.pod_anti_affinity.preferred_during_scheduling_ignored_during_execution`
+<a id="nestedblock--runners--kubernetes--affinity--pod_affinity--preferred_during_scheduling_ignored_during_execution"></a>
+### Nested Schema for `runners.kubernetes.affinity.pod_affinity.preferred_during_scheduling_ignored_during_execution`
 
 Optional:
 
-- `pod_affinity_term` (Block List, Max: 1) (see [below for nested schema](#nestedblock--runners--kubernetes--affinity--pod_anti_affinity--preferred_during_scheduling_ignored_during_execution--pod_affinity_term))
+- `pod_affinity_term` (Block List, Max: 1) (see [below for nested schema](#nestedblock--runners--kubernetes--affinity--pod_affinity--preferred_during_scheduling_ignored_during_execution--pod_affinity_term))
 - `weight` (Number)
 
-<a id="nestedblock--runners--kubernetes--affinity--pod_anti_affinity--preferred_during_scheduling_ignored_during_execution--pod_affinity_term"></a>
-### Nested Schema for `runners.kubernetes.affinity.pod_anti_affinity.preferred_during_scheduling_ignored_during_execution.weight`
+<a id="nestedblock--runners--kubernetes--affinity--pod_affinity--preferred_during_scheduling_ignored_during_execution--pod_affinity_term"></a>
+### Nested Schema for `runners.kubernetes.affinity.pod_affinity.preferred_during_scheduling_ignored_during_execution.pod_affinity_term`
 
 Optional:
 
-- `label_selector` (Block List, Max: 1) (see [below for nested schema](#nestedblock--runners--kubernetes--affinity--pod_anti_affinity--preferred_during_scheduling_ignored_during_execution--weight--label_selector))
-- `namespace_selector` (Block List, Max: 1) (see [below for nested schema](#nestedblock--runners--kubernetes--affinity--pod_anti_affinity--preferred_during_scheduling_ignored_during_execution--weight--namespace_selector))
+- `label_selector` (Block List, Max: 1) (see [below for nested schema](#nestedblock--runners--kubernetes--affinity--pod_affinity--preferred_during_scheduling_ignored_during_execution--pod_affinity_term--label_selector))
+- `namespace_selector` (Block List, Max: 1) (see [below for nested schema](#nestedblock--runners--kubernetes--affinity--pod_affinity--preferred_during_scheduling_ignored_during_execution--pod_affinity_term--namespace_selector))
 - `namespaces` (List of String)
 - `topology_key` (String)
 
-<a id="nestedblock--runners--kubernetes--affinity--pod_anti_affinity--preferred_during_scheduling_ignored_during_execution--weight--label_selector"></a>
-### Nested Schema for `runners.kubernetes.affinity.pod_anti_affinity.preferred_during_scheduling_ignored_during_execution.weight.topology_key`
+<a id="nestedblock--runners--kubernetes--affinity--pod_affinity--preferred_during_scheduling_ignored_during_execution--pod_affinity_term--label_selector"></a>
+### Nested Schema for `runners.kubernetes.affinity.pod_affinity.preferred_during_scheduling_ignored_during_execution.pod_affinity_term.label_selector`
 
 Optional:
 
-- `match_expressions` (Block List) (see [below for nested schema](#nestedblock--runners--kubernetes--affinity--pod_anti_affinity--preferred_during_scheduling_ignored_during_execution--weight--topology_key--match_expressions))
+- `match_expressions` (Block List) (see [below for nested schema](#nestedblock--runners--kubernetes--affinity--pod_affinity--preferred_during_scheduling_ignored_during_execution--pod_affinity_term--label_selector--match_expressions))
 - `match_labels` (Map of String)
 
-<a id="nestedblock--runners--kubernetes--affinity--pod_anti_affinity--preferred_during_scheduling_ignored_during_execution--weight--topology_key--match_expressions"></a>
-### Nested Schema for `runners.kubernetes.affinity.pod_anti_affinity.preferred_during_scheduling_ignored_during_execution.weight.topology_key.match_labels`
+<a id="nestedblock--runners--kubernetes--affinity--pod_affinity--preferred_during_scheduling_ignored_during_execution--pod_affinity_term--label_selector--match_expressions"></a>
+### Nested Schema for `runners.kubernetes.affinity.pod_affinity.preferred_during_scheduling_ignored_during_execution.pod_affinity_term.label_selector.match_expressions`
 
 Optional:
 
@@ -479,16 +479,16 @@ Optional:
 
 
 
-<a id="nestedblock--runners--kubernetes--affinity--pod_anti_affinity--preferred_during_scheduling_ignored_during_execution--weight--namespace_selector"></a>
-### Nested Schema for `runners.kubernetes.affinity.pod_anti_affinity.preferred_during_scheduling_ignored_during_execution.weight.topology_key`
+<a id="nestedblock--runners--kubernetes--affinity--pod_affinity--preferred_during_scheduling_ignored_during_execution--pod_affinity_term--namespace_selector"></a>
+### Nested Schema for `runners.kubernetes.affinity.pod_affinity.preferred_during_scheduling_ignored_during_execution.pod_affinity_term.namespace_selector`
 
 Optional:
 
-- `match_expressions` (Block List) (see [below for nested schema](#nestedblock--runners--kubernetes--affinity--pod_anti_affinity--preferred_during_scheduling_ignored_during_execution--weight--topology_key--match_expressions))
+- `match_expressions` (Block List) (see [below for nested schema](#nestedblock--runners--kubernetes--affinity--pod_affinity--preferred_during_scheduling_ignored_during_execution--pod_affinity_term--namespace_selector--match_expressions))
 - `match_labels` (Map of String)
 
-<a id="nestedblock--runners--kubernetes--affinity--pod_anti_affinity--preferred_during_scheduling_ignored_during_execution--weight--topology_key--match_expressions"></a>
-### Nested Schema for `runners.kubernetes.affinity.pod_anti_affinity.preferred_during_scheduling_ignored_during_execution.weight.topology_key.match_labels`
+<a id="nestedblock--runners--kubernetes--affinity--pod_affinity--preferred_during_scheduling_ignored_during_execution--pod_affinity_term--namespace_selector--match_expressions"></a>
+### Nested Schema for `runners.kubernetes.affinity.pod_affinity.preferred_during_scheduling_ignored_during_execution.pod_affinity_term.namespace_selector.match_expressions`
 
 Optional:
 
@@ -500,26 +500,26 @@ Optional:
 
 
 
-<a id="nestedblock--runners--kubernetes--affinity--pod_anti_affinity--required_during_scheduling_ignored_during_execution"></a>
-### Nested Schema for `runners.kubernetes.affinity.pod_anti_affinity.required_during_scheduling_ignored_during_execution`
+<a id="nestedblock--runners--kubernetes--affinity--pod_affinity--required_during_scheduling_ignored_during_execution"></a>
+### Nested Schema for `runners.kubernetes.affinity.pod_affinity.required_during_scheduling_ignored_during_execution`
 
 Optional:
 
-- `label_selector` (Block List, Max: 1) (see [below for nested schema](#nestedblock--runners--kubernetes--affinity--pod_anti_affinity--required_during_scheduling_ignored_during_execution--label_selector))
-- `namespace_selector` (Block List, Max: 1) (see [below for nested schema](#nestedblock--runners--kubernetes--affinity--pod_anti_affinity--required_during_scheduling_ignored_during_execution--namespace_selector))
+- `label_selector` (Block List, Max: 1) (see [below for nested schema](#nestedblock--runners--kubernetes--affinity--pod_affinity--required_during_scheduling_ignored_during_execution--label_selector))
+- `namespace_selector` (Block List, Max: 1) (see [below for nested schema](#nestedblock--runners--kubernetes--affinity--pod_affinity--required_during_scheduling_ignored_during_execution--namespace_selector))
 - `namespaces` (List of String)
 - `topology_key` (String)
 
-<a id="nestedblock--runners--kubernetes--affinity--pod_anti_affinity--required_during_scheduling_ignored_during_execution--label_selector"></a>
-### Nested Schema for `runners.kubernetes.affinity.pod_anti_affinity.required_during_scheduling_ignored_during_execution.topology_key`
+<a id="nestedblock--runners--kubernetes--affinity--pod_affinity--required_during_scheduling_ignored_during_execution--label_selector"></a>
+### Nested Schema for `runners.kubernetes.affinity.pod_affinity.required_during_scheduling_ignored_during_execution.label_selector`
 
 Optional:
 
-- `match_expressions` (Block List) (see [below for nested schema](#nestedblock--runners--kubernetes--affinity--pod_anti_affinity--required_during_scheduling_ignored_during_execution--topology_key--match_expressions))
+- `match_expressions` (Block List) (see [below for nested schema](#nestedblock--runners--kubernetes--affinity--pod_affinity--required_during_scheduling_ignored_during_execution--label_selector--match_expressions))
 - `match_labels` (Map of String)
 
-<a id="nestedblock--runners--kubernetes--affinity--pod_anti_affinity--required_during_scheduling_ignored_during_execution--topology_key--match_expressions"></a>
-### Nested Schema for `runners.kubernetes.affinity.pod_anti_affinity.required_during_scheduling_ignored_during_execution.topology_key.match_labels`
+<a id="nestedblock--runners--kubernetes--affinity--pod_affinity--required_during_scheduling_ignored_during_execution--label_selector--match_expressions"></a>
+### Nested Schema for `runners.kubernetes.affinity.pod_affinity.required_during_scheduling_ignored_during_execution.label_selector.match_expressions`
 
 Optional:
 
@@ -529,16 +529,16 @@ Optional:
 
 
 
-<a id="nestedblock--runners--kubernetes--affinity--pod_anti_affinity--required_during_scheduling_ignored_during_execution--namespace_selector"></a>
-### Nested Schema for `runners.kubernetes.affinity.pod_anti_affinity.required_during_scheduling_ignored_during_execution.topology_key`
+<a id="nestedblock--runners--kubernetes--affinity--pod_affinity--required_during_scheduling_ignored_during_execution--namespace_selector"></a>
+### Nested Schema for `runners.kubernetes.affinity.pod_affinity.required_during_scheduling_ignored_during_execution.namespace_selector`
 
 Optional:
 
-- `match_expressions` (Block List) (see [below for nested schema](#nestedblock--runners--kubernetes--affinity--pod_anti_affinity--required_during_scheduling_ignored_during_execution--topology_key--match_expressions))
+- `match_expressions` (Block List) (see [below for nested schema](#nestedblock--runners--kubernetes--affinity--pod_affinity--required_during_scheduling_ignored_during_execution--namespace_selector--match_expressions))
 - `match_labels` (Map of String)
 
-<a id="nestedblock--runners--kubernetes--affinity--pod_anti_affinity--required_during_scheduling_ignored_during_execution--topology_key--match_expressions"></a>
-### Nested Schema for `runners.kubernetes.affinity.pod_anti_affinity.required_during_scheduling_ignored_during_execution.topology_key.match_labels`
+<a id="nestedblock--runners--kubernetes--affinity--pod_affinity--required_during_scheduling_ignored_during_execution--namespace_selector--match_expressions"></a>
+### Nested Schema for `runners.kubernetes.affinity.pod_affinity.required_during_scheduling_ignored_during_execution.namespace_selector.match_expressions`
 
 Optional:
 
@@ -567,25 +567,25 @@ Optional:
 - `weight` (Number)
 
 <a id="nestedblock--runners--kubernetes--affinity--pod_anti_affinity--preferred_during_scheduling_ignored_during_execution--pod_affinity_term"></a>
-### Nested Schema for `runners.kubernetes.affinity.pod_anti_affinity.preferred_during_scheduling_ignored_during_execution.weight`
+### Nested Schema for `runners.kubernetes.affinity.pod_anti_affinity.preferred_during_scheduling_ignored_during_execution.pod_affinity_term`
 
 Optional:
 
-- `label_selector` (Block List, Max: 1) (see [below for nested schema](#nestedblock--runners--kubernetes--affinity--pod_anti_affinity--preferred_during_scheduling_ignored_during_execution--weight--label_selector))
-- `namespace_selector` (Block List, Max: 1) (see [below for nested schema](#nestedblock--runners--kubernetes--affinity--pod_anti_affinity--preferred_during_scheduling_ignored_during_execution--weight--namespace_selector))
+- `label_selector` (Block List, Max: 1) (see [below for nested schema](#nestedblock--runners--kubernetes--affinity--pod_anti_affinity--preferred_during_scheduling_ignored_during_execution--pod_affinity_term--label_selector))
+- `namespace_selector` (Block List, Max: 1) (see [below for nested schema](#nestedblock--runners--kubernetes--affinity--pod_anti_affinity--preferred_during_scheduling_ignored_during_execution--pod_affinity_term--namespace_selector))
 - `namespaces` (List of String)
 - `topology_key` (String)
 
-<a id="nestedblock--runners--kubernetes--affinity--pod_anti_affinity--preferred_during_scheduling_ignored_during_execution--weight--label_selector"></a>
-### Nested Schema for `runners.kubernetes.affinity.pod_anti_affinity.preferred_during_scheduling_ignored_during_execution.weight.topology_key`
+<a id="nestedblock--runners--kubernetes--affinity--pod_anti_affinity--preferred_during_scheduling_ignored_during_execution--pod_affinity_term--label_selector"></a>
+### Nested Schema for `runners.kubernetes.affinity.pod_anti_affinity.preferred_during_scheduling_ignored_during_execution.pod_affinity_term.label_selector`
 
 Optional:
 
-- `match_expressions` (Block List) (see [below for nested schema](#nestedblock--runners--kubernetes--affinity--pod_anti_affinity--preferred_during_scheduling_ignored_during_execution--weight--topology_key--match_expressions))
+- `match_expressions` (Block List) (see [below for nested schema](#nestedblock--runners--kubernetes--affinity--pod_anti_affinity--preferred_during_scheduling_ignored_during_execution--pod_affinity_term--label_selector--match_expressions))
 - `match_labels` (Map of String)
 
-<a id="nestedblock--runners--kubernetes--affinity--pod_anti_affinity--preferred_during_scheduling_ignored_during_execution--weight--topology_key--match_expressions"></a>
-### Nested Schema for `runners.kubernetes.affinity.pod_anti_affinity.preferred_during_scheduling_ignored_during_execution.weight.topology_key.match_labels`
+<a id="nestedblock--runners--kubernetes--affinity--pod_anti_affinity--preferred_during_scheduling_ignored_during_execution--pod_affinity_term--label_selector--match_expressions"></a>
+### Nested Schema for `runners.kubernetes.affinity.pod_anti_affinity.preferred_during_scheduling_ignored_during_execution.pod_affinity_term.label_selector.match_expressions`
 
 Optional:
 
@@ -595,16 +595,16 @@ Optional:
 
 
 
-<a id="nestedblock--runners--kubernetes--affinity--pod_anti_affinity--preferred_during_scheduling_ignored_during_execution--weight--namespace_selector"></a>
-### Nested Schema for `runners.kubernetes.affinity.pod_anti_affinity.preferred_during_scheduling_ignored_during_execution.weight.topology_key`
+<a id="nestedblock--runners--kubernetes--affinity--pod_anti_affinity--preferred_during_scheduling_ignored_during_execution--pod_affinity_term--namespace_selector"></a>
+### Nested Schema for `runners.kubernetes.affinity.pod_anti_affinity.preferred_during_scheduling_ignored_during_execution.pod_affinity_term.namespace_selector`
 
 Optional:
 
-- `match_expressions` (Block List) (see [below for nested schema](#nestedblock--runners--kubernetes--affinity--pod_anti_affinity--preferred_during_scheduling_ignored_during_execution--weight--topology_key--match_expressions))
+- `match_expressions` (Block List) (see [below for nested schema](#nestedblock--runners--kubernetes--affinity--pod_anti_affinity--preferred_during_scheduling_ignored_during_execution--pod_affinity_term--namespace_selector--match_expressions))
 - `match_labels` (Map of String)
 
-<a id="nestedblock--runners--kubernetes--affinity--pod_anti_affinity--preferred_during_scheduling_ignored_during_execution--weight--topology_key--match_expressions"></a>
-### Nested Schema for `runners.kubernetes.affinity.pod_anti_affinity.preferred_during_scheduling_ignored_during_execution.weight.topology_key.match_labels`
+<a id="nestedblock--runners--kubernetes--affinity--pod_anti_affinity--preferred_during_scheduling_ignored_during_execution--pod_affinity_term--namespace_selector--match_expressions"></a>
+### Nested Schema for `runners.kubernetes.affinity.pod_anti_affinity.preferred_during_scheduling_ignored_during_execution.pod_affinity_term.namespace_selector.match_expressions`
 
 Optional:
 
@@ -627,15 +627,15 @@ Optional:
 - `topology_key` (String)
 
 <a id="nestedblock--runners--kubernetes--affinity--pod_anti_affinity--required_during_scheduling_ignored_during_execution--label_selector"></a>
-### Nested Schema for `runners.kubernetes.affinity.pod_anti_affinity.required_during_scheduling_ignored_during_execution.topology_key`
+### Nested Schema for `runners.kubernetes.affinity.pod_anti_affinity.required_during_scheduling_ignored_during_execution.label_selector`
 
 Optional:
 
-- `match_expressions` (Block List) (see [below for nested schema](#nestedblock--runners--kubernetes--affinity--pod_anti_affinity--required_during_scheduling_ignored_during_execution--topology_key--match_expressions))
+- `match_expressions` (Block List) (see [below for nested schema](#nestedblock--runners--kubernetes--affinity--pod_anti_affinity--required_during_scheduling_ignored_during_execution--label_selector--match_expressions))
 - `match_labels` (Map of String)
 
-<a id="nestedblock--runners--kubernetes--affinity--pod_anti_affinity--required_during_scheduling_ignored_during_execution--topology_key--match_expressions"></a>
-### Nested Schema for `runners.kubernetes.affinity.pod_anti_affinity.required_during_scheduling_ignored_during_execution.topology_key.match_labels`
+<a id="nestedblock--runners--kubernetes--affinity--pod_anti_affinity--required_during_scheduling_ignored_during_execution--label_selector--match_expressions"></a>
+### Nested Schema for `runners.kubernetes.affinity.pod_anti_affinity.required_during_scheduling_ignored_during_execution.label_selector.match_expressions`
 
 Optional:
 
@@ -646,15 +646,15 @@ Optional:
 
 
 <a id="nestedblock--runners--kubernetes--affinity--pod_anti_affinity--required_during_scheduling_ignored_during_execution--namespace_selector"></a>
-### Nested Schema for `runners.kubernetes.affinity.pod_anti_affinity.required_during_scheduling_ignored_during_execution.topology_key`
+### Nested Schema for `runners.kubernetes.affinity.pod_anti_affinity.required_during_scheduling_ignored_during_execution.namespace_selector`
 
 Optional:
 
-- `match_expressions` (Block List) (see [below for nested schema](#nestedblock--runners--kubernetes--affinity--pod_anti_affinity--required_during_scheduling_ignored_during_execution--topology_key--match_expressions))
+- `match_expressions` (Block List) (see [below for nested schema](#nestedblock--runners--kubernetes--affinity--pod_anti_affinity--required_during_scheduling_ignored_during_execution--namespace_selector--match_expressions))
 - `match_labels` (Map of String)
 
-<a id="nestedblock--runners--kubernetes--affinity--pod_anti_affinity--required_during_scheduling_ignored_during_execution--topology_key--match_expressions"></a>
-### Nested Schema for `runners.kubernetes.affinity.pod_anti_affinity.required_during_scheduling_ignored_during_execution.topology_key.match_labels`
+<a id="nestedblock--runners--kubernetes--affinity--pod_anti_affinity--required_during_scheduling_ignored_during_execution--namespace_selector--match_expressions"></a>
+### Nested Schema for `runners.kubernetes.affinity.pod_anti_affinity.required_during_scheduling_ignored_during_execution.namespace_selector.match_expressions`
 
 Optional:
 
@@ -681,7 +681,7 @@ Optional:
 - `run_as_user` (Number) The UID to run the entrypoint of the container process
 
 <a id="nestedblock--runners--kubernetes--build_container_security_context--capabilities"></a>
-### Nested Schema for `runners.kubernetes.build_container_security_context.run_as_user`
+### Nested Schema for `runners.kubernetes.build_container_security_context.capabilities`
 
 Optional:
 
@@ -699,35 +699,35 @@ Optional:
 - `pre_stop` (Block List, Max: 1) PreStop is called immediately before a container is terminated due to an API request or management event such as liveness/startup probe failure, preemption, resource contention, etc. The handler is not called if the container crashes or exits. The reason for termination is passed to the handler. The Pod's termination grace period countdown begins before the PreStop hooked is executed. Regardless of the outcome of the handler, the container will eventually terminate within the Pod's termination grace period. Other management of the container blocks until the hook completes or until the termination grace period is reached (see [below for nested schema](#nestedblock--runners--kubernetes--container_lifecycle--pre_stop))
 
 <a id="nestedblock--runners--kubernetes--container_lifecycle--post_start"></a>
-### Nested Schema for `runners.kubernetes.container_lifecycle.pre_stop`
+### Nested Schema for `runners.kubernetes.container_lifecycle.post_start`
 
 Optional:
 
-- `exec` (Block List, Max: 1) Exec specifies the action to take (see [below for nested schema](#nestedblock--runners--kubernetes--container_lifecycle--pre_stop--exec))
-- `http_get` (Block List, Max: 1) HTTPGet specifies the http request to perform. (see [below for nested schema](#nestedblock--runners--kubernetes--container_lifecycle--pre_stop--http_get))
-- `tcp_socket` (Block List, Max: 1) TCPSocket specifies an action involving a TCP port (see [below for nested schema](#nestedblock--runners--kubernetes--container_lifecycle--pre_stop--tcp_socket))
+- `exec` (Block List, Max: 1) Exec specifies the action to take (see [below for nested schema](#nestedblock--runners--kubernetes--container_lifecycle--post_start--exec))
+- `http_get` (Block List, Max: 1) HTTPGet specifies the http request to perform. (see [below for nested schema](#nestedblock--runners--kubernetes--container_lifecycle--post_start--http_get))
+- `tcp_socket` (Block List, Max: 1) TCPSocket specifies an action involving a TCP port (see [below for nested schema](#nestedblock--runners--kubernetes--container_lifecycle--post_start--tcp_socket))
 
-<a id="nestedblock--runners--kubernetes--container_lifecycle--pre_stop--exec"></a>
-### Nested Schema for `runners.kubernetes.container_lifecycle.pre_stop.exec`
+<a id="nestedblock--runners--kubernetes--container_lifecycle--post_start--exec"></a>
+### Nested Schema for `runners.kubernetes.container_lifecycle.post_start.exec`
 
 Optional:
 
 - `command` (List of String) Command is the command line to execute inside the container, the working directory for the command  is root ('/') in the container's filesystem. The command is simply exec'd, it is not run inside a shell, so traditional shell instructions ('|', etc) won't work. To use a shell, you need to explicitly call out to that shell. Exit status of 0 is treated as live/healthy and non-zero is unhealthy
 
 
-<a id="nestedblock--runners--kubernetes--container_lifecycle--pre_stop--http_get"></a>
-### Nested Schema for `runners.kubernetes.container_lifecycle.pre_stop.http_get`
+<a id="nestedblock--runners--kubernetes--container_lifecycle--post_start--http_get"></a>
+### Nested Schema for `runners.kubernetes.container_lifecycle.post_start.http_get`
 
 Optional:
 
 - `host` (String) Host name to connect to, defaults to the pod IP. You probably want to set "Host" in httpHeaders instead
-- `http_headers` (Block List) Custom headers to set in the request. HTTP allows repeated headers (see [below for nested schema](#nestedblock--runners--kubernetes--container_lifecycle--pre_stop--http_get--http_headers))
+- `http_headers` (Block List) Custom headers to set in the request. HTTP allows repeated headers (see [below for nested schema](#nestedblock--runners--kubernetes--container_lifecycle--post_start--http_get--http_headers))
 - `path` (String) Path to access on the HTTP server
 - `port` (Number) Number of the port to access on the container. Number must be in the range 1 to 65535
 - `scheme` (String) Scheme to use for connecting to the host. Defaults to HTTP
 
-<a id="nestedblock--runners--kubernetes--container_lifecycle--pre_stop--http_get--http_headers"></a>
-### Nested Schema for `runners.kubernetes.container_lifecycle.pre_stop.http_get.scheme`
+<a id="nestedblock--runners--kubernetes--container_lifecycle--post_start--http_get--http_headers"></a>
+### Nested Schema for `runners.kubernetes.container_lifecycle.post_start.http_get.http_headers`
 
 Optional:
 
@@ -736,8 +736,8 @@ Optional:
 
 
 
-<a id="nestedblock--runners--kubernetes--container_lifecycle--pre_stop--tcp_socket"></a>
-### Nested Schema for `runners.kubernetes.container_lifecycle.pre_stop.tcp_socket`
+<a id="nestedblock--runners--kubernetes--container_lifecycle--post_start--tcp_socket"></a>
+### Nested Schema for `runners.kubernetes.container_lifecycle.post_start.tcp_socket`
 
 Optional:
 
@@ -775,7 +775,7 @@ Optional:
 - `scheme` (String) Scheme to use for connecting to the host. Defaults to HTTP
 
 <a id="nestedblock--runners--kubernetes--container_lifecycle--pre_stop--http_get--http_headers"></a>
-### Nested Schema for `runners.kubernetes.container_lifecycle.pre_stop.http_get.scheme`
+### Nested Schema for `runners.kubernetes.container_lifecycle.pre_stop.http_get.http_headers`
 
 Optional:
 
@@ -805,7 +805,7 @@ Optional:
 - `searches` (List of String) A list of DNS search domains for hostname lookup in the Pod.
 
 <a id="nestedblock--runners--kubernetes--dns_config--options"></a>
-### Nested Schema for `runners.kubernetes.dns_config.searches`
+### Nested Schema for `runners.kubernetes.dns_config.options`
 
 Optional:
 
@@ -828,7 +828,7 @@ Optional:
 - `run_as_user` (Number) The UID to run the entrypoint of the container process
 
 <a id="nestedblock--runners--kubernetes--helper_container_security_context--capabilities"></a>
-### Nested Schema for `runners.kubernetes.helper_container_security_context.run_as_user`
+### Nested Schema for `runners.kubernetes.helper_container_security_context.capabilities`
 
 Optional:
 
@@ -872,7 +872,7 @@ Optional:
 - `run_as_user` (Number) The UID to run the entrypoint of the container process
 
 <a id="nestedblock--runners--kubernetes--service_container_security_context--capabilities"></a>
-### Nested Schema for `runners.kubernetes.service_container_security_context.run_as_user`
+### Nested Schema for `runners.kubernetes.service_container_security_context.capabilities`
 
 Optional:
 
@@ -905,7 +905,7 @@ Optional:
 - `secret` (Block List) The secret maps which will be mounted (see [below for nested schema](#nestedblock--runners--kubernetes--volumes--secret))
 
 <a id="nestedblock--runners--kubernetes--volumes--config_map"></a>
-### Nested Schema for `runners.kubernetes.volumes.secret`
+### Nested Schema for `runners.kubernetes.volumes.config_map`
 
 Optional:
 
@@ -917,7 +917,7 @@ Optional:
 
 
 <a id="nestedblock--runners--kubernetes--volumes--csi"></a>
-### Nested Schema for `runners.kubernetes.volumes.secret`
+### Nested Schema for `runners.kubernetes.volumes.csi`
 
 Optional:
 
@@ -931,7 +931,7 @@ Optional:
 
 
 <a id="nestedblock--runners--kubernetes--volumes--empty_dir"></a>
-### Nested Schema for `runners.kubernetes.volumes.secret`
+### Nested Schema for `runners.kubernetes.volumes.empty_dir`
 
 Optional:
 
@@ -942,7 +942,7 @@ Optional:
 
 
 <a id="nestedblock--runners--kubernetes--volumes--host_path"></a>
-### Nested Schema for `runners.kubernetes.volumes.secret`
+### Nested Schema for `runners.kubernetes.volumes.host_path`
 
 Optional:
 
@@ -954,7 +954,7 @@ Optional:
 
 
 <a id="nestedblock--runners--kubernetes--volumes--pvc"></a>
-### Nested Schema for `runners.kubernetes.volumes.secret`
+### Nested Schema for `runners.kubernetes.volumes.pvc`
 
 Optional:
 
