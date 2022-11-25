@@ -67,7 +67,6 @@ output "token" {
 - `access_level` (String) Run against all refs, or protected only. Legal values are 'not_protected' or 'ref_protected'. *Changing this attribute forces the recreation of the resource.*
 - `active` (Boolean) Create the runner active, or paused? *Changing this attribute forces the recreation of the resource.*
 - `description` (String) Runner description; trivially visible from the UI. *Changing this attribute forces the recreation of the resource.*
-- `id` (String) The ID of this resource.
 - `locked` (Boolean) Lock runner to project. *Changing this attribute forces the recreation of the resource.*
 - `maintenance_note` (String) Free-form maintenance notes for the runner (255 characters max). *Changing this attribute forces the recreation of the resource.*
 - `maximum_timeout` (Number) Maximum timeout for jobs. *Changing this attribute forces the recreation of the resource.*
@@ -78,6 +77,7 @@ output "token" {
 
 ### Read-Only
 
+- `id` (String) The ID of this resource.
 - `runner_id` (Number) ID of the registered runner.
 - `token` (String, Sensitive) Generated runner token issued at runner registration.
 
